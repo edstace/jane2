@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from sqlalchemy.pool import QueuePool
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime, timedelta
@@ -69,9 +70,8 @@ class SMSContext(db.Model):
     awaiting_confirmation = db.Column(db.Boolean, default=False)
     original_message = db.Column(db.Text)
 
-# Create tables
-with app.app_context():
-    db.create_all()
+# Initialize Flask-Migrate
+migrate = Migrate(app, db)
 
 # Initialize Twilio client
 twilio_client = Client(
