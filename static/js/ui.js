@@ -58,13 +58,17 @@ export class UI {
     }
 
     appendMessage(message, type, scroll = true, messageId = null) {
-        // Show chat container on first message
+        console.log('Appending message:', { message, type, messageId });
+        
+        // Ensure chat container is visible
         if (!this.chatContainer.classList.contains('visible')) {
             this.showChatContainer();
         }
 
+        // Create message element
         const messageDiv = createElement('div', `message ${type} animate-in`);
         messageDiv.innerHTML = formatMessage(message);
+        console.log('Message HTML:', messageDiv.innerHTML);
         
         if (messageId) {
             messageDiv.setAttribute('data-message-id', messageId);
@@ -99,7 +103,17 @@ export class UI {
             messageDiv.addEventListener('click', () => this.highlightRelatedMessages(messageId));
         }
         
+        // Ensure chatBox exists and is accessible
+        if (!this.chatBox) {
+            console.error('Chat box element not found');
+            return;
+        }
+        
+        // Add message to chat box
         this.chatBox.appendChild(messageDiv);
+        console.log('Message added to chat box');
+        
+        // Scroll if needed
         if (scroll) {
             scrollToBottom(this.chatBox);
         }
@@ -177,13 +191,15 @@ export class UI {
 
     showChatContainer() {
         if (!this.chatContainer.classList.contains('visible')) {
-            // First ensure display is set
-            this.chatContainer.style.cssText = 'display: flex; flex-direction: column; opacity: 0;';
+            console.log('Showing chat container');
             
-            // Force browser to acknowledge display change
+            // Reset any inline styles
+            this.chatContainer.style.cssText = '';
+            
+            // Force a reflow before adding the visible class
             void this.chatContainer.offsetHeight;
             
-            // Add visible class which will trigger the transition
+            // Add visible class to trigger transition
             this.chatContainer.classList.add('visible');
             
             // Update other elements
@@ -191,6 +207,8 @@ export class UI {
             this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
             this.inputSection.classList.add('with-chat');
             this.examplePrompts.classList.add('hidden');
+            
+            console.log('Chat container shown');
         }
     }
 

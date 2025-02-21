@@ -63,33 +63,47 @@ body {
     transform: translateY(20px);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     will-change: opacity, transform;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
 }
 
 .chat-container.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-/* Ensure chat container is properly laid out when visible */
-.chat-container.visible {
-    display: flex !important;
-    flex-direction: column !important;
+    visibility: visible;
 }
 
 .chat-box {
-    flex-grow: 1;
-    height: calc(100vh - 200px);
+    flex: 1;
+    height: calc(100vh - 250px);
+    min-height: 200px;
     overflow-y: auto;
     margin-bottom: var(--spacing-md);
     padding: var(--spacing-lg);
     background: transparent;
     scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    position: relative;
+}
+
+.chat-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to top, var(--background-color), transparent);
+    pointer-events: none;
 }
 
 /* Messages */
 .message {
     margin: var(--spacing-sm) 0;
-    padding: var(--spacing-lg) var(--spacing-lg);
+    padding: var(--spacing-lg);
     border-radius: var(--border-radius-lg);
     line-height: 1.45;
     word-wrap: break-word;
@@ -97,21 +111,34 @@ body {
     position: relative;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    width: fit-content;
+    max-width: 80%;
+}
+
+.message p {
+    margin: 0;
+    padding: 0;
+}
+
+.message p + p {
+    margin-top: var(--spacing-sm);
 }
 
 .user-message {
     background-color: var(--user-message-bg);
     color: white;
-    margin-left: 20%;
+    margin-left: auto;
     margin-right: var(--spacing-xs);
     box-shadow: 0 2px 8px rgba(0,122,255,0.15);
+    align-self: flex-end;
 }
 
 .bot-message {
     background-color: var(--message-bg);
-    margin-right: 20%;
+    margin-right: auto;
     margin-left: var(--spacing-xs);
     box-shadow: var(--shadow-sm);
+    align-self: flex-start;
 }
 
 /* Input Area */
