@@ -49,6 +49,11 @@ export class UI {
         this.chatBox.innerHTML = '';
         this.userInput.value = '';
         this.updateCharCount();
+        
+        // Remove chat state classes
+        document.body.classList.remove('with-chat');
+        this.chatContainer.classList.remove('visible');
+        this.examplePrompts.classList.remove('hidden');
     }
 
     clearInput() {
@@ -204,10 +209,10 @@ export class UI {
             // Add visible class to trigger transition
             this.chatContainer.classList.add('visible');
             
-            // Update other elements
-            this.header.classList.add('animate-header-compact', 'compact');
-            this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
-            this.inputSection.classList.add('with-chat');
+            // Add with-chat class to body to trigger layout changes
+            document.body.classList.add('with-chat');
+            
+            // Hide example prompts
             this.examplePrompts.classList.add('hidden');
             
             console.log('Chat container shown');
