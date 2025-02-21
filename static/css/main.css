@@ -18,19 +18,25 @@ body {
 
 /* Header */
 .header {
-    padding: var(--spacing-lg);
     text-align: center;
+    padding: var(--spacing-xl) 0;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -140px);
+    width: 100%;
     z-index: 10;
     background: var(--background-color);
 }
 
 body.with-chat .header {
-    padding: var(--spacing-sm);
+    position: fixed;
+    top: 0;
+    transform: translate(-50%, 0);
+    padding: var(--spacing-md) 0;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .header h1 {
@@ -70,25 +76,23 @@ body.with-chat .header .subtitle {
     transform: translateY(20px);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     will-change: opacity, transform;
-    flex: 1;
-    display: flex;
+    display: none;  /* Hide initially */
     flex-direction: column;
-    min-height: 0;
     position: relative;
     z-index: 1;
-    /* Add padding to account for header and input */
-    padding: calc(var(--header-height) + 20px) 20px calc(var(--input-height) + 20px);
 }
 
 .chat-container.visible {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+    display: flex;  /* Show when visible */
+    height: calc(100vh - var(--header-height) - var(--input-height));  /* Full height minus header and input */
+    margin-top: var(--header-height);  /* Space for header */
 }
 
 #chatBox {
     flex: 1;
-    min-height: 200px;
     overflow-y: auto;
     padding: var(--spacing-lg);
     background: transparent;
@@ -97,6 +101,7 @@ body.with-chat .header .subtitle {
     flex-direction: column;
     gap: var(--spacing-md);
     position: relative;
+    margin-bottom: var(--input-height);  /* Ensure content stops above input */
 }
 
 body.with-chat #chatBox {
@@ -125,7 +130,7 @@ body.with-chat .input-section {
     transform: translate(-50%, 0);
     background: var(--background-color);
     border-top: 1px solid var(--border-color);
-    padding-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
 }
 
 .input-container {
@@ -351,8 +356,8 @@ button:hover {
 
 /* Add CSS variables for component heights */
 :root {
-    --header-height: 60px;  /* Adjust based on your header size */
-    --input-height: 80px;   /* Adjust based on your input size */
+    --header-height: 60px;
+    --input-height: 80px;
     /* ... other existing variables ... */
 }
 
