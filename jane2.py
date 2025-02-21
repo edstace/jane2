@@ -3,6 +3,7 @@ from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_limiter.storage import MongoDBStorage
 from dotenv import load_dotenv
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
@@ -47,10 +48,12 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter
+# Initialize rate limiter with MongoDB storage
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
+    storage_uri=os.getenv('MONGODB_URI'),
+    storage_options={"collection": "rate_limits"},
     default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')]
 )
 
@@ -176,7 +179,11 @@ def contains_disability_info(message):
 def get_job_coaching_advice(user_message, context=None):
     """Get job coaching advice from OpenAI API with context"""
     try:
-        client = openai.OpenAI()
+        # Create OpenAI client without proxies
+        client = openai.OpenAI(
+            api_key=os.getenv('OPENAI_API_KEY'),
+            base_url="https://api.openai.com/v1"  # Explicitly set base URL
+        )
         
         # Build messages array with system message, context, and current message
         messages = [
