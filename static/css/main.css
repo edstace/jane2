@@ -444,3 +444,135 @@ body.with-chat {
     padding-top: var(--header-height);
     padding-bottom: var(--input-height);
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    :root {
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 12px;
+        --spacing-lg: 16px;
+        --spacing-xl: 24px;
+        --font-size-small: 13px;
+        --font-size-base: 15px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    body.with-chat .header h1 {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .chat-container {
+        padding: 60px 12px 80px;
+    }
+
+    /* Make messages wider on mobile */
+    .message {
+        max-width: 90%;
+        padding: var(--spacing-md);
+        font-size: var(--font-size-base);
+    }
+
+    /* Adjust input section for touch */
+    .input-section {
+        padding: var(--spacing-sm);
+    }
+
+    .input-container {
+        padding: var(--spacing-xs);
+    }
+
+    input[type="text"] {
+        padding: 12px var(--spacing-md);
+        font-size: 16px; /* Prevent iOS zoom */
+    }
+
+    /* Make buttons more touch-friendly */
+    button {
+        min-height: 44px;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+
+    /* Adjust example prompts for touch */
+    .example-prompts {
+        padding: var(--spacing-sm);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        gap: var(--spacing-sm);
+    }
+
+    .example-prompt {
+        scroll-snap-align: start;
+        padding: var(--spacing-sm) var(--spacing-md);
+        min-height: 40px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* Make copy button more touch-friendly */
+    .copy-button {
+        padding: 8px 12px;
+        opacity: 0.8; /* Always show slightly on mobile */
+    }
+
+    .message:active .copy-button {
+        opacity: 1;
+    }
+
+    /* Improve scrolling */
+    #chatBox {
+        -webkit-overflow-scrolling: touch;
+        scroll-padding-bottom: 100px;
+    }
+
+    /* Add safe area support */
+    @supports(padding: max(0px)) {
+        .input-section {
+            padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
+            padding-left: max(var(--spacing-md), env(safe-area-inset-left));
+            padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+        }
+    }
+}
+
+/* Handle different screen heights */
+@media (max-height: 600px) {
+    .header {
+        padding: var(--spacing-sm) 0;
+    }
+
+    body.with-chat .header {
+        padding: var(--spacing-xs) 0;
+    }
+
+    .chat-container {
+        padding-top: 50px;
+    }
+}
+
+/* Handle landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+    .header {
+        padding: var(--spacing-xs) 0;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
+    .chat-container {
+        padding-top: 50px;
+    }
+}
