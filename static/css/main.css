@@ -146,13 +146,14 @@ body {
 }
 
 .example-prompts {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
     width: 100%;
     max-width: 800px;
     padding: 0 var(--spacing-lg);
     transition: opacity 0.3s ease;
+    justify-content: center;
 }
 
 .example-prompts.hidden {
@@ -161,21 +162,33 @@ body {
 }
 
 .example-prompt {
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-lg);
     background: white;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-xxl);
     color: var(--text-primary);
     text-align: left;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-small);
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    white-space: nowrap;
 }
 
 .example-prompt:hover {
     background: rgba(0,0,0,0.02);
     border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.prompt-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+    flex-shrink: 0;
 }
 
 input[type="text"] {
