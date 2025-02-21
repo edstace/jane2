@@ -209,7 +209,8 @@ def contains_disability_info(message):
         "disability", "disabled", "autism", "adhd", "cerebral palsy", 
         "dyslexia", "blind", "deaf", "wheelchair", "mobility", 
         "chronic illness", "mental health", "amputation", "paraplegia", 
-        "quadriplegia", "neurodiverse"
+        "quadriplegia", "neurodiverse", "ptsd", "anxiety", "depression",
+        "ocd", "bipolar", "schizophrenia", "trauma"
     ]
     lower_message = message.lower()
     for keyword in disability_keywords:
