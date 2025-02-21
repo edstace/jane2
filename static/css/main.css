@@ -75,11 +75,11 @@ body {
 
 .chat-box {
     flex: 1;
-    height: calc(100vh - 250px);
+    height: calc(100vh - 300px);
     min-height: 200px;
     overflow-y: auto;
     margin-bottom: var(--spacing-md);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-lg) 120px;
     background: transparent;
     scroll-behavior: smooth;
     display: flex;
@@ -157,9 +157,11 @@ body {
 }
 
 .input-section.with-chat {
-    position: static;
-    transform: none;
-    margin: 0 auto var(--spacing-lg);
+    position: fixed;
+    bottom: var(--spacing-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
 }
 
 .input-container {
