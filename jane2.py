@@ -27,7 +27,9 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 mongo_client = MongoClient(
     os.getenv('MONGODB_URI'),
     tls=True,
-    tlsAllowInvalidCertificates=True
+    tlsAllowInvalidCertificates=True,
+    tlsInsecure=True,
+    ssl_cert_reqs='CERT_NONE'
 )
 db = mongo_client.jane_db
 messages_collection = db.messages
@@ -51,12 +53,11 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter with MongoDB storage
+# Initialize rate limiter with in-memory storage for now
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')],
-    storage_uri=os.getenv('MONGODB_URI')
+    default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')]
 )
 
 # Configure logging
