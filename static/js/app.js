@@ -18,7 +18,6 @@ class App {
         window.setPrompt = (text) => {
             ui.setInputValue(text);
             ui.userInput.focus();
-            this.chat.sendMessage();
         };
     }
 
