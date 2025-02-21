@@ -51,15 +51,10 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter with SSL configuration
+# Initialize rate limiter with in-memory storage
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    storage_uri=os.getenv('MONGODB_URI'),
-    storage_options={
-        "tls": True,
-        "tlsAllowInvalidCertificates": True
-    },
     default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')]
 )
 
