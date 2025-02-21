@@ -165,7 +165,3 @@ export class Chat {
 
 // Initialize chat
 export const chat = new Chat();
-
-// Add global handlers for buttons
-window.handleSendMessage = () => chat.sendMessage();
-window.handleClearChat = () => chat.clearChat();

@@ -11,8 +11,11 @@ class App {
 
     init() {
         // Add global handlers for buttons
-        window.sendMessage = () => this.chat.sendMessage();
-        window.clearChat = () => this.chat.clearChat();
+        window.sendMessage = () => {
+            const event = new CustomEvent('send-message');
+            document.dispatchEvent(event);
+        };
+        window.clearChat = () => chat.clearChat();
 
         // Add example prompt handlers
         window.setPrompt = (text) => {
