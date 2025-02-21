@@ -60,16 +60,14 @@ body {
     flex-grow: 1;
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.3s ease;
     padding: 0 20px;
     display: none;
+    will-change: opacity, transform;
 }
 
 .chat-container.visible {
     opacity: 1;
     transform: translateY(0);
-    display: flex;
-    flex-direction: column;
 }
 
 .chat-box {
