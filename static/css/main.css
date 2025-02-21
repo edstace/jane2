@@ -17,8 +17,9 @@ body {
 /* Header */
 .header {
     text-align: center;
-    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .header h1 {
@@ -39,7 +40,7 @@ body {
 }
 
 .with-chat .header {
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md) 0;
 }
 
 .with-chat .header h1 {
@@ -57,22 +58,26 @@ body {
     max-width: 900px;
     margin: 0 auto;
     width: 100%;
-    padding: 20px;
+    padding: 0 20px;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     will-change: opacity, transform;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-container.visible {
-    display: block;
+    display: flex;
     opacity: 1;
     transform: translateY(0);
 }
 
 .chat-box {
-    min-height: 300px;
-    max-height: calc(100vh - 400px);
+    flex: 1;
+    min-height: 200px;
+    max-height: calc(100vh - 300px);
     overflow-y: auto;
     padding: var(--spacing-lg);
     background: transparent;
@@ -137,15 +142,16 @@ body {
 
 /* Input Area */
 .input-section {
-    width: 100%;
-    max-width: 800px;
-    margin: 40px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-xl);
-    padding: 0 20px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--background-color);
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 .input-section:not(.with-chat) {
@@ -261,7 +267,6 @@ button:hover {
 .clear-chat:hover {
     background: rgba(0,0,0,0.04);
 }
-
 
 /* Utilities */
 .char-counter {
