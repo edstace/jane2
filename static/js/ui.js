@@ -73,57 +73,56 @@ export class UI {
         }
 
         // Create message element
-        const messageDiv = createElement('div', `message ${type} animate-in`);
-        messageDiv.innerHTML = formatMessage(message);
-        console.log('Message HTML:', messageDiv.innerHTML);
-        
-        if (messageId) {
-            messageDiv.setAttribute('data-message-id', messageId);
-        }
-        
-        if (type === 'user-message') {
-            messageDiv.setAttribute('data-timestamp', new Date().toISOString());
-        }
+        const messageDiv = createElement('div', {
+            className: `message ${type}`,
+            id: messageId ? `message-${messageId}` : null
+        });
 
-        // Check if message contains an SMS number and show toast
-        if (type === 'bot-message' && message.includes('SMS')) {
-            const match = message.match(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/);
-            if (match) {
-                this.showToast(`SMS number copied: ${match[0]}`);
-            }
-        }
-        
-        // Add context indicator for bot messages that use context
-        if (type === 'bot-message' && messageId) {
-            const contextIndicator = createElement('div', 'context-indicator');
-            contextIndicator.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
-                    <path d="M8 12L12 16L16 12"/>
-                    <path d="M12 8L12 16"/>
+        // Add copy button for non-loading messages
+        const copyButton = createElement('button', {
+            className: 'copy-button',
+            innerHTML: `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.242a2 2 0 0 0-.602-1.43L16.083 2.57A2 2 0 0 0 14.685 2H10a2 2 0 0 0-2 2z" stroke-width="2"/>
+                    <path d="M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2" stroke-width="2"/>
                 </svg>
-                <span class="tooltip">Using conversation context</span>
-            `;
-            messageDiv.appendChild(contextIndicator);
-            
-            // Add click handler to show related messages
-            messageDiv.addEventListener('click', () => this.highlightRelatedMessages(messageId));
-        }
-        
-        // Ensure chatBox exists and is accessible
-        if (!this.chatBox) {
-            console.error('Chat box element not found');
-            return;
-        }
-        
-        // Add message to chat box
+                <span>Copy</span>
+            `,
+            title: 'Copy message'
+        });
+
+        copyButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigator.clipboard.writeText(message).then(() => {
+                copyButton.classList.add('copied');
+                copyButton.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M20 6L9 17l-5-5" stroke-width="2"/>
+                    </svg>
+                    <span>Copied!</span>
+                `;
+                setTimeout(() => {
+                    copyButton.classList.remove('copied');
+                    copyButton.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7.242a2 2 0 0 0-.602-1.43L16.083 2.57A2 2 0 0 0 14.685 2H10a2 2 0 0 0-2 2z" stroke-width="2"/>
+                            <path d="M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2" stroke-width="2"/>
+                        </svg>
+                        <span>Copy</span>
+                    `;
+                }, 2000);
+            });
+        });
+
+        messageDiv.appendChild(createElement('p', { textContent: message }));
+        messageDiv.appendChild(copyButton);
         this.chatBox.appendChild(messageDiv);
-        console.log('Message added to chat box');
-        
-        // Scroll if needed
+
         if (scroll) {
             scrollToBottom(this.chatBox);
         }
+
+        return messageDiv;
     }
 
     highlightRelatedMessages(messageId) {
@@ -144,21 +143,18 @@ export class UI {
     }
 
     showLoading() {
-        const loadingDiv = createElement('div', 'loading');
-        loadingDiv.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
-                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
-                </svg>
-                JANE is thinking
-                <div style="display: inline-flex; align-items: center;">
-                    <div class="typing-dot animate-typing"></div>
-                    <div class="typing-dot animate-typing" style="animation-delay: 0.2s"></div>
-                    <div class="typing-dot animate-typing" style="animation-delay: 0.4s"></div>
-                </div>
-            </div>
-        `;
+        const loadingDiv = createElement('div', {
+            className: 'typing-indicator',
+            innerHTML: `
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            `
+        });
         this.chatBox.appendChild(loadingDiv);
+        // Force a reflow to trigger animation
+        void loadingDiv.offsetHeight;
+        loadingDiv.classList.add('visible');
         scrollToBottom(this.chatBox);
         return loadingDiv;
     }
