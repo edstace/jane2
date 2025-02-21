@@ -115,12 +115,11 @@ body.with-chat #chatBox {
     margin: 0 auto;
     padding: var(--spacing-md);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: 10;
+    z-index: 2;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, 40px);
-    background: var(--background-color);
 }
 
 body.with-chat .input-section {
@@ -130,21 +129,31 @@ body.with-chat .input-section {
     transform: translate(-50%, 0);
     background: var(--background-color);
     border-top: 1px solid var(--border-color);
-    padding: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
 }
 
 .input-container {
-    width: 100%;
     display: flex;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-md) var(--spacing-lg);
-    background: white;
-    border-radius: var(--border-radius-xxl);
-    box-shadow: var(--shadow-lg);
     align-items: center;
+    gap: var(--spacing-sm);
+    background: white;
     border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-xxl);
+    padding: var(--spacing-xs);
     position: relative;
-    z-index: 3;
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-base);
+    background-color: transparent;
+}
+
+input[type="text"]:focus {
+    outline: none;
 }
 
 /* Example prompts */
