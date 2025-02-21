@@ -369,12 +369,18 @@ def handle_sms():
                 resp.message("Please reply with 'y' for yes or 'n' for no to confirm sending your message.")
             return str(resp)
         
+        # Log incoming message
+        app.logger.info(f"Received SMS from {from_number}: {message_body}")
+        
         # Check for sensitive/harmful content
         if contains_sensitive_info(message_body):
+            app.logger.info("Sensitive info detected")
             response_text = 'Please avoid sharing sensitive personal information. This information will not be processed for your privacy and security.'
         elif contains_harmful_interactions(message_body):
+            app.logger.info("Harmful content detected")
             response_text = 'I noticed concerning content in your message. For your safety, this message will not be processed. Please seek professional help if needed.'
         elif contains_disability_info(message_body):
+            app.logger.info("Disability info detected, requesting confirmation")
             save_pending_sms(from_number, message_body)
             response_text = ('Your message includes disability-related information. '
                            'Please ensure you are comfortable sharing these details. '
@@ -385,11 +391,12 @@ def handle_sms():
             response_text = get_job_coaching_advice(message_body, context)
             save_sms_context(from_number, message_body, response_text)
         
-        # Create TwiML response
+        # Create and log TwiML response
         resp = MessagingResponse()
         resp.message(response_text)
-        
-        return str(resp)
+        response_str = str(resp)
+        app.logger.info(f"Sending response: {response_str}")
+        return response_str
         
     except Exception as e:
         app.logger.error(f"SMS handling error: {str(e)}")
