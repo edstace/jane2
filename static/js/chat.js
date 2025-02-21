@@ -19,9 +19,21 @@ export class Chat {
     }
 
     setupEventListeners() {
+        // Listen for custom send-message event
         document.addEventListener('send-message', () => {
             this.sendMessage();
         });
+
+        // Add keypress event listener for Enter key
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.sendMessage();
+            }
+        });
+
+        // Expose sendMessage to window for the send button
+        window.sendMessage = () => this.sendMessage();
     }
 
     setupInfiniteScroll() {
