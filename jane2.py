@@ -32,12 +32,15 @@ elif db_url.startswith('postgresql://'):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+from sqlalchemy.pool import QueuePool
+
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'poolclass': 'psycopg_pool.ConnectionPool',
+    'poolclass': QueuePool,
     'pool_pre_ping': True,
     'pool_size': 5,
     'max_overflow': 10,
     'pool_timeout': 30,
+    'pool_recycle': 1800,  # Recycle connections after 30 minutes
     'connect_args': {
         'sslmode': 'require',
         'connect_timeout': 10
