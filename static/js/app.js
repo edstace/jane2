@@ -6,6 +6,7 @@ class App {
         this.ui = ui;
         this.chat = chat;
         this.init();
+        this.showSMSPopup();
     }
 
     init() {
@@ -15,6 +16,22 @@ class App {
         
         document.querySelector('button[onclick="clearChat()"]')
             .onclick = () => this.chat.clearChat();
+    }
+
+    showSMSPopup() {
+        // Show SMS popup if not shown before
+        if (!localStorage.getItem('smsPopupShown')) {
+            const popup = document.createElement('div');
+            popup.className = 'sms-popup';
+            popup.innerHTML = `
+                <div class="sms-popup-content">
+                    <h3>Text JANE</h3>
+                    <p>You can also text JANE at <strong>850-498-1386</strong></p>
+                    <button onclick="this.parentElement.parentElement.remove(); localStorage.setItem('smsPopupShown', 'true')">Got it!</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
     }
 }
 
