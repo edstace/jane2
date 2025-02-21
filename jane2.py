@@ -33,12 +33,14 @@ elif db_url.startswith('postgresql://'):
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'poolclass': 'psycopg_pool.ConnectionPool',
     'pool_pre_ping': True,
     'pool_size': 5,
     'max_overflow': 10,
     'pool_timeout': 30,
     'connect_args': {
-        'sslmode': 'require'
+        'sslmode': 'require',
+        'connect_timeout': 10
     }
 }
 
