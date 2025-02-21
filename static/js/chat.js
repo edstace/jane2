@@ -21,19 +21,19 @@ export class Chat {
     setupEventListeners() {
         // Listen for custom send-message event
         document.addEventListener('send-message', () => {
-            this.sendMessage();
+            this.handleSendMessage();
         });
 
         // Add keypress event listener for Enter key
         document.getElementById('userInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                this.sendMessage();
+                this.handleSendMessage();
             }
         });
 
-        // Expose sendMessage to window for the send button
-        window.sendMessage = () => this.sendMessage();
+        // Expose handleSendMessage to window for the send button
+        window.sendMessage = () => this.handleSendMessage();
     }
 
     setupInfiniteScroll() {
@@ -51,7 +51,7 @@ export class Chat {
         });
     }
 
-    async sendMessage(confirmed = false) {
+    async handleSendMessage(confirmed = false) {
         const message = confirmed ? this.pendingMessage : ui.getInputValue();
         console.log('Sending message:', message);
         
@@ -99,7 +99,7 @@ export class Chat {
             if (response.requiresConfirmation && !confirmed) {
                 ui.showWarning(
                     response.warning,
-                    () => this.sendMessage(true),
+                    () => this.handleSendMessage(true),
                     () => ui.clearInput()
                 );
                 return;
