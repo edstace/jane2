@@ -199,7 +199,6 @@ export class UI {
         const existingToast = document.querySelector('.toast');
         if (existingToast) {
             existingToast.classList.add('animate-toast-out');
-            setTimeout(() => existingToast.remove(), 300);
         }
         
         // Clear existing timeout
@@ -249,7 +248,7 @@ export class UI {
     }
 
     getInputValue() {
-        return this.userInput.value.trim();
+        return this.userInput.value;
     }
 
     setInputValue(value) {
