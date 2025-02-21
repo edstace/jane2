@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.pool import QueuePool
+from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime, timedelta
 import openai
 import re
@@ -15,7 +17,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 import json
 from functools import wraps
-from sqlalchemy.dialects.postgresql import JSON
 
 # Load environment variables
 load_dotenv()
@@ -32,8 +33,6 @@ elif db_url.startswith('postgresql://'):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-from sqlalchemy.pool import QueuePool
-
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'poolclass': QueuePool,
     'pool_pre_ping': True,
