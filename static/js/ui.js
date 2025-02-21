@@ -183,11 +183,16 @@ export class UI {
             
             // Show chat container with animation
             this.chatContainer.style.display = 'flex';
-            requestAnimationFrame(() => {
-                this.chatContainer.classList.add('animate-container-in', 'visible');
-                this.inputSection.classList.add('with-chat');
-                this.examplePrompts.classList.add('hidden');
-            });
+            this.chatContainer.style.flexDirection = 'column';
+            this.chatContainer.classList.add('visible');
+            this.inputSection.classList.add('with-chat');
+            this.examplePrompts.classList.add('hidden');
+            
+            // Force a reflow to ensure the display change takes effect
+            void this.chatContainer.offsetHeight;
+            
+            // Then add the animation class
+            this.chatContainer.classList.add('animate-container-in');
         }
     }
 

@@ -41,13 +41,20 @@ export class Chat {
 
     async sendMessage(confirmed = false) {
         const message = confirmed ? this.pendingMessage : ui.getInputValue();
+        console.log('Sending message:', message);
         
         if (message === '') return;
         
         try {
             if (!confirmed) {
-                // Show welcome message before first user message
-                if (this.history.getMessages().length === 0) {
+                // Always show the user's message first
+                const msgId = this.history.addMessage(message, 'user-message').id;
+                ui.appendMessage(message, 'user-message', true, msgId);
+                this.pendingMessage = message;
+                ui.setInputValue('');
+                
+                // Show welcome message if this is the first message
+                if (this.history.getMessages().length === 1) {
                     const welcomeId = this.history.addMessage(
                         'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
                         'bot-message'
@@ -59,15 +66,13 @@ export class Chat {
                         welcomeId
                     );
                 }
-                
-                const msgId = this.history.addMessage(message, 'user-message').id;
-                ui.appendMessage(message, 'user-message', true, msgId);
-                this.pendingMessage = message;
-                ui.setInputValue('');
             }
             
+            // Show loading indicator
             const loadingDiv = ui.showLoading();
+            console.log('Sending to server:', message);
             const response = await this.sendToServer(message, confirmed);
+            console.log('Server response:', response);
             loadingDiv.remove();
 
             if (response.requiresConfirmation && !confirmed) {
