@@ -47,7 +47,14 @@ export class Chat {
         
         try {
             if (!confirmed) {
-                // Always show the user's message first
+                // Ensure chat container is visible before adding messages
+                if (!document.querySelector('.chat-container').classList.contains('visible')) {
+                    ui.showChatContainer();
+                    // Force a small delay to ensure container is visible
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
+
+                // Add user message
                 const msgId = this.history.addMessage(message, 'user-message').id;
                 ui.appendMessage(message, 'user-message', true, msgId);
                 this.pendingMessage = message;
@@ -59,6 +66,8 @@ export class Chat {
                         'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
                         'bot-message'
                     ).id;
+                    // Small delay to ensure welcome message appears after user message
+                    await new Promise(resolve => setTimeout(resolve, 100));
                     ui.appendMessage(
                         'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
                         'bot-message',

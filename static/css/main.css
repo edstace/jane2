@@ -58,16 +58,22 @@ body {
     margin: 0 auto;
     width: 100%;
     flex-grow: 1;
+    padding: 0 20px;
     opacity: 0;
     transform: translateY(20px);
-    padding: 0 20px;
-    display: none;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     will-change: opacity, transform;
 }
 
 .chat-container.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Ensure chat container is properly laid out when visible */
+.chat-container.visible {
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .chat-box {

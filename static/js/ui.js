@@ -177,21 +177,20 @@ export class UI {
 
     showChatContainer() {
         if (!this.chatContainer.classList.contains('visible')) {
-            // First set display flex
-            this.chatContainer.style.display = 'flex';
-            this.chatContainer.style.flexDirection = 'column';
+            // First ensure display is set
+            this.chatContainer.style.cssText = 'display: flex; flex-direction: column; opacity: 0;';
             
-            // Force a reflow before adding animations
+            // Force browser to acknowledge display change
             void this.chatContainer.offsetHeight;
             
-            // Then add all animation and visibility classes
-            requestAnimationFrame(() => {
-                this.header.classList.add('animate-header-compact', 'compact');
-                this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
-                this.chatContainer.classList.add('visible', 'animate-container-in');
-                this.inputSection.classList.add('with-chat');
-                this.examplePrompts.classList.add('hidden');
-            });
+            // Add visible class which will trigger the transition
+            this.chatContainer.classList.add('visible');
+            
+            // Update other elements
+            this.header.classList.add('animate-header-compact', 'compact');
+            this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
+            this.inputSection.classList.add('with-chat');
+            this.examplePrompts.classList.add('hidden');
         }
     }
 
