@@ -88,13 +88,12 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter with PostgreSQL storage
-rate_limit_url = db_url
+# Initialize rate limiter with memory storage
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')],
-    storage_uri=rate_limit_url
+    storage_uri="memory://"
 )
 
 # Configure logging
