@@ -1,0 +1,195 @@
+import { createElement, formatMessage, scrollToBottom } from './utils.js';
+
+export class UI {
+    constructor() {
+        this.chatBox = document.getElementById('chatBox');
+        this.userInput = document.getElementById('userInput');
+        this.charCounter = document.querySelector('.char-counter');
+        
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                this.clearChat();
+            }
+        });
+
+        // Input handlers
+        this.userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.handleEnterPress();
+            }
+        });
+
+        this.userInput.addEventListener('input', () => {
+            this.updateCharCount();
+        });
+    }
+
+    updateCharCount() {
+        this.charCounter.textContent = `${this.userInput.value.length}/500`;
+    }
+
+    clearChat() {
+        this.chatBox.innerHTML = '';
+        this.userInput.value = '';
+        this.updateCharCount();
+    }
+
+    clearInput() {
+        this.userInput.value = '';
+        this.updateCharCount();
+        this.appendMessage('Message cleared.', 'warning-message');
+    }
+
+    appendMessage(message, type, scroll = true, messageId = null) {
+        const messageDiv = createElement('div', `message ${type} animate-in`);
+        messageDiv.innerHTML = formatMessage(message);
+        
+        if (messageId) {
+            messageDiv.setAttribute('data-message-id', messageId);
+        }
+        
+        if (type === 'user-message') {
+            messageDiv.setAttribute('data-timestamp', new Date().toISOString());
+        }
+        
+        // Add context indicator for bot messages that use context
+        if (type === 'bot-message' && messageId) {
+            const contextIndicator = createElement('div', 'context-indicator');
+            contextIndicator.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
+                    <path d="M8 12L12 16L16 12"/>
+                    <path d="M12 8L12 16"/>
+                </svg>
+                <span class="tooltip">Using conversation context</span>
+            `;
+            messageDiv.appendChild(contextIndicator);
+            
+            // Add click handler to show related messages
+            messageDiv.addEventListener('click', () => this.highlightRelatedMessages(messageId));
+        }
+        
+        this.chatBox.appendChild(messageDiv);
+        if (scroll) {
+            scrollToBottom(this.chatBox);
+        }
+    }
+
+    highlightRelatedMessages(messageId) {
+        // Remove previous highlights
+        this.chatBox.querySelectorAll('.message.highlighted').forEach(msg => {
+            msg.classList.remove('highlighted');
+        });
+        
+        // Add highlight to clicked message and its context
+        const messages = this.chatBox.querySelectorAll('.message[data-message-id]');
+        messages.forEach(msg => {
+            if (msg.dataset.messageId === messageId) {
+                msg.classList.add('highlighted');
+                // Scroll into view if needed
+                msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+
+    showLoading() {
+        const loadingDiv = createElement('div', 'loading');
+        loadingDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                JANE is thinking
+                <div style="display: inline-flex; align-items: center;">
+                    <div class="typing-dot animate-typing"></div>
+                    <div class="typing-dot animate-typing" style="animation-delay: 0.2s"></div>
+                    <div class="typing-dot animate-typing" style="animation-delay: 0.4s"></div>
+                </div>
+            </div>
+        `;
+        this.chatBox.appendChild(loadingDiv);
+        scrollToBottom(this.chatBox);
+        return loadingDiv;
+    }
+
+    showLoadingMore() {
+        const loadingDiv = createElement('div', 'loading loading-more');
+        loadingDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Loading more messages...
+            </div>
+        `;
+        this.chatBox.insertBefore(loadingDiv, this.chatBox.firstChild);
+        return loadingDiv;
+    }
+
+    hideLoadingMore() {
+        const loadingMore = this.chatBox.querySelector('.loading-more');
+        if (loadingMore) {
+            loadingMore.remove();
+        }
+    }
+
+    showError(message) {
+        const errorDiv = createElement('div', 'message warning-message animate-in');
+        errorDiv.textContent = message;
+        this.chatBox.appendChild(errorDiv);
+        scrollToBottom(this.chatBox);
+        
+        // Auto-remove error after 5 seconds
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
+    }
+
+    showWarning(warning, onProceed, onCancel) {
+        const warningDiv = createElement('div', 'message warning-message animate-in');
+        warningDiv.innerHTML = `
+            <div>${warning}</div>
+            <button onclick="handleProceed()" style="background-color: var(--primary-color);">Proceed</button>
+            <button onclick="handleCancel()" style="background-color: rgba(0,0,0,0.1); color: var(--text-primary);">Cancel</button>
+        `;
+
+        // Add event handlers
+        const proceedBtn = warningDiv.querySelector('button:first-of-type');
+        const cancelBtn = warningDiv.querySelector('button:last-of-type');
+        
+        proceedBtn.onclick = () => {
+            warningDiv.remove();
+            onProceed();
+        };
+        
+        cancelBtn.onclick = () => {
+            warningDiv.remove();
+            onCancel();
+        };
+
+        this.chatBox.appendChild(warningDiv);
+        scrollToBottom(this.chatBox);
+    }
+
+    getInputValue() {
+        return this.userInput.value.trim();
+    }
+
+    setInputValue(value) {
+        this.userInput.value = value;
+        this.updateCharCount();
+    }
+
+    handleEnterPress() {
+        const event = new CustomEvent('send-message');
+        document.dispatchEvent(event);
+    }
+}
+
+export const ui = new UI();
