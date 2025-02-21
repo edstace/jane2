@@ -3,6 +3,7 @@ flask-talisman==1.1.0
 flask-wtf==1.2.1
 flask-limiter[postgresql]==3.5.0
 flask-sqlalchemy==3.1.1
+sqlalchemy[asyncio]==2.0.27
 python-dotenv==1.0.1
 openai==1.12.0
 psycopg==3.1.18
