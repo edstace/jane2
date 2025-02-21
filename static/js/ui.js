@@ -68,7 +68,6 @@ export class UI {
         // Ensure chat container is visible and force a reflow
         if (!this.chatContainer.classList.contains('visible')) {
             this.showChatContainer();
-            // Force a reflow to ensure container is visible
             void this.chatContainer.offsetHeight;
         }
 
@@ -77,10 +76,10 @@ export class UI {
             id: messageId ? `message-${messageId}` : null
         });
 
-        // Create message content
+        // Create message content with text directly
         const messageContent = createElement('div', {
             className: 'message-content',
-            innerHTML: formatMessage(message)
+            textContent: message
         });
 
         // Add copy button for non-loading messages

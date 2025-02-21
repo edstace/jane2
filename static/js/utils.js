@@ -60,10 +60,11 @@ export const smoothScrollTo = (element, duration = 300) => {
     requestAnimationFrame(scroll);
 };
 
-export const createElement = (tag, className, innerHTML = '') => {
+export const createElement = (tag, options = {}) => {
     const element = document.createElement(tag);
-    if (className) element.className = className;
-    if (innerHTML) element.innerHTML = innerHTML;
+    if (options.className) element.className = options.className;
+    if (options.innerHTML) element.innerHTML = options.innerHTML;
+    if (options.textContent) element.textContent = options.textContent;
     return element;
 };
 
