@@ -27,7 +27,8 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 mongo_client = MongoClient(
     os.getenv('MONGODB_URI'),
     tls=True,
-    tlsAllowInvalidCertificates=True
+    tlsAllowInvalidCertificates=True,
+    tlsCAFile="/etc/ssl/certs/ca-certificates.crt"  # Standard CA bundle location
 )
 db = mongo_client.jane_db
 messages_collection = db.messages
