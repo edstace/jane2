@@ -311,6 +311,7 @@ def save_sms_context(phone_number, user_message, bot_response):
     db.session.commit()
 
 @app.route('/sms', methods=['POST'])
+@csrf.exempt  # Exempt Twilio webhooks from CSRF protection
 def handle_sms():
     """Handle incoming SMS messages"""
     try:
