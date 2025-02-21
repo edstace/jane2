@@ -56,15 +56,13 @@ body {
     max-width: 900px;
     margin: 0 auto;
     width: 100%;
-    flex-grow: 1;
-    padding: 0 20px;
+    padding: 20px;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     will-change: opacity, transform;
-    display: flex;
-    flex-direction: column;
     visibility: hidden;
+    margin-top: 120px;
 }
 
 .chat-container.visible {
@@ -74,12 +72,9 @@ body {
 }
 
 .chat-box {
-    flex: 1;
-    height: calc(100vh - 300px);
-    min-height: 200px;
+    min-height: calc(100vh - 400px);
     overflow-y: auto;
-    margin-bottom: var(--spacing-md);
-    padding: var(--spacing-lg) var(--spacing-lg) 120px;
+    padding: var(--spacing-lg);
     background: transparent;
     scroll-behavior: smooth;
     display: flex;
@@ -142,26 +137,35 @@ body {
 
 /* Input Area */
 .input-section {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     width: 100%;
     max-width: 800px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-xl);
     padding: 0 20px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .input-section.with-chat {
+    position: static;
+    transform: none;
+    padding-bottom: var(--spacing-xl);
+}
+
+.input-section.with-chat .header {
     position: fixed;
-    bottom: var(--spacing-lg);
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--background-color);
+    padding: var(--spacing-md);
+    z-index: 10;
 }
 
 .input-container {
