@@ -12,14 +12,21 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
 }
 
 /* Header */
 .header {
     text-align: center;
     padding: var(--spacing-xl) 0;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: 2;
 }
 
 .header h1 {
@@ -28,7 +35,7 @@ body {
     margin: 0;
     line-height: 1;
     color: var(--primary-color);
-    transition: font-size 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .header .subtitle {
@@ -36,48 +43,55 @@ body {
     font-weight: 400;
     color: var(--text-secondary);
     margin-top: 8px;
-    transition: opacity 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.with-chat .header {
+body.with-chat .header {
+    position: fixed;
+    top: 0;
+    transform: translate(-50%, 0);
     padding: var(--spacing-md) 0;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.with-chat .header h1 {
+body.with-chat .header h1 {
     font-size: 32px;
 }
 
-.with-chat .header .subtitle {
+body.with-chat .header .subtitle {
     font-size: 16px;
     margin-top: 4px;
 }
 
 /* Layout Components */
 .chat-container {
-    display: none;
     max-width: 900px;
     margin: 0 auto;
     width: 100%;
-    padding: 0 20px;
+    padding: 80px 20px 0;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(20px);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-    will-change: opacity, transform;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    will-change: opacity, transform, visibility;
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .chat-container.visible {
-    display: flex;
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
 }
 
 .chat-box {
     flex: 1;
     min-height: 200px;
-    max-height: calc(100vh - 300px);
     overflow-y: auto;
     padding: var(--spacing-lg);
     background: transparent;
@@ -140,26 +154,27 @@ body {
     align-self: flex-start;
 }
 
-/* Input Area */
+/* Input Section */
 .input-section {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--background-color);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
     padding: var(--spacing-md);
-    border-top: 1px solid var(--border-color);
-    margin-top: auto;
-    flex-shrink: 0;
-    z-index: 10;
-}
-
-.input-section:not(.with-chat) {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 2;
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
+    transform: translate(-50%, 0);
+}
+
+body.with-chat .input-section {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    background: var(--background-color);
+    border-top: 1px solid var(--border-color);
+    padding-bottom: var(--spacing-lg);
 }
 
 .input-container {
@@ -172,7 +187,8 @@ body {
     box-shadow: var(--shadow-lg);
     align-items: center;
     border: 1px solid var(--border-color);
-    z-index: 100;
+    position: relative;
+    z-index: 3;
 }
 
 .example-prompts {
@@ -181,8 +197,8 @@ body {
     gap: var(--spacing-sm);
     width: 100%;
     max-width: 800px;
-    padding: 0 var(--spacing-lg);
-    transition: opacity 0.3s ease;
+    padding: var(--spacing-md) var(--spacing-lg);
+    transition: all 0.3s ease;
     justify-content: center;
 }
 
