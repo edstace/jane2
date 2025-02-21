@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
-    <div class="header">
+    <div class="header" id="header">
         <h1>JANE</h1>
         <div class="subtitle">Job Assistance and Navigation Expert</div>
     </div>
 
-    <div class="chat-container">
+    <div class="chat-container" id="chatContainer">
         <div class="chat-box" id="chatBox">
             <div class="scroll-indicator" style="display: none;">
                 Scroll up to load more messages
@@ -31,11 +31,6 @@
         <button onclick="sendMessage()">Send</button>
         <button class="clear-chat" onclick="clearChat()" title="Clear chat history (Cmd/Ctrl + K)">Clear Chat</button>
     </div>
-    <div class="footer">
-        © 2025 JANE - Job Assistance and Navigation Expert. All rights reserved.<br>
-        Dedicated to supporting job seekers with disabilities.
-    </div>
-
     <script type="module" src="/static/js/app.js"></script>
 </body>
 </html>

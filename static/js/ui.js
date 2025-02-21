@@ -3,10 +3,14 @@ import { createElement, formatMessage, scrollToBottom } from './utils.js';
 export class UI {
     constructor() {
         this.chatBox = document.getElementById('chatBox');
+        this.chatContainer = document.getElementById('chatContainer');
+        this.header = document.getElementById('header');
         this.userInput = document.getElementById('userInput');
         this.charCounter = document.querySelector('.char-counter');
+        this.inputContainer = document.querySelector('.input-container');
         
         this.setupEventListeners();
+        this.toastTimeout = null;
     }
 
     setupEventListeners() {
@@ -47,6 +51,11 @@ export class UI {
     }
 
     appendMessage(message, type, scroll = true, messageId = null) {
+        // Show chat container on first message
+        if (!this.chatContainer.classList.contains('visible')) {
+            this.showChatContainer();
+        }
+
         const messageDiv = createElement('div', `message ${type} animate-in`);
         messageDiv.innerHTML = formatMessage(message);
         
@@ -56,6 +65,14 @@ export class UI {
         
         if (type === 'user-message') {
             messageDiv.setAttribute('data-timestamp', new Date().toISOString());
+        }
+
+        // Check if message contains an SMS number and show toast
+        if (type === 'bot-message' && message.includes('SMS')) {
+            const match = message.match(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/);
+            if (match) {
+                this.showToast(`SMS number copied: ${match[0]}`);
+            }
         }
         
         // Add context indicator for bot messages that use context
@@ -149,6 +166,48 @@ export class UI {
         setTimeout(() => {
             errorDiv.remove();
         }, 5000);
+    }
+
+    showChatContainer() {
+        // Compact the header with animation
+        this.header.classList.add('animate-header-compact', 'compact');
+        this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
+        
+        // Show chat container with animation
+        this.chatContainer.classList.add('animate-container-in', 'visible');
+        
+        // Move input container inline with smooth transition
+        requestAnimationFrame(() => {
+            this.inputContainer.classList.add('with-chat');
+        });
+    }
+
+    showToast(message) {
+        // Remove existing toast if present
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) {
+            existingToast.classList.add('animate-toast-out');
+            setTimeout(() => existingToast.remove(), 300);
+        }
+        
+        // Clear existing timeout
+        if (this.toastTimeout) {
+            clearTimeout(this.toastTimeout);
+        }
+
+        const toast = createElement('div', 'toast animate-toast-in');
+        toast.innerHTML = `
+            <p>${message}</p>
+            <button onclick="this.parentElement.classList.add('animate-toast-out'); setTimeout(() => this.parentElement.remove(), 300)">×</button>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Auto-dismiss after 3 seconds
+        this.toastTimeout = setTimeout(() => {
+            toast.classList.add('animate-toast-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 
     showWarning(warning, onProceed, onCancel) {
