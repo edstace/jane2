@@ -346,9 +346,14 @@ def handle_sms():
 
         # Check for pending confirmation
         pending = check_sms_confirmation(from_number)
+        app.logger.info(f"Checking pending confirmation for {from_number}: {pending is not None}")
+        
         if pending:
             resp = MessagingResponse()
+            app.logger.info(f"Processing confirmation response: {message_body}")
+            
             if message_body in ['y', 'yes']:
+                app.logger.info("User confirmed sending disability information")
                 # Process the original message
                 context = get_sms_context(from_number)
                 response_text = get_job_coaching_advice(pending.original_message, context)
@@ -357,17 +362,24 @@ def handle_sms():
                 # Clear pending confirmation
                 pending.awaiting_confirmation = False
                 db.session.commit()
+                app.logger.info("Cleared pending confirmation and saved context")
                 
                 resp.message(response_text)
             elif message_body in ['n', 'no']:
+                app.logger.info("User declined sending disability information")
                 # Clear pending confirmation
                 pending.awaiting_confirmation = False
                 db.session.commit()
+                app.logger.info("Cleared pending confirmation")
                 
                 resp.message("Message cancelled. How else can I help you?")
             else:
+                app.logger.info("Invalid confirmation response, requesting y/n")
                 resp.message("Please reply with 'y' for yes or 'n' for no to confirm sending your message.")
-            return str(resp)
+            
+            response_str = str(resp)
+            app.logger.info(f"Sending confirmation response: {response_str}")
+            return response_str
         
         # Log incoming message
         app.logger.info(f"Received SMS from {from_number}: {message_body}")
