@@ -19,21 +19,10 @@ export class Chat {
     }
 
     setupEventListeners() {
-        // Listen for custom send-message event
         document.addEventListener('send-message', () => {
-            this.handleSendMessage();
+            console.log('Received send-message event');
+            this.sendMessage();
         });
-
-        // Add keypress event listener for Enter key
-        document.getElementById('userInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                this.handleSendMessage();
-            }
-        });
-
-        // Expose handleSendMessage to window for the send button
-        window.sendMessage = () => this.handleSendMessage();
     }
 
     setupInfiniteScroll() {
@@ -51,7 +40,7 @@ export class Chat {
         });
     }
 
-    async handleSendMessage(confirmed = false) {
+    async sendMessage(confirmed = false) {
         const message = confirmed ? this.pendingMessage : ui.getInputValue();
         console.log('Sending message:', message);
         
@@ -59,13 +48,6 @@ export class Chat {
         
         try {
             if (!confirmed) {
-                // Ensure chat container is visible before adding messages
-                if (!document.querySelector('.chat-container').classList.contains('visible')) {
-                    ui.showChatContainer();
-                    // Force a small delay to ensure container is visible
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                }
-
                 // Add user message
                 const msgId = this.history.addMessage(message, 'user-message').id;
                 ui.appendMessage(message, 'user-message', true, msgId);
@@ -94,12 +76,14 @@ export class Chat {
             console.log('Sending to server:', message);
             const response = await this.sendToServer(message, confirmed);
             console.log('Server response:', response);
+            
+            // Remove loading indicator
             loadingDiv.remove();
 
             if (response.requiresConfirmation && !confirmed) {
                 ui.showWarning(
                     response.warning,
-                    () => this.handleSendMessage(true),
+                    () => this.sendMessage(true),
                     () => ui.clearInput()
                 );
                 return;
@@ -107,17 +91,18 @@ export class Chat {
 
             this.pendingMessage = '';
             
+            // Process response messages with delays
             if (response.warning) {
+                await new Promise(resolve => setTimeout(resolve, 50));
                 const warningId = this.history.addMessage(response.warning, 'warning-message').id;
                 ui.appendMessage(response.warning, 'warning-message', true, warningId);
             }
+            
             if (response.response) {
+                await new Promise(resolve => setTimeout(resolve, 50));
                 const botMsgId = this.history.addMessage(response.response, 'bot-message').id;
+                console.log('Adding bot message to UI:', response.response);
                 ui.appendMessage(response.response, 'bot-message', true, botMsgId);
-                // Show chat container if not already visible
-                if (!document.querySelector('.chat-container').classList.contains('visible')) {
-                    ui.showChatContainer();
-                }
             }
             
             // Save updated history

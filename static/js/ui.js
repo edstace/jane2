@@ -60,9 +60,11 @@ export class UI {
     appendMessage(message, type, scroll = true, messageId = null) {
         console.log('Appending message:', { message, type, messageId });
         
-        // Ensure chat container is visible
+        // Ensure chat container is visible and force a reflow
         if (!this.chatContainer.classList.contains('visible')) {
             this.showChatContainer();
+            // Force a reflow to ensure container is visible
+            void this.chatContainer.offsetHeight;
         }
 
         // Create message element

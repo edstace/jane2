@@ -12,9 +12,11 @@ class App {
     init() {
         // Add global handlers for buttons
         window.sendMessage = () => {
+            console.log('Send button clicked');
             const event = new CustomEvent('send-message');
             document.dispatchEvent(event);
         };
+        
         window.clearChat = () => chat.clearChat();
 
         // Add example prompt handlers
@@ -22,6 +24,15 @@ class App {
             ui.setInputValue(text);
             ui.userInput.focus();
         };
+
+        // Add Enter key handler
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                console.log('Enter key pressed');
+                window.sendMessage();
+            }
+        });
     }
 
     showToast() {
