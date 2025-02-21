@@ -48,6 +48,9 @@ export class Chat {
         
         try {
             if (!confirmed) {
+                // Show chat container first
+                ui.showChatContainer();
+                
                 // Add user message
                 const msgId = this.history.addMessage(message, 'user-message').id;
                 ui.appendMessage(message, 'user-message', true, msgId);

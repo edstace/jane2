@@ -148,7 +148,7 @@ export class UI {
         loadingDiv.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
-                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
                 </svg>
                 JANE is thinking
                 <div style="display: inline-flex; align-items: center;">
@@ -168,7 +168,7 @@ export class UI {
         loadingDiv.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin">
-                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"/>
                 </svg>
                 Loading more messages...
             </div>
@@ -203,17 +203,19 @@ export class UI {
             // Reset any inline styles
             this.chatContainer.style.cssText = '';
             
+            // Add with-chat class to body first to trigger layout changes
+            document.body.classList.add('with-chat');
+            
             // Force a reflow before adding the visible class
             void this.chatContainer.offsetHeight;
             
             // Add visible class to trigger transition
-            this.chatContainer.classList.add('visible');
-            
-            // Add with-chat class to body to trigger layout changes
-            document.body.classList.add('with-chat');
-            
-            // Hide example prompts
-            this.examplePrompts.classList.add('hidden');
+            requestAnimationFrame(() => {
+                this.chatContainer.classList.add('visible');
+                
+                // Hide example prompts
+                this.examplePrompts.classList.add('hidden');
+            });
             
             console.log('Chat container shown');
         }
