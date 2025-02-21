@@ -56,22 +56,6 @@ export class Chat {
                 ui.appendMessage(message, 'user-message', true, msgId);
                 this.pendingMessage = message;
                 ui.setInputValue('');
-                
-                // Show welcome message if this is the first message
-                if (this.history.getMessages().length === 1) {
-                    const welcomeId = this.history.addMessage(
-                        'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
-                        'bot-message'
-                    ).id;
-                    // Small delay to ensure welcome message appears after user message
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    ui.appendMessage(
-                        'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
-                        'bot-message',
-                        true,
-                        welcomeId
-                    );
-                }
             }
             
             // Show loading indicator
