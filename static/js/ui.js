@@ -72,10 +72,15 @@ export class UI {
             void this.chatContainer.offsetHeight;
         }
 
-        // Create message element
         const messageDiv = createElement('div', {
             className: `message ${type}`,
             id: messageId ? `message-${messageId}` : null
+        });
+
+        // Create message content
+        const messageContent = createElement('div', {
+            className: 'message-content',
+            innerHTML: formatMessage(message)
         });
 
         // Add copy button for non-loading messages
@@ -114,7 +119,7 @@ export class UI {
             });
         });
 
-        messageDiv.appendChild(createElement('p', { textContent: message }));
+        messageDiv.appendChild(messageContent);
         messageDiv.appendChild(copyButton);
         this.chatBox.appendChild(messageDiv);
 

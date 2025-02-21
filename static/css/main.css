@@ -220,12 +220,16 @@ input[type="text"]:focus {
     max-width: 80%;
 }
 
-.message p {
+.message-content {
+    white-space: pre-wrap;
+}
+
+.message-content p {
     margin: 0;
     padding: 0;
 }
 
-.message p + p {
+.message-content p + p {
     margin-top: var(--spacing-sm);
 }
 
