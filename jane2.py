@@ -6,7 +6,7 @@ from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
-from pymongo import MongoClient
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import openai
 import re
@@ -15,6 +15,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import json
 from functools import wraps
+from sqlalchemy.dialects.postgresql import JSON
 
 # Load environment variables
 load_dotenv()
@@ -22,16 +23,34 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize MongoDB with SSL configuration
-mongo_client = MongoClient(
-    os.getenv('MONGODB_URI') + "&tls=true&tlsInsecure=true&tlsAllowInvalidCertificates=true&minPoolSize=0",
-    connect=True
-)
-db = mongo_client.jane_db
-messages_collection = db.messages
-cache_collection = db.cache
-sms_context_collection = db.sms_context
+# Initialize SQLAlchemy
+db = SQLAlchemy(app)
+
+# Define models
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    type = db.Column(db.String(20), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+class Cache(db.Model):
+    id = db.Column(db.String(255), primary_key=True)
+    response = db.Column(db.Text, nullable=False)
+    expires = db.Column(db.DateTime, nullable=False)
+
+class SMSContext(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    phone_number = db.Column(db.String(20), nullable=False)
+    role = db.Column(db.String(20), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+# Create tables
+with app.app_context():
+    db.create_all()
 
 # Initialize Twilio client
 twilio_client = Client(
@@ -90,25 +109,27 @@ def cache_response(func):
         # Only cache responses without context
         if not context:
             cache_key = f"response:{hash(user_message)}"
-            cached = cache_collection.find_one({"_id": cache_key})
+            cached = Cache.query.get(cache_key)
             
-            if cached and cached['expires'] > datetime.utcnow():
+            if cached and cached.expires > datetime.utcnow():
                 app.logger.info("Cache hit for message")
-                return cached['response']
+                return cached.response
             
             response = func(user_message, context)
             
             # Cache for 1 hour
-            cache_collection.update_one(
-                {"_id": cache_key},
-                {
-                    "$set": {
-                        "response": response,
-                        "expires": datetime.utcnow() + timedelta(hours=1)
-                    }
-                },
-                upsert=True
-            )
+            if cached:
+                cached.response = response
+                cached.expires = datetime.utcnow() + timedelta(hours=1)
+            else:
+                cached = Cache(
+                    id=cache_key,
+                    response=response,
+                    expires=datetime.utcnow() + timedelta(hours=1)
+                )
+                db.session.add(cached)
+            
+            db.session.commit()
             return response
         
         return func(user_message, context)
@@ -235,39 +256,39 @@ def send_sms(to_number, message):
 
 def get_sms_context(phone_number):
     """Get conversation context for a phone number"""
-    context = list(sms_context_collection.find(
-        {"phone_number": phone_number},
-        {"_id": 0, "role": 1, "content": 1}
-    ).sort("timestamp", -1).limit(5))
-    return context[::-1] if context else []
+    context = SMSContext.query.filter_by(phone_number=phone_number)\
+        .order_by(SMSContext.timestamp.desc())\
+        .limit(5)\
+        .all()
+    
+    return [{"role": msg.role, "content": msg.content} for msg in reversed(context)]
 
 def save_sms_context(phone_number, user_message, bot_response):
     """Save SMS conversation context"""
-    messages = [
-        {
-            "phone_number": phone_number,
-            "role": "user",
-            "content": user_message,
-            "timestamp": datetime.utcnow()
-        },
-        {
-            "phone_number": phone_number,
-            "role": "assistant",
-            "content": bot_response,
-            "timestamp": datetime.utcnow()
-        }
-    ]
-    sms_context_collection.insert_many(messages)
+    # Add new messages
+    user_msg = SMSContext(
+        phone_number=phone_number,
+        role="user",
+        content=user_message
+    )
+    bot_msg = SMSContext(
+        phone_number=phone_number,
+        role="assistant",
+        content=bot_response
+    )
+    db.session.add(user_msg)
+    db.session.add(bot_msg)
     
     # Keep only last 5 messages per phone number
-    all_messages = list(sms_context_collection.find(
-        {"phone_number": phone_number}
-    ).sort("timestamp", -1))
+    old_messages = SMSContext.query.filter_by(phone_number=phone_number)\
+        .order_by(SMSContext.timestamp.desc())\
+        .offset(5)\
+        .all()
     
-    if len(all_messages) > 5:
-        old_messages = all_messages[5:]
-        old_ids = [msg["_id"] for msg in old_messages]
-        sms_context_collection.delete_many({"_id": {"$in": old_ids}})
+    for msg in old_messages:
+        db.session.delete(msg)
+    
+    db.session.commit()
 
 @app.route('/sms', methods=['POST'])
 def handle_sms():
@@ -316,15 +337,24 @@ def home():
     return render_template('index.html')
 
 def cache_message(message_data):
-    """Add message to MongoDB"""
-    messages_collection.insert_one(message_data)
+    """Add message to database"""
+    message = Message(
+        content=message_data['content'],
+        type=message_data['type'],
+        timestamp=datetime.fromisoformat(message_data['timestamp']) if isinstance(message_data['timestamp'], str) else message_data['timestamp']
+    )
+    db.session.add(message)
     
     # Keep only last 5 messages
-    all_messages = list(messages_collection.find().sort("timestamp", -1))
-    if len(all_messages) > 5:
-        old_messages = all_messages[5:]
-        old_ids = [msg["_id"] for msg in old_messages]
-        messages_collection.delete_many({"_id": {"$in": old_ids}})
+    old_messages = Message.query\
+        .order_by(Message.timestamp.desc())\
+        .offset(5)\
+        .all()
+    
+    for msg in old_messages:
+        db.session.delete(msg)
+    
+    db.session.commit()
 
 @app.route('/clear-chat', methods=['POST'])
 @csrf.exempt  # Allow CSRF for this endpoint since it's just clearing cache
@@ -332,14 +362,16 @@ def clear_chat():
     """Clear all cached messages and responses"""
     try:
         # Clear message history
-        messages_collection.delete_many({})
+        Message.query.delete()
         
         # Clear response cache
-        cache_collection.delete_many({})
-            
+        Cache.query.delete()
+        
+        db.session.commit()
         app.logger.info("Chat history and caches cleared")
         return jsonify({'success': True})
     except Exception as e:
+        db.session.rollback()
         app.logger.error(f"Error clearing chat: {str(e)}")
         return jsonify({'error': 'Failed to clear chat history'}), 500
 
