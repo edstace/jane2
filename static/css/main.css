@@ -18,15 +18,19 @@ body {
 
 /* Header */
 .header {
+    padding: var(--spacing-lg);
     text-align: center;
-    padding: var(--spacing-xl) 0;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -140px);
-    width: 100%;
-    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: var(--background-color);
+}
+
+body.with-chat .header {
+    padding: var(--spacing-sm);
 }
 
 .header h1 {
@@ -47,15 +51,6 @@ body {
     opacity: 1;
 }
 
-body.with-chat .header {
-    position: fixed;
-    top: 0;
-    transform: translate(-50%, 0);
-    padding: var(--spacing-md) 0;
-    background: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
-}
-
 body.with-chat .header h1 {
     font-size: 32px;
 }
@@ -67,30 +62,40 @@ body.with-chat .header .subtitle {
 
 /* Layout Components */
 .chat-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 1rem;
+    width: 100%;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: opacity, transform;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     position: relative;
-    overflow: hidden;
+    z-index: 1;
+    /* Add padding to account for header and input */
+    padding: calc(var(--header-height) + 20px) 20px calc(var(--input-height) + 20px);
 }
 
 .chat-container.visible {
     opacity: 1;
     pointer-events: auto;
+    transform: translateY(0);
 }
 
 #chatBox {
     flex: 1;
+    min-height: 200px;
     overflow-y: auto;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: var(--spacing-lg);
+    background: transparent;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
     position: relative;
 }
 
@@ -105,11 +110,12 @@ body.with-chat #chatBox {
     margin: 0 auto;
     padding: var(--spacing-md);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: 2;
+    z-index: 10;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, 40px);
+    background: var(--background-color);
 }
 
 body.with-chat .input-section {
@@ -341,4 +347,17 @@ button:hover {
 
 .chat-box::-webkit-scrollbar-thumb:hover {
     background: rgba(0,0,0,0.15);
+}
+
+/* Add CSS variables for component heights */
+:root {
+    --header-height: 60px;  /* Adjust based on your header size */
+    --input-height: 80px;   /* Adjust based on your input size */
+    /* ... other existing variables ... */
+}
+
+/* Ensure proper spacing in chat mode */
+body.with-chat {
+    padding-top: var(--header-height);
+    padding-bottom: var(--input-height);
 }
