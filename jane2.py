@@ -180,10 +180,9 @@ def contains_disability_info(message):
 def get_job_coaching_advice(user_message, context=None):
     """Get job coaching advice from OpenAI API with context"""
     try:
-        # Create OpenAI client without proxies
+        # Create OpenAI client
         client = openai.OpenAI(
-            api_key=os.getenv('OPENAI_API_KEY'),
-            base_url="https://api.openai.com/v1"  # Explicitly set base URL
+            api_key=os.getenv('OPENAI_API_KEY')
         )
         
         # Build messages array with system message, context, and current message
