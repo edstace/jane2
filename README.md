@@ -9,64 +9,49 @@ JANE is an AI-powered job coaching assistant specializing in advising individual
 - Conversation memory and context awareness
 - Security checks for sensitive information
 - Rate limiting and CSRF protection
-- Redis caching
+- MongoDB persistence and caching
 
-## Deployment to DigitalOcean
+## Deployment to DigitalOcean App Platform
 
-1. Create a new Droplet on DigitalOcean
-2. Install required packages:
-```bash
-sudo apt update
-sudo apt install python3-pip python3-venv redis-server nginx
-```
+1. Create MongoDB Database:
+- Sign up for a free MongoDB Atlas account
+- Create a new cluster
+- Create a database user
+- Get your connection string
+- Create a database named 'jane_db'
 
-3. Clone the repository:
-```bash
-git clone [your-repo-url]
-cd [repo-name]
-```
+2. Deploy to DigitalOcean:
+- Go to https://cloud.digitalocean.com/apps
+- Click "Create App"
+- Connect your GitHub repository
+- Select the main branch
+- Select "Python" environment
+- Configure Environment Variables:
+  ```
+  OPENAI_API_KEY=[your OpenAI key]
+  FLASK_ENV=production
+  SECRET_KEY=[generate a random string]
+  MONGODB_URI=[your MongoDB connection string]
+  TWILIO_ACCOUNT_SID=AC421d20ff98444b02f243e3a405f650db
+  TWILIO_AUTH_TOKEN=c0c23d99054be6704a90438be7feb917
+  TWILIO_PHONE_NUMBER=+18504981386
+  ```
+- Under "Run Command" enter:
+  ```
+  gunicorn wsgi:app --workers 4 --threads 2 --timeout 60
+  ```
 
-4. Create and activate virtual environment:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+3. Configure Resources:
+- Choose "Basic" plan ($5/month)
+- Enable auto-deploy if desired
+- Select region closest to your users
 
-5. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+4. Configure Domain:
+- Add your domain in the app settings
+- Update DNS records as instructed
+- Wait for SSL certificate to be issued
 
-6. Create production environment file:
-```bash
-cp .env.example .env
-# Edit .env with your production settings:
-# - Set FLASK_ENV=production
-# - Add your OpenAI API key
-# - Add your Twilio credentials
-# - Configure Redis settings
-```
-
-7. Configure Nginx:
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-}
-```
-
-8. Start the application:
-```bash
-gunicorn wsgi:app --bind 0.0.0.0:8000 --workers 4 --threads 2 --timeout 60
-```
-
-9. Configure Twilio webhook:
+5. Configure Twilio webhook:
 - Go to Twilio Console
 - Navigate to Phone Numbers → Manage → Active numbers
 - Click on your number
@@ -90,10 +75,8 @@ FLASK_ENV=production
 RATELIMIT_DEFAULT=100 per day
 RATELIMIT_STORAGE_URL=redis://localhost:6379/0
 
-# Redis Configuration
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_DB=0
+# MongoDB Configuration
+MONGODB_URI=your_mongodb_connection_string
 CACHE_TTL=3600
 
 # Twilio Configuration
@@ -109,10 +92,10 @@ TWILIO_PHONE_NUMBER=your_twilio_phone_number
 pip install -r requirements.txt
 ```
 
-2. Start Redis server:
-```bash
-redis-server
-```
+2. Set up MongoDB:
+- Create a free MongoDB Atlas account
+- Create a cluster and database
+- Add your connection string to .env file
 
 3. Run the development server:
 ```bash
@@ -123,6 +106,7 @@ python jane2.py
 
 - Never commit `.env` file to version control
 - Use HTTPS in production
-- Keep Redis server secured and not publicly accessible
+- Use strong MongoDB Atlas passwords
+- Enable IP whitelist in MongoDB Atlas
 - Regularly update dependencies
 - Monitor logs for suspicious activities

@@ -6,14 +6,14 @@ from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
+from pymongo import MongoClient
+from datetime import datetime, timedelta
 import openai
 import re
 import os
 import logging
 from logging.handlers import RotatingFileHandler
 import json
-from datetime import datetime
-import redis
 from functools import wraps
 
 # Load environment variables
@@ -23,13 +23,12 @@ load_dotenv()
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 
-# Initialize Redis
-redis_client = redis.Redis(
-    host=os.getenv('REDIS_HOST', 'localhost'),
-    port=int(os.getenv('REDIS_PORT', 6379)),
-    db=0,
-    decode_responses=True
-)
+# Initialize MongoDB
+mongo_client = MongoClient(os.getenv('MONGODB_URI'))
+db = mongo_client.jane_db
+messages_collection = db.messages
+cache_collection = db.cache
+sms_context_collection = db.sms_context
 
 # Initialize Twilio client
 twilio_client = Client(
@@ -48,7 +47,7 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter with more lenient limits
+# Initialize rate limiter
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
@@ -88,17 +87,24 @@ def cache_response(func):
         # Only cache responses without context
         if not context:
             cache_key = f"response:{hash(user_message)}"
-            cached_response = redis_client.get(cache_key)
+            cached = cache_collection.find_one({"_id": cache_key})
             
-            if cached_response:
+            if cached and cached['expires'] > datetime.utcnow():
                 app.logger.info("Cache hit for message")
-                return json.loads(cached_response)
+                return cached['response']
             
             response = func(user_message, context)
-            redis_client.setex(
-                cache_key,
-                int(os.getenv('CACHE_TTL', 3600)),  # Cache for 1 hour by default
-                json.dumps(response)
+            
+            # Cache for 1 hour
+            cache_collection.update_one(
+                {"_id": cache_key},
+                {
+                    "$set": {
+                        "response": response,
+                        "expires": datetime.utcnow() + timedelta(hours=1)
+                    }
+                },
+                upsert=True
             )
             return response
         
@@ -223,20 +229,39 @@ def send_sms(to_number, message):
 
 def get_sms_context(phone_number):
     """Get conversation context for a phone number"""
-    context_key = f"sms_context:{phone_number}"
-    context = redis_client.lrange(context_key, 0, 4)  # Get last 5 messages
-    return [json.loads(msg) for msg in context] if context else []
+    context = list(sms_context_collection.find(
+        {"phone_number": phone_number},
+        {"_id": 0, "role": 1, "content": 1}
+    ).sort("timestamp", -1).limit(5))
+    return context[::-1] if context else []
 
 def save_sms_context(phone_number, user_message, bot_response):
     """Save SMS conversation context"""
-    context_key = f"sms_context:{phone_number}"
     messages = [
-        {'role': 'user', 'content': user_message},
-        {'role': 'assistant', 'content': bot_response}
+        {
+            "phone_number": phone_number,
+            "role": "user",
+            "content": user_message,
+            "timestamp": datetime.utcnow()
+        },
+        {
+            "phone_number": phone_number,
+            "role": "assistant",
+            "content": bot_response,
+            "timestamp": datetime.utcnow()
+        }
     ]
-    for msg in messages:
-        redis_client.lpush(context_key, json.dumps(msg))
-    redis_client.ltrim(context_key, 0, 4)  # Keep last 5 messages
+    sms_context_collection.insert_many(messages)
+    
+    # Keep only last 5 messages per phone number
+    all_messages = list(sms_context_collection.find(
+        {"phone_number": phone_number}
+    ).sort("timestamp", -1))
+    
+    if len(all_messages) > 5:
+        old_messages = all_messages[5:]
+        old_ids = [msg["_id"] for msg in old_messages]
+        sms_context_collection.delete_many({"_id": {"$in": old_ids}})
 
 @app.route('/sms', methods=['POST'])
 def handle_sms():
@@ -284,26 +309,27 @@ def home():
     """Serve home page"""
     return render_template('index.html')
 
-# Message cache in Redis
-MESSAGE_CACHE_KEY = "chat_messages"
-
 def cache_message(message_data):
-    """Add message to Redis cache"""
-    redis_client.lpush(MESSAGE_CACHE_KEY, json.dumps(message_data))
-    # Keep only last 5 messages for context
-    redis_client.ltrim(MESSAGE_CACHE_KEY, 0, 4)
+    """Add message to MongoDB"""
+    messages_collection.insert_one(message_data)
+    
+    # Keep only last 5 messages
+    all_messages = list(messages_collection.find().sort("timestamp", -1))
+    if len(all_messages) > 5:
+        old_messages = all_messages[5:]
+        old_ids = [msg["_id"] for msg in old_messages]
+        messages_collection.delete_many({"_id": {"$in": old_ids}})
 
 @app.route('/clear-chat', methods=['POST'])
 @csrf.exempt  # Allow CSRF for this endpoint since it's just clearing cache
 def clear_chat():
-    """Clear all cached messages and responses from Redis"""
+    """Clear all cached messages and responses"""
     try:
         # Clear message history
-        redis_client.delete(MESSAGE_CACHE_KEY)
+        messages_collection.delete_many({})
         
-        # Clear all response caches (keys starting with "response:")
-        for key in redis_client.scan_iter("response:*"):
-            redis_client.delete(key)
+        # Clear response cache
+        cache_collection.delete_many({})
             
         app.logger.info("Chat history and caches cleared")
         return jsonify({'success': True})
