@@ -23,20 +23,24 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
-# Convert postgres:// to postgresql+psycopg:// for SQLAlchemy
+# Convert postgres:// to postgresql+asyncpg:// for SQLAlchemy
 db_url = os.getenv('DATABASE_URL')
 if db_url.startswith('postgres://'):
-    db_url = db_url.replace('postgres://', 'postgresql+psycopg://', 1)
+    db_url = db_url.replace('postgres://', 'postgresql+asyncpg://', 1)
+elif db_url.startswith('postgresql://'):
+    db_url = db_url.replace('postgresql://', 'postgresql+asyncpg://', 1)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Initialize SQLAlchemy with async engine
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'pool_pre_ping': True,
     'pool_size': 5,
     'max_overflow': 10,
     'pool_timeout': 30,
+    'echo': True,  # Log SQL queries for debugging
+    'isolation_level': 'READ COMMITTED'
 }
+
 db = SQLAlchemy(app)
 
 # Define models
@@ -80,7 +84,7 @@ Talisman(app, content_security_policy={
 csrf = CSRFProtect(app)
 
 # Initialize rate limiter with PostgreSQL storage
-rate_limit_url = db_url.replace('postgresql+psycopg://', 'postgresql://', 1)
+rate_limit_url = db_url.replace('postgresql+asyncpg://', 'postgresql://', 1)
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
