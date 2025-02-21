@@ -3,23 +3,46 @@
 
 body {
     font-family: var(--font-family);
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 30px 20px;
+    margin: 0;
+    padding: 0;
     background-color: var(--background-color);
     color: var(--text-primary);
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Welcome Screen */
+.welcome-container {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 30vh;
+}
+
+.welcome-text {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 60px 0 0;
+    color: var(--text-primary);
 }
 
 /* Layout Components */
 .chat-container {
-    background-color: var(--container-bg);
-    border-radius: var(--border-radius-xl);
-    padding: 25px;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    min-height: 600px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    flex-grow: 1;
+    display: none;
+}
+
+.chat-container.visible {
     display: flex;
     flex-direction: column;
 }
@@ -126,15 +149,39 @@ body {
 }
 
 /* Input Area */
+/* Input Area */
+.input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(180deg, transparent, var(--background-color) 40%);
+}
+
 .input-container {
+    max-width: 800px;
+    margin: 0 auto;
     display: flex;
     gap: var(--spacing-xs);
     padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) var(--spacing-lg);
     background: white;
     border-radius: var(--border-radius-xxl);
-    box-shadow: var(--shadow-sm);
-    margin: 0 var(--spacing-xs);
+    box-shadow: var(--shadow-lg);
     align-items: center;
+    border: 1px solid var(--border-color);
+}
+
+.input-container.with-chat {
+    position: relative;
+    margin: var(--spacing-md) auto;
+}
+
+.disclaimer {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-top: 8px;
 }
 
 input[type="text"] {

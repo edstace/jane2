@@ -46,26 +46,37 @@ class App {
     setupChatVisibility() {
         // Hide chat container initially
         const chatContainer = document.querySelector('.chat-container');
-        const inputContainer = document.querySelector('.input-container');
-        chatContainer.style.display = 'none';
+        const welcomeContainer = document.querySelector('.welcome-container');
+        const inputArea = document.querySelector('.input-area');
         
         // Show if there are existing messages
         if (document.querySelector('.message')) {
+            welcomeContainer.style.display = 'none';
             this.showChatContainer();
         }
     }
 
     showChatContainer() {
         const chatContainer = document.querySelector('.chat-container');
-        const inputContainer = document.querySelector('.input-container');
+        const welcomeContainer = document.querySelector('.welcome-container');
+        const inputArea = document.querySelector('.input-area');
+        const inputContainer = inputArea.querySelector('.input-container');
         
-        if (chatContainer.style.display === 'none') {
+        // Fade out welcome screen
+        welcomeContainer.style.opacity = '0';
+        welcomeContainer.style.transition = 'opacity 0.3s ease';
+        
+        setTimeout(() => {
+            welcomeContainer.style.display = 'none';
+            
+            // Show chat container
             chatContainer.style.display = 'flex';
             setTimeout(() => {
                 chatContainer.classList.add('visible');
                 inputContainer.classList.add('with-chat');
+                inputArea.classList.add('with-chat');
             }, 50);
-        }
+        }, 300);
     }
 }
 
