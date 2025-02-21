@@ -176,18 +176,19 @@ export class UI {
     }
 
     showChatContainer() {
-        // Compact the header with animation
-        this.header.classList.add('animate-header-compact', 'compact');
-        this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
-        
-        // Show chat container with animation
-        this.chatContainer.classList.add('animate-container-in', 'visible');
-        
-        // Move input section to bottom and hide example prompts
-        requestAnimationFrame(() => {
-            this.inputSection.classList.add('with-chat');
-            this.examplePrompts.classList.add('hidden');
-        });
+        if (!this.chatContainer.classList.contains('visible')) {
+            // Compact the header with animation
+            this.header.classList.add('animate-header-compact', 'compact');
+            this.header.querySelector('.subtitle').classList.add('animate-subtitle-fade');
+            
+            // Show chat container with animation
+            this.chatContainer.style.display = 'flex';
+            requestAnimationFrame(() => {
+                this.chatContainer.classList.add('animate-container-in', 'visible');
+                this.inputSection.classList.add('with-chat');
+                this.examplePrompts.classList.add('hidden');
+            });
+        }
     }
 
     showToast(message) {

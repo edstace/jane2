@@ -48,9 +48,15 @@ export class Chat {
             if (!confirmed) {
                 // Show welcome message before first user message
                 if (this.history.getMessages().length === 0) {
-                    ui.appendMessage(
+                    const welcomeId = this.history.addMessage(
                         'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
                         'bot-message'
+                    ).id;
+                    ui.appendMessage(
+                        'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
+                        'bot-message',
+                        true,
+                        welcomeId
                     );
                 }
                 
@@ -82,6 +88,10 @@ export class Chat {
             if (response.response) {
                 const botMsgId = this.history.addMessage(response.response, 'bot-message').id;
                 ui.appendMessage(response.response, 'bot-message', true, botMsgId);
+                // Show chat container if not already visible
+                if (!document.querySelector('.chat-container').classList.contains('visible')) {
+                    ui.showChatContainer();
+                }
             }
             
             // Save updated history
