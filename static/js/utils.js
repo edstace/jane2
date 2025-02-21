@@ -3,13 +3,27 @@
  */
 
 export const formatMessage = (message) => {
-    return message
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
-        .replace(/\n\d+\./g, '\n$&') // Keep numbered lists clean
-        .split('\n\n')
-        .map(para => `<p>${para}</p>`)
-        .join('')
-        .trim();
+    if (!message) {
+        console.error('Empty message received in formatMessage');
+        return '';
+    }
+    console.log('Formatting message:', message);
+    
+    // First handle bold text
+    let formatted = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Split into paragraphs (handling both \n\n and single \n)
+    const paragraphs = formatted
+        .split(/\n{2,}/)
+        .flatMap(block => block.split('\n'))
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+    
+    // Wrap each paragraph in <p> tags
+    formatted = paragraphs.map(para => `<p>${para}</p>`).join('');
+    
+    console.log('Formatted message:', formatted);
+    return formatted;
 };
 
 export const scrollToBottom = (element, smooth = true) => {
