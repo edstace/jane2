@@ -66,6 +66,8 @@ class SMSContext(db.Model):
     role = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    awaiting_confirmation = db.Column(db.Boolean, default=False)
+    original_message = db.Column(db.Text)
 
 # Create tables
 with app.app_context():
@@ -310,6 +312,26 @@ def save_sms_context(phone_number, user_message, bot_response):
     
     db.session.commit()
 
+def check_sms_confirmation(phone_number):
+    """Check if user has a pending confirmation"""
+    context = SMSContext.query.filter_by(
+        phone_number=phone_number,
+        awaiting_confirmation=True
+    ).first()
+    return context
+
+def save_pending_sms(phone_number, message):
+    """Save message pending confirmation"""
+    context = SMSContext(
+        phone_number=phone_number,
+        role="user",
+        content="Awaiting confirmation",
+        awaiting_confirmation=True,
+        original_message=message
+    )
+    db.session.add(context)
+    db.session.commit()
+
 @app.route('/sms', methods=['POST'])
 @csrf.exempt  # Exempt Twilio webhooks from CSRF protection
 def handle_sms():
@@ -317,16 +339,46 @@ def handle_sms():
     try:
         # Get incoming message details
         from_number = request.values.get('From', '')
-        message_body = request.values.get('Body', '').strip()
+        message_body = request.values.get('Body', '').strip().lower()
         
         if not message_body:
             return str(MessagingResponse())
+
+        # Check for pending confirmation
+        pending = check_sms_confirmation(from_number)
+        if pending:
+            resp = MessagingResponse()
+            if message_body in ['y', 'yes']:
+                # Process the original message
+                context = get_sms_context(from_number)
+                response_text = get_job_coaching_advice(pending.original_message, context)
+                save_sms_context(from_number, pending.original_message, response_text)
+                
+                # Clear pending confirmation
+                pending.awaiting_confirmation = False
+                db.session.commit()
+                
+                resp.message(response_text)
+            elif message_body in ['n', 'no']:
+                # Clear pending confirmation
+                pending.awaiting_confirmation = False
+                db.session.commit()
+                
+                resp.message("Message cancelled. How else can I help you?")
+            else:
+                resp.message("Please reply with 'y' for yes or 'n' for no to confirm sending your message.")
+            return str(resp)
         
         # Check for sensitive/harmful content
         if contains_sensitive_info(message_body):
-            response_text = 'Please avoid sharing sensitive personal information.'
+            response_text = 'Please avoid sharing sensitive personal information. This information will not be processed for your privacy and security.'
         elif contains_harmful_interactions(message_body):
-            response_text = 'I noticed concerning content in your message. Please seek professional help if needed.'
+            response_text = 'I noticed concerning content in your message. For your safety, this message will not be processed. Please seek professional help if needed.'
+        elif contains_disability_info(message_body):
+            save_pending_sms(from_number, message_body)
+            response_text = ('Your message includes disability-related information. '
+                           'Please ensure you are comfortable sharing these details. '
+                           'Reply "y" to confirm sending this information, or "n" to cancel.')
         else:
             # Get context and generate response
             context = get_sms_context(from_number)
