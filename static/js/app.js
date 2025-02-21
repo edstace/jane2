@@ -6,31 +6,65 @@ class App {
         this.ui = ui;
         this.chat = chat;
         this.init();
-        this.showSMSPopup();
+        this.showToast();
+        this.setupChatVisibility();
     }
 
     init() {
         // Add button click handlers
         document.querySelector('button[onclick="sendMessage()"]')
-            .onclick = () => this.chat.sendMessage();
+            .onclick = () => {
+                this.chat.sendMessage();
+                this.showChatContainer();
+            };
         
         document.querySelector('button[onclick="clearChat()"]')
             .onclick = () => this.chat.clearChat();
     }
 
-    showSMSPopup() {
-        // Show SMS popup if not shown before
-        if (!localStorage.getItem('smsPopupShown')) {
-            const popup = document.createElement('div');
-            popup.className = 'sms-popup';
-            popup.innerHTML = `
-                <div class="sms-popup-content">
-                    <h3>Text JANE</h3>
-                    <p>You can also text JANE at <strong>850-498-1386</strong></p>
-                    <button onclick="this.parentElement.parentElement.remove(); localStorage.setItem('smsPopupShown', 'true')">Got it!</button>
-                </div>
+    showToast() {
+        // Show toast notification if not shown before
+        if (!localStorage.getItem('smsToastShown')) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <p>Text JANE at <strong>850-498-1386</strong></p>
+                <button onclick="this.parentElement.remove(); localStorage.setItem('smsToastShown', 'true')">&times;</button>
             `;
-            document.body.appendChild(popup);
+            document.body.appendChild(toast);
+            
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                    localStorage.setItem('smsToastShown', 'true');
+                }
+            }, 10000);
+        }
+    }
+
+    setupChatVisibility() {
+        // Hide chat container initially
+        const chatContainer = document.querySelector('.chat-container');
+        const inputContainer = document.querySelector('.input-container');
+        chatContainer.style.display = 'none';
+        
+        // Show if there are existing messages
+        if (document.querySelector('.message')) {
+            this.showChatContainer();
+        }
+    }
+
+    showChatContainer() {
+        const chatContainer = document.querySelector('.chat-container');
+        const inputContainer = document.querySelector('.input-container');
+        
+        if (chatContainer.style.display === 'none') {
+            chatContainer.style.display = 'flex';
+            setTimeout(() => {
+                chatContainer.classList.add('visible');
+                inputContainer.classList.add('with-chat');
+            }, 50);
         }
     }
 }
