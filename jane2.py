@@ -24,12 +24,12 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
-# Configure SQLAlchemy with psycopg
+# Configure SQLAlchemy with psycopg2
 db_url = os.getenv('DATABASE_URL')
 if db_url.startswith('postgres://'):
-    db_url = db_url.replace('postgres://', 'postgresql+psycopg://', 1)
+    db_url = db_url.replace('postgres://', 'postgresql://', 1)
 elif db_url.startswith('postgresql://'):
-    db_url = db_url.replace('postgresql://', 'postgresql+psycopg://', 1)
+    db_url = db_url
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -89,7 +89,7 @@ Talisman(app, content_security_policy={
 csrf = CSRFProtect(app)
 
 # Initialize rate limiter with PostgreSQL storage
-rate_limit_url = db_url.replace('postgresql+psycopg://', 'postgresql://', 1)
+rate_limit_url = db_url
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
