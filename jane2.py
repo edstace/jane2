@@ -23,8 +23,12 @@ load_dotenv()
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 
-# Initialize MongoDB
-mongo_client = MongoClient(os.getenv('MONGODB_URI'))
+# Initialize MongoDB with SSL configuration
+mongo_client = MongoClient(
+    os.getenv('MONGODB_URI'),
+    tls=True,
+    tlsAllowInvalidCertificates=True
+)
 db = mongo_client.jane_db
 messages_collection = db.messages
 cache_collection = db.cache
@@ -47,11 +51,15 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter
+# Initialize rate limiter with SSL configuration
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     storage_uri=os.getenv('MONGODB_URI'),
+    storage_options={
+        "tls": True,
+        "tlsAllowInvalidCertificates": True
+    },
     default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')]
 )
 
