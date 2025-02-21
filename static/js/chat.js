@@ -8,14 +8,6 @@ export class Chat {
         this.loading = false;
         this.history = new MessageHistory(20); // Keep last 20 messages for context
         this.setupEventListeners();
-        this.showWelcomeMessage();
-    }
-
-    showWelcomeMessage() {
-        ui.appendMessage(
-            'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
-            'bot-message'
-        );
     }
 
     saveHistory() {
@@ -54,6 +46,14 @@ export class Chat {
         
         try {
             if (!confirmed) {
+                // Show welcome message before first user message
+                if (this.history.getMessages().length === 0) {
+                    ui.appendMessage(
+                        'Hello! I\'m JANE, your Job Assistance and Navigation Expert. How can I help you today?',
+                        'bot-message'
+                    );
+                }
+                
                 const msgId = this.history.addMessage(message, 'user-message').id;
                 ui.appendMessage(message, 'user-message', true, msgId);
                 this.pendingMessage = message;
@@ -146,7 +146,6 @@ export class Chat {
             this.history.clear();
             localStorage.removeItem('chat_history');
             ui.clearChat();
-            this.showWelcomeMessage();
         } catch (error) {
             console.error('Error clearing chat:', error);
             ui.showError('Failed to clear chat history');

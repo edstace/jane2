@@ -112,9 +112,9 @@ body {
 
 /* Input Area */
 .input-section {
-    position: fixed;
+    position: absolute;
     left: 50%;
-    top: 50%;
+    top: 45%;
     transform: translate(-50%, -50%);
     width: 100%;
     max-width: 800px;
@@ -127,9 +127,7 @@ body {
 }
 
 .input-section.with-chat {
-    position: relative;
-    top: auto;
-    left: auto;
+    position: static;
     transform: none;
     margin: 0 auto var(--spacing-lg);
 }
@@ -149,10 +147,11 @@ body {
 
 .example-prompts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
     width: 100%;
     max-width: 800px;
+    padding: 0 var(--spacing-lg);
     transition: opacity 0.3s ease;
 }
 
