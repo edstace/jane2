@@ -3,7 +3,6 @@ from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask_limiter.storage import MongoDBStorage
 from dotenv import load_dotenv
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
@@ -48,12 +47,11 @@ Talisman(app, content_security_policy={
 })
 csrf = CSRFProtect(app)
 
-# Initialize rate limiter with MongoDB storage
+# Initialize rate limiter
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     storage_uri=os.getenv('MONGODB_URI'),
-    storage_options={"collection": "rate_limits"},
     default_limits=[os.getenv('RATELIMIT_DEFAULT', '1000 per hour')]
 )
 
