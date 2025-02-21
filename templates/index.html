@@ -15,21 +15,25 @@
     </div>
 
     <div class="chat-container" id="chatContainer">
-        <div class="chat-box" id="chatBox">
-            <div class="scroll-indicator" style="display: none;">
-                Scroll up to load more messages
-            </div>
-        </div>
+        <div class="chat-box" id="chatBox"></div>
     </div>
 
-    <div class="input-container">
-        <input type="text" 
-            id="userInput" 
-            placeholder="Ask anything" 
-            maxlength="500">
-        <span class="char-counter">0/500</span>
-        <button onclick="sendMessage()">Send</button>
-        <button class="clear-chat" onclick="clearChat()" title="Clear chat history (Cmd/Ctrl + K)">Clear Chat</button>
+    <div class="input-section">
+        <div class="input-container">
+            <input type="text" 
+                id="userInput" 
+                placeholder="Ask anything" 
+                maxlength="500">
+            <span class="char-counter">0/500</span>
+            <button onclick="sendMessage()">Send</button>
+            <button class="clear-chat" onclick="clearChat()" title="Clear chat history (Cmd/Ctrl + K)">Clear Chat</button>
+        </div>
+        <div class="example-prompts">
+            <button class="example-prompt" onclick="setPrompt('Help me write a resume')">Help me write a resume</button>
+            <button class="example-prompt" onclick="setPrompt('How to prepare for an interview')">How to prepare for an interview</button>
+            <button class="example-prompt" onclick="setPrompt('Find jobs in my area')">Find jobs in my area</button>
+            <button class="example-prompt" onclick="setPrompt('Career advice for my field')">Career advice for my field</button>
+        </div>
     </div>
     <script type="module" src="/static/js/app.js"></script>
 </body>

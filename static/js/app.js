@@ -7,7 +7,6 @@ class App {
         this.chat = chat;
         this.init();
         this.showToast();
-        this.setupChatVisibility();
     }
 
     init() {
@@ -15,11 +14,16 @@ class App {
         document.querySelector('button[onclick="sendMessage()"]')
             .onclick = () => {
                 this.chat.sendMessage();
-                this.showChatContainer();
             };
         
         document.querySelector('button[onclick="clearChat()"]')
             .onclick = () => this.chat.clearChat();
+
+        // Add example prompt handlers
+        window.setPrompt = (text) => {
+            this.ui.setPrompt(text);
+            this.chat.sendMessage();
+        };
     }
 
     showToast() {
@@ -43,28 +47,6 @@ class App {
         }
     }
 
-    setupChatVisibility() {
-        // Hide chat container initially
-        const chatContainer = document.querySelector('.chat-container');
-        const inputContainer = document.querySelector('.input-container');
-        
-        // Show if there are existing messages
-        if (document.querySelector('.message')) {
-            this.showChatContainer();
-        }
-    }
-
-    showChatContainer() {
-        const chatContainer = document.querySelector('.chat-container');
-        const inputContainer = document.querySelector('.input-container');
-        
-        // Show chat container
-        chatContainer.style.display = 'flex';
-        setTimeout(() => {
-            chatContainer.classList.add('visible');
-            inputContainer.classList.add('with-chat');
-        }, 50);
-    }
 }
 
 // Initialize app when DOM is ready

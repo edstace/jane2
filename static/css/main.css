@@ -111,33 +111,72 @@ body {
 }
 
 /* Input Area */
-.input-container {
+.input-section {
     position: fixed;
-    bottom: 20px;
     left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 40px);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
     max-width: 800px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xl);
+    padding: 0 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-section.with-chat {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.input-container {
+    width: 100%;
+    display: flex;
     gap: var(--spacing-xs);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
     background: white;
     border-radius: var(--border-radius-xxl);
     box-shadow: var(--shadow-lg);
     align-items: center;
     border: 1px solid var(--border-color);
     z-index: 100;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.input-container.with-chat {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    width: auto;
-    margin: 0 auto var(--spacing-lg);
+.example-prompts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 800px;
+    transition: opacity 0.3s ease;
+}
+
+.example-prompts.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.example-prompt {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    color: var(--text-primary);
+    text-align: left;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
+}
+
+.example-prompt:hover {
+    background: rgba(0,0,0,0.02);
+    border-color: var(--primary-color);
 }
 
 input[type="text"] {

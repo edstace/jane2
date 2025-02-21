@@ -7,10 +7,17 @@ export class UI {
         this.header = document.getElementById('header');
         this.userInput = document.getElementById('userInput');
         this.charCounter = document.querySelector('.char-counter');
-        this.inputContainer = document.querySelector('.input-container');
+        this.inputSection = document.querySelector('.input-section');
+        this.examplePrompts = document.querySelector('.example-prompts');
         
         this.setupEventListeners();
         this.toastTimeout = null;
+    }
+
+    setPrompt(text) {
+        this.userInput.value = text;
+        this.updateCharCount();
+        this.userInput.focus();
     }
 
     setupEventListeners() {
@@ -176,9 +183,10 @@ export class UI {
         // Show chat container with animation
         this.chatContainer.classList.add('animate-container-in', 'visible');
         
-        // Move input container inline with smooth transition
+        // Move input section to bottom and hide example prompts
         requestAnimationFrame(() => {
-            this.inputContainer.classList.add('with-chat');
+            this.inputSection.classList.add('with-chat');
+            this.examplePrompts.classList.add('hidden');
         });
     }
 
