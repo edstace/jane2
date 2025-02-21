@@ -28,8 +28,7 @@ mongo_client = MongoClient(
     os.getenv('MONGODB_URI'),
     tls=True,
     tlsAllowInvalidCertificates=True,
-    tlsInsecure=True,
-    ssl_cert_reqs='CERT_NONE'
+    tlsInsecure=True
 )
 db = mongo_client.jane_db
 messages_collection = db.messages
