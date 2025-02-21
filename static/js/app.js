@@ -10,18 +10,14 @@ class App {
     }
 
     init() {
-        // Add button click handlers
-        document.querySelector('button[onclick="sendMessage()"]')
-            .onclick = () => {
-                this.chat.sendMessage();
-            };
-        
-        document.querySelector('button[onclick="clearChat()"]')
-            .onclick = () => this.chat.clearChat();
+        // Add global handlers for buttons
+        window.sendMessage = () => this.chat.sendMessage();
+        window.clearChat = () => this.chat.clearChat();
 
         // Add example prompt handlers
         window.setPrompt = (text) => {
-            this.ui.setPrompt(text);
+            ui.setInputValue(text);
+            ui.userInput.focus();
             this.chat.sendMessage();
         };
     }
