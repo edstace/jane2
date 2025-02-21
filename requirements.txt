@@ -1,7 +1,7 @@
 flask==3.0.2
 flask-talisman==1.1.0
 flask-wtf==1.2.1
-flask-limiter==3.5.0
+flask-limiter[mongodb]==3.5.0
 python-dotenv==1.0.1
 openai==1.12.0
 pymongo==4.6.1
