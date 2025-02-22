@@ -459,91 +459,178 @@ body.with-chat {
         --spacing-xl: 24px;
         --font-size-small: 13px;
         --font-size-base: 15px;
+        --header-height: 50px;
+        --input-height: 60px;
+    }
+
+    .header {
+        padding: var(--spacing-sm) var(--spacing-md);
     }
 
     .header h1 {
-        font-size: 28px;
+        font-size: 24px;
+        margin-bottom: 2px;
     }
 
     body.with-chat .header h1 {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     .subtitle {
-        font-size: 14px;
+        font-size: 13px;
+        margin-top: 4px;
     }
 
     .chat-container {
-        padding: 60px 12px 80px;
+        padding: var(--spacing-sm);
+        height: calc(100vh - var(--header-height) - var(--input-height) - env(safe-area-inset-bottom, 0px));
     }
 
-    /* Make messages wider on mobile */
+    #chatBox {
+        padding: var(--spacing-sm);
+        margin-bottom: calc(var(--input-height) + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Optimize messages for mobile */
     .message {
-        max-width: 90%;
+        max-width: 85%;
         padding: var(--spacing-md);
+        margin: var(--spacing-xs) 0;
         font-size: var(--font-size-base);
+        line-height: 1.4;
     }
 
-    /* Adjust input section for touch */
+    .user-message {
+        margin-right: 4px;
+    }
+
+    .bot-message {
+        margin-left: 4px;
+    }
+
+    /* Enhanced input section for mobile */
     .input-section {
         padding: var(--spacing-sm);
+        background: var(--background-color);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 1px solid var(--border-color);
     }
 
     .input-container {
-        padding: var(--spacing-xs);
+        padding: 6px;
+        gap: 6px;
     }
 
     input[type="text"] {
-        padding: 12px var(--spacing-md);
+        padding: 8px var(--spacing-md);
         font-size: 16px; /* Prevent iOS zoom */
+        height: 40px;
+        border-radius: var(--border-radius-lg);
     }
 
-    /* Make buttons more touch-friendly */
+    /* Improved touch targets */
     button {
-        min-height: 44px;
-        padding: var(--spacing-sm) var(--spacing-lg);
+        min-height: 40px;
+        min-width: 40px;
+        padding: 8px 16px;
+        border-radius: var(--border-radius-lg);
+        touch-action: manipulation;
     }
 
-    /* Adjust example prompts for touch */
+    .clear-chat {
+        padding: 8px;
+        min-width: auto;
+        font-size: 12px;
+    }
+
+    /* Enhanced example prompts for mobile */
     .example-prompts {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-xs) var(--spacing-sm);
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
-        gap: var(--spacing-sm);
+        gap: 8px;
+        margin-top: 8px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
     }
 
     .example-prompt {
         scroll-snap-align: start;
-        padding: var(--spacing-sm) var(--spacing-md);
-        min-height: 40px;
+        padding: 8px 12px;
+        height: 36px;
         white-space: nowrap;
         flex-shrink: 0;
+        font-size: 13px;
+        touch-action: manipulation;
     }
 
-    /* Make copy button more touch-friendly */
+    .prompt-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Optimized copy button for touch */
     .copy-button {
-        padding: 8px 12px;
-        opacity: 0.8; /* Always show slightly on mobile */
+        padding: 6px 10px;
+        opacity: 0;
+        touch-action: manipulation;
+        font-size: 12px;
     }
 
-    .message:active .copy-button {
+    .message:active .copy-button,
+    .message:focus .copy-button {
         opacity: 1;
     }
 
-    /* Improve scrolling */
+    /* Enhanced scrolling experience */
     #chatBox {
         -webkit-overflow-scrolling: touch;
-        scroll-padding-bottom: 100px;
+        scroll-padding-bottom: calc(var(--input-height) + 20px);
+        overscroll-behavior-y: contain;
     }
 
-    /* Add safe area support */
+    /* Comprehensive safe area support */
     @supports(padding: max(0px)) {
-        .input-section {
-            padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
+        body {
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        .header {
             padding-left: max(var(--spacing-md), env(safe-area-inset-left));
             padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+            width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
         }
+
+        .input-section {
+            padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
+            padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+            padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
+            width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+        }
+
+        .chat-container {
+            width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+            margin-left: env(safe-area-inset-left);
+            margin-right: env(safe-area-inset-right);
+        }
+    }
+
+    /* Prevent rubber-banding on iOS */
+    body {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .chat-container.visible {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 }
 
@@ -562,21 +649,46 @@ body.with-chat {
     }
 }
 
-/* Handle landscape mode */
+/* Enhanced landscape mode handling */
 @media (max-width: 768px) and (orientation: landscape) {
+    :root {
+        --header-height: 40px;
+        --input-height: 50px;
+    }
+
     .header {
-        padding: var(--spacing-xs) 0;
+        padding: 4px var(--spacing-md);
     }
 
     .header h1 {
-        font-size: 24px;
+        font-size: 20px;
+        margin-bottom: 0;
     }
 
     .subtitle {
-        font-size: 13px;
+        font-size: 12px;
+        margin-top: 2px;
     }
 
     .chat-container {
-        padding-top: 50px;
+        height: calc(100vh - var(--header-height) - var(--input-height));
+        padding-top: var(--header-height);
+    }
+
+    .input-section {
+        padding: 4px var(--spacing-sm);
+    }
+
+    .example-prompts {
+        display: none; /* Hide example prompts in landscape to save space */
+    }
+
+    .message {
+        max-width: 70%; /* Narrower messages in landscape */
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    #chatBox {
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 }
