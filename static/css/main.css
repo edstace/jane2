@@ -478,7 +478,7 @@ body.with-chat {
     .header {
         padding: var(--spacing-sm) var(--spacing-md);
         position: fixed;
-        top: 0;
+        top: var(--spacing-lg);
         transform: translate(-50%, 0);
     }
 
@@ -504,6 +504,49 @@ body.with-chat {
         transform: translate(-50%, 0);
         background: var(--background-color);
         border-top: 1px solid var(--border-color);
+    }
+
+    /* Enhanced example prompts for mobile */
+    .example-prompts {
+        grid-template-columns: repeat(2, 1fr);
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+        margin: 0 auto;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--background-color);
+        width: 100%;
+        max-width: 800px;
+    }
+
+    body.with-chat .example-prompts {
+        display: none;
+    }
+
+    .example-prompt {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-height: 52px;
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    .prompt-icon {
+        width: 16px;
+        height: 16px;
+        margin-bottom: 2px;
+    }
+
+    /* Adjust main content area */
+    main {
+        margin-top: var(--header-height);
+        margin-bottom: var(--input-height);
+        height: calc(100vh - var(--header-height) - var(--input-height));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
     }
 
     .chat-container {
@@ -567,49 +610,6 @@ body.with-chat {
         padding: 8px;
         min-width: auto;
         font-size: 12px;
-    }
-
-    /* Enhanced example prompts for mobile */
-    .example-prompts {
-        grid-template-columns: repeat(2, 1fr);
-        padding: var(--spacing-xs);
-        gap: var(--spacing-xs);
-        margin: 0 auto;
-        position: fixed;
-        bottom: var(--input-height);
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--background-color);
-        border-top: 1px solid var(--border-color);
-        width: 100%;
-        max-width: 800px;
-    }
-
-    body.with-chat .example-prompts {
-        display: none;
-    }
-
-    .example-prompt {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        min-height: 56px;
-        font-size: 11px;
-        line-height: 1.2;
-    }
-
-    .prompt-icon {
-        width: 16px;
-        height: 16px;
-        margin-bottom: 2px;
-    }
-
-    /* Adjust main content area */
-    main {
-        margin-top: var(--header-height);
-        margin-bottom: calc(var(--input-height) + 120px); /* Account for prompts */
-        min-height: calc(100vh - var(--header-height) - var(--input-height) - 120px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
 
     /* Optimized copy button for touch */
