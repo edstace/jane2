@@ -182,10 +182,12 @@ input[type="text"]:focus {
 
     .header {
         padding: var(--spacing-sm) var(--spacing-md);
-        position: absolute;
-        top: 50%;
+        position: fixed;
+        top: 0;
         left: 50%;
-        transform: translate(-50%, -140px);
+        transform: translateX(-50%);
+        background: var(--background-color);
+        border-bottom: 1px solid var(--border-color);
     }
 
     .header h1 {
@@ -198,21 +200,21 @@ input[type="text"]:focus {
     }
 
     .subtitle {
-        font-size: 13px;
-        margin-top: 4px;
+        display: none;  /* Hide subtitle in mobile */
     }
 
-    /* Enhanced example prompts for mobile */
+    /* Example prompts positioned between header and input */
     .example-prompts {
         grid-template-columns: repeat(2, 1fr);
-        padding: var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-sm);
+        background: var(--background-color);
         gap: var(--spacing-sm);
         margin: 0 auto;
         width: calc(100% - var(--spacing-md) * 2);
-        position: absolute;
-        top: 50%;
+        position: fixed;
+        top: calc(var(--header-height) + var(--spacing-sm));
         left: 50%;
-        transform: translate(-50%, 40px);
+        transform: translateX(-50%);
     }
 
     .example-prompt {
@@ -228,12 +230,12 @@ input[type="text"]:focus {
         margin-bottom: 2px;
     }
 
-    /* Enhanced input section for mobile */
+    /* Input section below example prompts */
     .input-section {
-        position: absolute;
-        top: 50%;
+        position: fixed;
+        bottom: env(safe-area-inset-bottom, var(--spacing-md));
         left: 50%;
-        transform: translate(-50%, 200px);
+        transform: translateX(-50%);
         padding: var(--spacing-sm);
         background: var(--background-color);
         width: 100%;
