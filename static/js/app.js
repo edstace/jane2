@@ -36,8 +36,8 @@ class App {
     }
 
     showToast() {
-        // Show toast notification if not shown before
-        if (!localStorage.getItem('smsToastShown')) {
+        // Show toast notification if not shown before and not on mobile
+        if (!localStorage.getItem('smsToastShown') && window.innerWidth > 768) {
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.innerHTML = `
