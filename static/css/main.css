@@ -477,14 +477,9 @@ body.with-chat {
 
     .header {
         padding: var(--spacing-sm) var(--spacing-md);
-        transform: translate(-50%, -100px); /* Reduce space above header */
-    }
-
-    body.with-chat .header {
         position: fixed;
         top: 0;
         transform: translate(-50%, 0);
-        border-bottom: 1px solid var(--border-color);
     }
 
     .header h1 {
@@ -501,13 +496,14 @@ body.with-chat {
         margin-top: 4px;
     }
 
-    /* Adjust input position for better spacing */
+    /* Position input at bottom */
     .input-section {
-        transform: translate(-50%, 20px); /* Move input closer to header */
-    }
-
-    body.with-chat .input-section {
+        position: fixed;
+        bottom: 0;
+        top: auto;
         transform: translate(-50%, 0);
+        background: var(--background-color);
+        border-top: 1px solid var(--border-color);
     }
 
     .chat-container {
@@ -578,7 +574,15 @@ body.with-chat {
         grid-template-columns: repeat(2, 1fr);
         padding: var(--spacing-xs);
         gap: var(--spacing-xs);
-        margin: var(--spacing-sm) auto;
+        margin: 0 auto;
+        position: fixed;
+        bottom: var(--input-height);
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--background-color);
+        border-top: 1px solid var(--border-color);
+        width: 100%;
+        max-width: 800px;
     }
 
     body.with-chat .example-prompts {
@@ -596,6 +600,16 @@ body.with-chat {
         width: 16px;
         height: 16px;
         margin-bottom: 2px;
+    }
+
+    /* Adjust main content area */
+    main {
+        margin-top: var(--header-height);
+        margin-bottom: calc(var(--input-height) + 120px); /* Account for prompts */
+        min-height: calc(100vh - var(--header-height) - var(--input-height) - 120px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     /* Optimized copy button for touch */
