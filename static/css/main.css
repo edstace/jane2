@@ -22,9 +22,9 @@ body {
     padding: var(--spacing-xl) 0;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -140px);
     width: 100%;
     z-index: 10;
     background: var(--background-color);
@@ -136,6 +136,10 @@ body.with-chat .example-prompts {
     padding: var(--spacing-md);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 2;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 40px);
 }
 
 .input-container {
@@ -178,6 +182,10 @@ input[type="text"]:focus {
 
     .header {
         padding: var(--spacing-sm) var(--spacing-md);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -140px);
     }
 
     .header h1 {
@@ -199,8 +207,12 @@ input[type="text"]:focus {
         grid-template-columns: repeat(2, 1fr);
         padding: var(--spacing-sm);
         gap: var(--spacing-sm);
-        margin: calc(var(--header-height) + var(--spacing-md)) auto calc(var(--input-height) + var(--spacing-md));
+        margin: 0 auto;
         width: calc(100% - var(--spacing-md) * 2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 40px);
     }
 
     .example-prompt {
@@ -218,18 +230,14 @@ input[type="text"]:focus {
 
     /* Enhanced input section for mobile */
     .input-section {
-        position: fixed;
-        bottom: 0;
+        position: absolute;
+        top: 50%;
         left: 50%;
-        transform: translate(-50%, 0);
+        transform: translate(-50%, 200px);
         padding: var(--spacing-sm);
         background: var(--background-color);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-top: 1px solid var(--border-color);
         width: 100%;
         max-width: 800px;
-        z-index: 100;
     }
 
     .input-container {
@@ -273,7 +281,6 @@ input[type="text"]:focus {
         }
 
         .input-section {
-            padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
             padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
             padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
             width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
