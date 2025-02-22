@@ -77,6 +77,8 @@ body.with-chat .header .subtitle {
     transition: all 0.3s ease;
     opacity: 1;
     margin: 0 auto;
+    position: relative;
+    z-index: 5;
 }
 
 body.with-chat .example-prompts {
@@ -180,41 +182,39 @@ input[type="text"]:focus {
         --input-height: 60px;
     }
 
+    /* Mobile layout */
     .header {
-        padding: var(--spacing-sm) var(--spacing-md);
         position: fixed;
         top: 0;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 0;
+        right: 0;
+        z-index: 10;
         background: var(--background-color);
         border-bottom: 1px solid var(--border-color);
+        padding: var(--spacing-sm) 0;
+        height: var(--header-height);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    .header h1 {
-        font-size: 28px;
-        margin-bottom: 2px;
+    .chat-container {
+        margin-top: var(--header-height);
+        margin-bottom: calc(var(--input-height) + 140px);
+        min-height: calc(100vh - var(--header-height) - var(--input-height) - 140px);
+        padding: var(--spacing-md);
+        display: block;
     }
 
-    body.with-chat .header h1 {
-        font-size: 20px;
-    }
-
-    .subtitle {
-        display: none;  /* Hide subtitle in mobile */
-    }
-
-    /* Example prompts positioned between header and input */
     .example-prompts {
-        grid-template-columns: repeat(2, 1fr);
-        padding: var(--spacing-md) var(--spacing-sm);
-        background: var(--background-color);
-        gap: var(--spacing-sm);
-        margin: 0 auto;
-        width: calc(100% - var(--spacing-md) * 2);
         position: fixed;
-        top: calc(var(--header-height) + var(--spacing-sm));
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: calc(var(--input-height) + env(safe-area-inset-bottom, 0px));
+        left: 0;
+        right: 0;
+        grid-template-columns: repeat(2, 1fr);
+        padding: var(--spacing-md);
+        background: var(--background-color);
+        border-top: 1px solid var(--border-color);
     }
 
     .example-prompt {
@@ -230,16 +230,15 @@ input[type="text"]:focus {
         margin-bottom: 2px;
     }
 
-    /* Input section below example prompts */
+    /* Input section pinned to bottom with safe area support */
     .input-section {
         position: fixed;
-        bottom: env(safe-area-inset-bottom, var(--spacing-md));
-        left: 50%;
-        transform: translateX(-50%);
-        padding: var(--spacing-sm);
+        bottom: env(safe-area-inset-bottom, 0px);
+        left: 0;
+        right: 0;
+        padding: var(--spacing-sm) var(--spacing-md);
         background: var(--background-color);
-        width: 100%;
-        max-width: 800px;
+        border-top: 1px solid var(--border-color);
     }
 
     .input-container {
