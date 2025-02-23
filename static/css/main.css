@@ -605,6 +605,19 @@ textarea::placeholder {
     }
 }
 
+/* Footer */
+.page-footer {
+    text-align: center;
+    padding: var(--spacing-md);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: auto;
+}
+
+.page-footer p {
+    margin: 0;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     :root {
