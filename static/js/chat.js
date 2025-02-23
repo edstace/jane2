@@ -19,7 +19,8 @@ export class Chat {
     }
 
     setupEventListeners() {
-        document.addEventListener('send-message', () => {
+        document.addEventListener('send-message', (e) => {
+            e.stopPropagation();
             console.log('Received send-message event');
             this.sendMessage();
         });
