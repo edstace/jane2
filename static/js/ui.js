@@ -8,7 +8,6 @@ export class UI {
         this.chatContainer = document.querySelector('.chat-container');
         this.header = document.querySelector('.header');
         this.userInput = document.getElementById('user-input');
-        this.charCounter = document.querySelector('.char-counter');
         this.inputSection = document.querySelector('.input-section');
         this.examplePrompts = document.querySelector('.example-prompts');
         this.mainContent = document.querySelector('.main-content');
@@ -18,7 +17,6 @@ export class UI {
 
     setPrompt(text) {
         this.userInput.value = text;
-        this.updateCharCount();
         this.userInput.focus();
     }
 
@@ -38,20 +36,11 @@ export class UI {
                 this.handleEnterPress();
             }
         });
-
-        this.userInput.addEventListener('input', () => {
-            this.updateCharCount();
-        });
-    }
-
-    updateCharCount() {
-        this.charCounter.textContent = `${this.userInput.value.length}/500`;
     }
 
     clearChat() {
         this.chatBox.innerHTML = '';
         this.userInput.value = '';
-        this.updateCharCount();
         
         // Remove chat state classes
         document.body.classList.remove('with-chat');
@@ -69,7 +58,6 @@ export class UI {
 
     clearInput() {
         this.userInput.value = '';
-        this.updateCharCount();
         this.appendMessage('Message cleared.', 'warning-message');
     }
 
@@ -233,7 +221,6 @@ export class UI {
     clearChat() {
         this.chatBox.innerHTML = '';
         this.userInput.value = '';
-        this.updateCharCount();
         
         // Remove chat state classes
         document.body.classList.remove('with-chat');
@@ -256,7 +243,6 @@ export class UI {
 
     setInputValue(value) {
         this.userInput.value = value;
-        this.updateCharCount();
     }
 
     handleEnterPress() {
