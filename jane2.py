@@ -242,7 +242,7 @@ def get_job_coaching_advice(user_message, context=None):
             # Get response from OpenAI using v1.0.0+ syntax
             client = openai.OpenAI()
             response = client.chat.completions.create(
-                model="gpt-4",
+                model="gpt-4o-mini",
                 messages=messages,
                 temperature=0.7,
                 max_tokens=500
