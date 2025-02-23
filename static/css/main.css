@@ -84,7 +84,7 @@ body:not(.with-chat) .header {
 }
 
 body.with-chat .main-content {
-    margin-top: var(--spacing-md);
+    margin-top: calc(var(--spacing-xl) * 2);
 }
 
 /* Header */
