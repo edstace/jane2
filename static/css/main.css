@@ -54,10 +54,6 @@ body.with-chat {
     padding-top: calc(var(--spacing-xl) * 3);
 }
 
-.header {
-    transition: all var(--transition-normal);
-}
-
 .chat-container {
     display: flex;
     flex-direction: column;
@@ -69,42 +65,24 @@ body.with-chat {
     min-height: 100vh;
 }
 
-body.with-chat .header {
+/* Top Header */
+.top-header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
-    transform: translateY(0);
-}
-
-body:not(.with-chat) .header {
-    transform: translateY(0);
-}
-
-body.with-chat .main-content {
-    margin-top: calc(var(--spacing-xl) * 2);
-}
-
-/* Header */
-.header {
-    padding: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
     background-color: var(--background-color);
-    z-index: 10;
+    border-bottom: 1px solid var(--border-color);
+    z-index: 20;
 }
 
 .header-content {
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.title-section {
-    text-align: center;
+    justify-content: flex-end;
+    padding: 0 var(--spacing-md);
 }
 
 .new-chat-button {
@@ -130,6 +108,35 @@ body.with-chat .main-content {
     transform: translateY(0);
 }
 
+/* Logo Section */
+.logo-section {
+    text-align: center;
+    padding: var(--spacing-md) 0;
+    margin-bottom: var(--spacing-md);
+    margin-top: calc(var(--spacing-xl) * 2);
+    background-color: var(--background-color);
+    z-index: 10;
+    transition: all var(--transition-normal);
+}
+
+.logo-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.03em;
+}
+
+.logo-section .subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-top: 0;
+    line-height: 1;
+}
+
 body:not(.with-chat) {
     display: flex;
     align-items: center;
@@ -152,22 +159,9 @@ body:not(.with-chat) .chat-container {
     min-height: 100vh;
 }
 
-.header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0;
-    background: linear-gradient(135deg, var(--primary-color), #4f46e5);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: -0.03em;
-}
-
-.header .subtitle {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
+body:not(.with-chat) .logo-section {
     margin-top: 0;
-    line-height: 1;
+    margin-bottom: 0;
 }
 
 /* Main Content */
@@ -189,10 +183,6 @@ body:not(.with-chat) .chat-container {
     flex-direction: column;
     flex: 1;
     overflow: visible;
-}
-
-body:not(.with-chat) .header {
-    margin-bottom: 0;
 }
 
 body:not(.with-chat) .input-section {
@@ -576,32 +566,31 @@ textarea::placeholder {
     transform: translateY(0);
 }
 
-
 /* Mobile Layout */
 @media (max-width: 768px) {
     .chat-container {
         padding: 0 var(--spacing-sm);
     }
 
-    .header {
+    .logo-section {
         padding: var(--spacing-md);
         margin-bottom: var(--spacing-md);
     }
 
-    .header h1 {
+    .logo-section h1 {
         font-size: 2rem;
     }
 
-.example-prompts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-sm);
-    margin: var(--spacing-xl) 0;
-    padding-bottom: var(--spacing-xl);
-    opacity: 1;
-    transition: opacity var(--transition-normal), visibility var(--transition-normal);
-    order: 1;
-}
+    .example-prompts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-sm);
+        margin: var(--spacing-xl) 0;
+        padding-bottom: var(--spacing-xl);
+        opacity: 1;
+        transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        order: 1;
+    }
 
     .input-section {
         order: 3;
@@ -691,5 +680,12 @@ textarea::placeholder {
 
     .typing-indicator {
         background-color: #1e293b;
+    }
+
+    .top-header,
+    .logo-section,
+    .page-footer {
+        background-color: var(--background-color);
+        border-color: var(--border-color);
     }
 }

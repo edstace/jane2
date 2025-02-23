@@ -9,19 +9,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
+    <header class="top-header">
+        <div class="header-content">
+            <button id="new-chat-btn" class="new-chat-button">
+                <i class="fa-solid fa-plus"></i>
+                New Chat
+            </button>
+        </div>
+    </header>
+
     <div class="chat-container">
-        <header class="header">
-            <div class="header-content">
-                <div class="title-section">
-                    <h1>JANE</h1>
-                    <p class="subtitle">Job Assistance and Navigation Expert</p>
-                </div>
-                <button id="new-chat-btn" class="new-chat-button">
-                    <i class="fa-solid fa-plus"></i>
-                    New Chat
-                </button>
-            </div>
-        </header>
+        <div class="logo-section">
+            <h1>JANE</h1>
+            <p class="subtitle">Job Assistance and Navigation Expert</p>
+        </div>
 
         <main class="main-content">
             <div id="chat-messages" class="chat-messages"></div>
