@@ -88,7 +88,7 @@ export class UI {
         // Create message content with markdown rendering
         const messageContent = createElement('div', {
             className: 'message-content',
-            innerHTML: marked(message)
+            innerHTML: window.marked.parse(message)
         });
 
         // Add copy button for non-loading messages
