@@ -130,7 +130,7 @@ body:not(.with-chat) .chat-container {
 .header .subtitle {
     font-size: 1.125rem;
     color: var(--text-secondary);
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
 }
 
 /* Main Content */
@@ -176,7 +176,7 @@ body:not(.with-chat) .example-prompts {
     flex-wrap: wrap;
     gap: var(--spacing-sm);
     margin-top: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: calc(var(--spacing-xl) * 1.5);
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
