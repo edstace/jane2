@@ -97,16 +97,14 @@ body {
 
 /* Example Prompts */
 .example-prompts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-xl);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    order: 1;
-    height: auto;
-    overflow: hidden;
 }
 
 .example-prompts.hidden {
@@ -118,40 +116,33 @@ body {
 }
 
 .prompt-button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xs) var(--spacing-md);
     background-color: #f8fafc;
     border: 1px solid var(--border-color);
-    border-radius: 0.75rem;
+    border-radius: 100px;
     cursor: pointer;
     transition: all var(--transition-normal);
-    text-align: left;
     color: var(--text-primary);
-    font-size: 0.9375rem;
-    box-shadow: var(--shadow-sm);
+    font-size: 0.875rem;
+    white-space: nowrap;
 }
 
 .prompt-button:hover {
     background-color: var(--surface-hover);
     border-color: #cbd5e1;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.prompt-button:active {
     transform: translateY(-1px);
 }
 
-.prompt-icon {
-    font-size: 1.75rem;
-    opacity: 0.9;
-    transition: transform var(--transition-fast);
+.prompt-button:active {
+    transform: translateY(0);
 }
 
-.prompt-button:hover .prompt-icon {
-    transform: scale(1.1);
+.prompt-button span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
 }
 
 /* Chat Messages */
