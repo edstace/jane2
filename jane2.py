@@ -239,8 +239,9 @@ def get_job_coaching_advice(user_message, context=None):
             # Add user's message
             messages.append({"role": "user", "content": user_message})
             
-            # Get response from OpenAI
-            response = openai.ChatCompletion.create(
+            # Get response from OpenAI using v1.0.0+ syntax
+            client = openai.OpenAI()
+            response = client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=messages,
                 temperature=0.7,
