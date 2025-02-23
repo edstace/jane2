@@ -176,7 +176,7 @@ body:not(.with-chat) .example-prompts {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    margin-top: var(--spacing-lg);
+    padding-top: calc(var(--spacing-xl) * 1.5);
     margin-bottom: calc(var(--spacing-xl) * 2.5);
     opacity: 1;
     visibility: visible;
