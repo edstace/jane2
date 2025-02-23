@@ -225,10 +225,33 @@ def contains_disability_info(message):
     return False
 
 def get_job_coaching_advice(user_message, context=None):
-    """Mock response for development"""
+    """Get job coaching advice using OpenAI"""
     if os.getenv('FLASK_ENV') == 'production':
-        # Production code here...
-        pass
+        try:
+            messages = [
+                {"role": "system", "content": "You are Jane, a professional job coach. You help people with career advice, resume writing, interview preparation, and professional development. Keep responses focused, practical, and actionable."}
+            ]
+            
+            # Add conversation context if provided
+            if context:
+                messages.extend(context)
+            
+            # Add user's message
+            messages.append({"role": "user", "content": user_message})
+            
+            # Get response from OpenAI
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=messages,
+                temperature=0.7,
+                max_tokens=500
+            )
+            
+            return response.choices[0].message.content
+            
+        except Exception as e:
+            app.logger.error(f"OpenAI API error: {str(e)}")
+            raise
     else:
         # Development mock response
         return f"Development mode response: You said '{user_message}'"
