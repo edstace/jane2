@@ -175,11 +175,12 @@ body:not(.with-chat) .example-prompts {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    margin-top: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    justify-content: center;
 }
 
 .example-prompts.hidden {
@@ -538,13 +539,6 @@ textarea::placeholder {
     transform: translateY(0);
 }
 
-.char-counter {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    text-align: right;
-    margin-top: var(--spacing-xs);
-    opacity: 0.8;
-}
 
 /* Mobile Layout */
 @media (max-width: 768px) {
