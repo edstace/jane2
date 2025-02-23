@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>JANE - Job Assistance and Navigation Expert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
@@ -33,19 +34,19 @@
                 </div>
                 <div class="example-prompts">
                     <button class="prompt-button">
-                        <span>📝 Resume Help</span>
+                        <span><i class="fa-solid fa-file-lines"></i> Resume Help</span>
                     </button>
                     <button class="prompt-button">
-                        <span>💼 Interview Prep</span>
+                        <span><i class="fa-solid fa-briefcase"></i> Interview Prep</span>
                     </button>
                     <button class="prompt-button">
-                        <span>📈 Career Advice</span>
+                        <span><i class="fa-solid fa-chart-line"></i> Career Advice</span>
                     </button>
                     <button class="prompt-button">
-                        <span>💰 Salary Talk</span>
+                        <span><i class="fa-solid fa-money-bill-trend-up"></i> Salary Talk</span>
                     </button>
                     <button class="prompt-button">
-                        <span>👥 LinkedIn</span>
+                        <span><i class="fa-brands fa-linkedin"></i> LinkedIn</span>
                     </button>
                 </div>
             </form>
