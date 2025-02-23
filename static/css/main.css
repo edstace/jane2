@@ -86,13 +86,30 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    display: flex;
+    display: none;
     flex-direction: column;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
     order: 2;
     min-height: 0;
+}
+
+.main-content.visible {
+    display: flex;
+}
+
+/* Before chat starts */
+body:not(.with-chat) .main-content {
+    display: none;
+}
+
+body:not(.with-chat) .input-section {
+    margin-top: 0;
+}
+
+body:not(.with-chat) .header {
+    margin-bottom: var(--spacing-md);
 }
 
 /* Example Prompts */
