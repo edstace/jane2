@@ -53,7 +53,15 @@ export class UI {
         // Remove chat state classes
         document.body.classList.remove('with-chat');
         this.chatContainer.classList.remove('visible');
-        this.examplePrompts.classList.remove('hidden');
+        
+        // Show example prompts with a slight delay to allow for transitions
+        setTimeout(() => {
+            this.examplePrompts.classList.remove('hidden');
+            // Force a reflow to ensure the transition works
+            void this.examplePrompts.offsetHeight;
+            this.examplePrompts.style.opacity = '1';
+            this.examplePrompts.style.visibility = 'visible';
+        }, 300);
     }
 
     clearInput() {
@@ -209,13 +217,15 @@ export class UI {
             // Force a reflow before adding the visible class
             void this.chatContainer.offsetHeight;
             
-            // Add visible class to trigger transition
-            requestAnimationFrame(() => {
+            // Hide example prompts first with transition
+            this.examplePrompts.style.opacity = '0';
+            this.examplePrompts.style.visibility = 'hidden';
+            
+            // Add visible class to trigger transition after a short delay
+            setTimeout(() => {
                 this.chatContainer.classList.add('visible');
-                
-                // Hide example prompts
                 this.examplePrompts.classList.add('hidden');
-            });
+            }, 300);
             
             console.log('Chat container shown');
         }

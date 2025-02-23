@@ -26,16 +26,19 @@ class App {
 
         // Add click handlers for example prompts
         document.querySelectorAll('.prompt-button').forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
                 const promptText = button.querySelector('span').textContent;
                 ui.setPrompt(promptText);
-                // Trigger send message after setting prompt
-                window.sendMessage();
+                // Add a small delay before sending to ensure the input is set
+                setTimeout(() => {
+                    window.sendMessage();
+                }, 50);
             });
         });
 
         // Add Enter key handler
-        document.getElementById('user-input').addEventListener('keypress', (e) => {
+        document.getElementById('user-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 console.log('Enter key pressed');

@@ -56,6 +56,9 @@ export class Chat {
                 ui.appendMessage(message, 'user-message', true, msgId);
                 this.pendingMessage = message;
                 ui.setInputValue('');
+                
+                // Hide example prompts immediately when sending a message
+                document.querySelector('.example-prompts').classList.add('hidden');
             }
             
             // Show loading indicator

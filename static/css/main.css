@@ -102,8 +102,11 @@ body {
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
     opacity: 1;
-    transition: opacity var(--transition-normal), visibility var(--transition-normal);
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     order: 1;
+    height: auto;
+    overflow: hidden;
 }
 
 .example-prompts.hidden {
@@ -111,6 +114,7 @@ body {
     visibility: hidden;
     height: 0;
     margin: 0;
+    pointer-events: none;
 }
 
 .prompt-button {
