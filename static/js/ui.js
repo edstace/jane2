@@ -36,6 +36,20 @@ export class UI {
                 this.handleEnterPress();
             }
         });
+
+        // New Chat button handler
+        const newChatBtn = document.getElementById('new-chat-btn');
+        newChatBtn.addEventListener('click', () => {
+            if (this.chatBox.children.length > 0) {
+                this.showWarning(
+                    'Are you sure you want to start a new chat? This will clear your current conversation.',
+                    () => this.clearChat(), // On confirm
+                    () => {} // On cancel (do nothing)
+                );
+            } else {
+                this.clearChat();
+            }
+        });
     }
 
     clearChat() {
