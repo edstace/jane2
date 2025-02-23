@@ -50,7 +50,8 @@ class App {
         // Add form submit handler
         document.getElementById('chat-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            window.sendMessage();
+            const event = new CustomEvent('send-message');
+            document.dispatchEvent(event);
         });
     }
 }
