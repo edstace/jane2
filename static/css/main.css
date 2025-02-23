@@ -508,6 +508,7 @@ body:not(.with-chat) .input-section {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    gap: calc(var(--spacing-xl) * 8); /* Increase space between input and prompts */
 }
 
 .input-wrapper {
@@ -590,7 +591,6 @@ textarea::placeholder {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: var(--spacing-sm);
-        margin-top: calc(var(--spacing-xl) * 3);  /* Slightly less spacing on mobile */
         opacity: 1;
         transition: opacity var(--transition-normal), visibility var(--transition-normal);
         order: 1;
