@@ -89,7 +89,7 @@ if os.getenv('FLASK_ENV') == 'production':
         'default-src': "'self'",
         'script-src': ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
         'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdn.jsdelivr.net"],
-        'font-src': ["'self'", "fonts.gstatic.com"],
+        'font-src': ["'self'", "fonts.gstatic.com", "cdn.jsdelivr.net"],
         'img-src': ["'self'", "data:", "https:"],
     })
 csrf = CSRFProtect(app)
