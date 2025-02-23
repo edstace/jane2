@@ -89,27 +89,48 @@ body:not(.with-chat) .header {
 
 /* Main Content */
 .main-content {
-    flex: 1;
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    order: 2;
-    min-height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 .main-content.visible {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+    margin: 0 auto;
     display: flex;
-    opacity: 1;
-    visibility: visible;
+    flex-direction: column;
+    flex: 1;
+    overflow: visible;
+}
+
+body:not(.with-chat) .chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: var(--spacing-md);
+}
+
+body:not(.with-chat) .header {
+    margin-bottom: 0;
 }
 
 body:not(.with-chat) .input-section {
-    margin-top: auto;
+    position: static;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+body:not(.with-chat) .example-prompts {
+    margin: 0;
+    padding: 0;
 }
 
 /* Example Prompts */
