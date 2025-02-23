@@ -11,19 +11,23 @@ body {
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
+    display: grid;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    grid-template-rows: auto 1fr auto;
 }
 
-/* Layout Components */
+/* Header */
 .header {
+    grid-area: header;
     width: 100%;
     text-align: center;
     padding: var(--spacing-xl) 0;
     background: var(--background-color);
     border-bottom: 1px solid var(--border-color);
+    z-index: 10;
 }
 
 .header h1 {
@@ -43,8 +47,9 @@ body {
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Main content container */
+/* Main Content */
 .main-content {
+    grid-area: main;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -170,29 +175,13 @@ input[type="text"]:focus {
 /* Mobile Layout */
 @media (max-width: 768px) {
     body {
-        display: grid;
-        grid-template-rows: var(--header-height) 1fr auto var(--input-height);
-        grid-template-areas: 
-            "header"
-            "chat"
-            "prompts"
-            "input";
-        height: 100vh;
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        gap: 0;
+        grid-template-rows: auto 1fr auto;
     }
 
     .header {
-        grid-area: header;
-        position: fixed;
-        width: 100%;
-        height: var(--header-height);
+        position: sticky;
+        top: 0;
         padding: var(--spacing-sm) 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        z-index: 10;
     }
 
     .header h1 {
@@ -205,19 +194,18 @@ input[type="text"]:focus {
     }
 
     .main-content {
-        padding: 0;
-        margin-top: var(--header-height);
+        padding: var(--spacing-md);
     }
 
     .chat-container {
-        grid-area: chat;
+        grid-area: main;
         padding: var(--spacing-md);
         height: calc(100vh - var(--header-height) - var(--input-height));
         overflow-y: auto;
     }
 
     .example-prompts {
-        grid-area: prompts;
+        grid-area: main;
         padding: var(--spacing-sm);
         margin: 0;
         grid-template-columns: repeat(2, 1fr);
@@ -226,7 +214,7 @@ input[type="text"]:focus {
     }
 
     .input-section {
-        grid-area: input;
+        grid-area: footer;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -254,9 +242,12 @@ input[type="text"]:focus {
 /* Desktop Layout */
 @media (min-width: 769px) {
     body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+        display: grid;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-rows: auto 1fr auto;
     }
 
     .header {
@@ -266,12 +257,14 @@ input[type="text"]:focus {
     }
 
     .main-content {
+        grid-area: main;
         flex: 1;
         padding: var(--spacing-xl) var(--spacing-md);
         margin: 0 auto;
     }
 
     .input-section {
+        grid-area: footer;
         margin: var(--spacing-xl) auto;
     }
 
