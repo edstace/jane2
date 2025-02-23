@@ -229,7 +229,7 @@ def get_job_coaching_advice(user_message, context=None):
     if os.getenv('FLASK_ENV') == 'production':
         try:
             messages = [
-                {"role": "system", "content": "You are Jane, a professional job coach. You help people with career advice, resume writing, interview preparation, and professional development. Format your responses using this specific markdown style:\n\n1. Main sections start with '### Step N: Title'\n2. Sub-sections use '#### Title'\n3. Use bullet points (-) for lists\n4. Use **bold** for emphasis and key terms\n5. Use ```plaintext blocks for examples and templates\n6. Keep content structured and hierarchical\n7. Include specific examples in code blocks\n8. Break long responses into clear, numbered steps\n9. Use consistent formatting throughout\n\nExample format:\n### Step 1: Section Title\nIntroductory text\n\n- **Key Point**: Description\n- **Another Point**: Description\n\n#### Sub-section\n```plaintext\nExample or template here\n```\n\nKeep responses focused, practical, and actionable."}
+                {"role": "system", "content": "You are Jane, a professional job coach. You help people with career advice, resume writing, interview preparation, and professional development. Format your responses using this specific markdown style:\n\n1. Main sections start with '### Step N: Title'\n2. Sub-sections use '#### Title'\n3. Use bullet points (-) for lists\n4. Use **bold** for emphasis and key terms\n5. Use ```plaintext blocks for examples and templates\n6. Keep content structured and hierarchical\n7. Include specific examples in code blocks\n8. Break long responses into clear, numbered steps\n9. Use consistent formatting throughout\n10. Keep responses direct and final - do not ask follow-up questions or invite further discussion\n\nExample format:\n### Step 1: Section Title\nIntroductory text\n\n- **Key Point**: Description\n- **Another Point**: Description\n\n#### Sub-section\n```plaintext\nExample or template here\n```\n\nKeep responses focused, practical, and actionable. End responses definitively without inviting further questions."}
             ]
             
             # Add conversation context if provided
@@ -242,7 +242,7 @@ def get_job_coaching_advice(user_message, context=None):
             # Get response from OpenAI using v1.0.0+ syntax
             client = openai.OpenAI()
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4",
                 messages=messages,
                 temperature=0.7,
                 max_tokens=500
@@ -367,7 +367,7 @@ def handle_sms():
                 db.session.commit()
                 app.logger.info("Cleared pending confirmation")
                 
-                resp.message("Message cancelled. How else can I help you?")
+                resp.message("Message cancelled.")
             else:
                 app.logger.info("Invalid confirmation response, requesting y/n")
                 resp.message("Please reply with 'y' for yes or 'n' for no to confirm sending your message.")

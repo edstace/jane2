@@ -9,18 +9,39 @@ export const formatMessage = (message) => {
     }
     console.log('Formatting message:', message);
     
-    // First handle bold text
-    let formatted = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Handle code blocks first to prevent interference with other formatting
+    let formatted = message.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => 
+        `<pre><code class="language-${lang || 'plaintext'}">${code.trim()}</code></pre>`
+    );
+    
+    // Handle headers (### Step N: Title)
+    formatted = formatted.replace(/### (.*)\n/g, '<h3>$1</h3>\n');
+    formatted = formatted.replace(/#### (.*)\n/g, '<h4>$1</h4>\n');
+    
+    // Handle bullet points
+    formatted = formatted.replace(/^- (.*)/gm, '<li>$1</li>');
+    formatted = formatted.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+    
+    // Handle bold text
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     
     // Split into paragraphs (handling both \n\n and single \n)
     const paragraphs = formatted
         .split(/\n{2,}/)
-        .flatMap(block => block.split('\n'))
-        .map(line => line.trim())
-        .filter(line => line.length > 0);
+        .map(block => block.trim())
+        .filter(block => block.length > 0)
+        .map(block => {
+            // Don't wrap pre, ul, h3, or h4 elements in p tags
+            if (block.startsWith('<pre>') || 
+                block.startsWith('<ul>') || 
+                block.startsWith('<h3>') || 
+                block.startsWith('<h4>')) {
+                return block;
+            }
+            return `<p>${block}</p>`;
+        });
     
-    // Wrap each paragraph in <p> tags
-    formatted = paragraphs.map(para => `<p>${para}</p>`).join('');
+    formatted = paragraphs.join('\n');
     
     console.log('Formatted message:', formatted);
     return formatted;

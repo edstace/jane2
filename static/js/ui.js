@@ -1,4 +1,5 @@
 import { createElement, formatMessage, scrollToBottom } from './utils.js';
+import { marked } from 'marked';
 
 export class UI {
     constructor() {
@@ -75,10 +76,10 @@ export class UI {
             id: messageId ? `message-${messageId}` : null
         });
 
-        // Create message content with text directly
+        // Create message content with markdown rendering
         const messageContent = createElement('div', {
             className: 'message-content',
-            textContent: message
+            innerHTML: marked(message)
         });
 
         // Add copy button for non-loading messages

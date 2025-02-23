@@ -256,6 +256,68 @@ body {
     margin-right: var(--spacing-xl);
 }
 
+/* Markdown Styles */
+.message .message-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1.5rem 0 1rem;
+    color: inherit;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.message .message-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.75rem;
+    color: inherit;
+}
+
+.message .message-content ul {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+}
+
+.message .message-content li {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.message .message-content pre {
+    background: #1e293b;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+
+.message .message-content code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9em;
+    color: #e2e8f0;
+}
+
+.message .message-content p {
+    margin: 0.75rem 0;
+    line-height: 1.6;
+}
+
+.message .message-content strong {
+    font-weight: 600;
+    color: inherit;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .message .message-content pre {
+        background: #0f172a;
+    }
+    
+    .message .message-content code {
+        color: #94a3b8;
+    }
+}
+
 .message .copy-button {
     position: absolute;
     top: var(--spacing-sm);
