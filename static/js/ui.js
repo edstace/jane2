@@ -11,7 +11,6 @@ export class UI {
         this.examplePrompts = document.querySelector('.example-prompts');
         
         this.setupEventListeners();
-        this.toastTimeout = null;
     }
 
     setPrompt(text) {
@@ -219,59 +218,6 @@ export class UI {
             
             console.log('Chat container shown');
         }
-    }
-
-    showToast(message) {
-        // Remove existing toast if present
-        const existingToast = document.querySelector('.toast');
-        if (existingToast) {
-            existingToast.classList.add('animate-toast-out');
-        }
-        
-        // Clear existing timeout
-        if (this.toastTimeout) {
-            clearTimeout(this.toastTimeout);
-        }
-
-        const toast = createElement('div', 'toast animate-toast-in');
-        toast.innerHTML = `
-            <p>${message}</p>
-            <button onclick="this.parentElement.classList.add('animate-toast-out'); setTimeout(() => this.parentElement.remove(), 300)">×</button>
-        `;
-        
-        document.body.appendChild(toast);
-        
-        // Auto-dismiss after 3 seconds
-        this.toastTimeout = setTimeout(() => {
-            toast.classList.add('animate-toast-out');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
-
-    showWarning(warning, onProceed, onCancel) {
-        const warningDiv = createElement('div', 'message warning-message animate-in');
-        warningDiv.innerHTML = `
-            <div>${warning}</div>
-            <button onclick="handleProceed()" style="background-color: var(--primary-color);">Proceed</button>
-            <button onclick="handleCancel()" style="background-color: rgba(0,0,0,0.1); color: var(--text-primary);">Cancel</button>
-        `;
-
-        // Add event handlers
-        const proceedBtn = warningDiv.querySelector('button:first-of-type');
-        const cancelBtn = warningDiv.querySelector('button:last-of-type');
-        
-        proceedBtn.onclick = () => {
-            warningDiv.remove();
-            onProceed();
-        };
-        
-        cancelBtn.onclick = () => {
-            warningDiv.remove();
-            onCancel();
-        };
-
-        this.chatBox.appendChild(warningDiv);
-        scrollToBottom(this.chatBox);
     }
 
     getInputValue() {
