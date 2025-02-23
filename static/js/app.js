@@ -24,13 +24,29 @@ class App {
             ui.userInput.focus();
         };
 
+        // Add click handlers for example prompts
+        document.querySelectorAll('.prompt-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const promptText = button.querySelector('span').textContent;
+                ui.setPrompt(promptText);
+                // Trigger send message after setting prompt
+                window.sendMessage();
+            });
+        });
+
         // Add Enter key handler
-        document.getElementById('userInput').addEventListener('keypress', (e) => {
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 console.log('Enter key pressed');
                 window.sendMessage();
             }
+        });
+
+        // Add form submit handler
+        document.getElementById('chat-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.sendMessage();
         });
     }
 }

@@ -33,7 +33,7 @@ export class Chat {
     // Remove loadMoreMessages method since we're not using infinite scroll
 
     renderMessages() {
-        const chatBox = document.getElementById('chatBox');
+        const chatBox = document.getElementById('chat-messages');
         chatBox.innerHTML = '';
         this.history.getMessages().forEach(msg => {
             ui.appendMessage(msg.content, msg.type, false, msg.id);

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>JANE - Job Assistance and Navigation Expert</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <style>
@@ -28,38 +29,11 @@
         </header>
 
         <main class="main-content">
-            <div class="example-prompts">
-                <button class="prompt-button">
-                    <div class="prompt-icon">📝</div>
-                    <span>Help me write a resume</span>
-                </button>
-                <button class="prompt-button">
-                    <div class="prompt-icon">💼</div>
-                    <span>How to prepare for an interview</span>
-                </button>
-                <button class="prompt-button">
-                    <div class="prompt-icon">🔍</div>
-                    <span>Find jobs in my area</span>
-                </button>
-                <button class="prompt-button">
-                    <div class="prompt-icon">📈</div>
-                    <span>Career advice for my field</span>
-                </button>
-                <button class="prompt-button">
-                    <div class="prompt-icon">💰</div>
-                    <span>Negotiate my salary</span>
-                </button>
-                <button class="prompt-button">
-                    <div class="prompt-icon">👥</div>
-                    <span>Improve my LinkedIn profile</span>
-                </button>
-            </div>
-
             <div id="chat-messages" class="chat-messages"></div>
         </main>
 
         <footer class="input-section">
-            <form id="chat-form" class="chat-form">
+            <form id="chat-form" class="chat-form" onsubmit="event.preventDefault(); window.sendMessage();">
                 <div class="input-wrapper">
                     <textarea 
                         id="user-input" 
@@ -74,10 +48,39 @@
                 <div class="char-counter">0/2000</div>
             </form>
         </footer>
+
+        <div class="example-prompts">
+            <button class="prompt-button">
+                <div class="prompt-icon">📝</div>
+                <span>Help me write a resume</span>
+            </button>
+            <button class="prompt-button">
+                <div class="prompt-icon">💼</div>
+                <span>How to prepare for an interview</span>
+            </button>
+            <button class="prompt-button">
+                <div class="prompt-icon">🔍</div>
+                <span>Find jobs in my area</span>
+            </button>
+            <button class="prompt-button">
+                <div class="prompt-icon">📈</div>
+                <span>Career advice for my field</span>
+            </button>
+            <button class="prompt-button">
+                <div class="prompt-icon">💰</div>
+                <span>Negotiate my salary</span>
+            </button>
+            <button class="prompt-button">
+                <div class="prompt-icon">👥</div>
+                <span>Improve my LinkedIn profile</span>
+            </button>
+        </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/ui.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/message_history.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

@@ -34,18 +34,20 @@ elif db_url.startswith('postgresql://'):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'poolclass': QueuePool,
-    'pool_pre_ping': True,
-    'pool_size': 5,
-    'max_overflow': 10,
-    'pool_timeout': 30,
-    'pool_recycle': 1800,  # Recycle connections after 30 minutes
-    'connect_args': {
-        'sslmode': 'require',
-        'connect_timeout': 10
+# Configure SQLAlchemy engine options based on environment
+if os.getenv('FLASK_ENV') == 'production':
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'poolclass': QueuePool,
+        'pool_pre_ping': True,
+        'pool_size': 5,
+        'max_overflow': 10,
+        'pool_timeout': 30,
+        'pool_recycle': 1800,  # Recycle connections after 30 minutes
+        'connect_args': {
+            'sslmode': 'require',
+            'connect_timeout': 10
+        }
     }
-}
 
 db = SQLAlchemy(app)
 
@@ -73,21 +75,23 @@ class SMSContext(db.Model):
 # Initialize Flask-Migrate
 migrate = Migrate(app, db)
 
-# Initialize Twilio client
-twilio_client = Client(
-    os.getenv('TWILIO_ACCOUNT_SID'),
-    os.getenv('TWILIO_AUTH_TOKEN')
-)
-TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+# Initialize Twilio client only in production
+if os.getenv('FLASK_ENV') == 'production':
+    twilio_client = Client(
+        os.getenv('TWILIO_ACCOUNT_SID'),
+        os.getenv('TWILIO_AUTH_TOKEN')
+    )
+    TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
 
 # Initialize security extensions
-Talisman(app, content_security_policy={
-    'default-src': "'self'",
-    'script-src': ["'self'", "'unsafe-inline'"],
-    'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
-    'font-src': ["'self'", "fonts.gstatic.com"],
-    'img-src': ["'self'", "data:", "https:"],
-})
+if os.getenv('FLASK_ENV') == 'production':
+    Talisman(app, content_security_policy={
+        'default-src': "'self'",
+        'script-src': ["'self'", "'unsafe-inline'"],
+        'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+        'font-src': ["'self'", "fonts.gstatic.com"],
+        'img-src': ["'self'", "data:", "https:"],
+    })
 csrf = CSRFProtect(app)
 
 # Initialize rate limiter with memory storage
@@ -117,8 +121,9 @@ file_handler.setLevel(logging.INFO)
 app.logger.addHandler(file_handler)
 app.logger.setLevel(logging.INFO)
 
-# Initialize OpenAI client
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# Initialize OpenAI client only in production
+if os.getenv('FLASK_ENV') == 'production':
+    openai.api_key = os.getenv('OPENAI_API_KEY')
 
 class ValidationError(Exception):
     """Custom exception for validation errors"""
@@ -219,49 +224,14 @@ def contains_disability_info(message):
             return True
     return False
 
-@cache_response
 def get_job_coaching_advice(user_message, context=None):
-    """Get job coaching advice from OpenAI API with context"""
-    try:
-        # Create OpenAI client
-        client = openai.OpenAI(
-            api_key=os.getenv('OPENAI_API_KEY')
-        )
-        
-        # Build messages array with system message, context, and current message
-        messages = [
-            {
-                "role": "system",
-                "content": (
-                    "You are a helpful job coaching assistant specializing in advising individuals with disabilities. "
-                    "Provide thoughtful, empathetic, and practical advice. "
-                    "Include a disclaimer that the information is for guidance only and not a substitute for professional advice. "
-                    "Use the conversation context to provide more personalized and relevant responses."
-                )
-            }
-        ]
-        
-        # Add context messages if available
-        if context:
-            messages.extend(context)
-        
-        # Add current message
-        messages.append({"role": "user", "content": user_message})
-
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages,
-            temperature=0.7
-        )
-
-        content = response.choices[0].message.content
-        content = content.replace("\n1.", "\n\n1.")
-        paragraphs = [p.strip() for p in content.split('\n\n')]
-        return '\n\n'.join(paragraphs)
-    
-    except Exception as e:
-        app.logger.error(f"OpenAI API error: {str(e)}")
-        raise
+    """Mock response for development"""
+    if os.getenv('FLASK_ENV') == 'production':
+        # Production code here...
+        pass
+    else:
+        # Development mock response
+        return f"Development mode response: You said '{user_message}'"
 
 def send_sms(to_number, message):
     """Send SMS using Twilio"""

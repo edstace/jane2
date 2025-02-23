@@ -2,10 +2,10 @@ import { createElement, formatMessage, scrollToBottom } from './utils.js';
 
 export class UI {
     constructor() {
-        this.chatBox = document.getElementById('chatBox');
-        this.chatContainer = document.getElementById('chatContainer');
-        this.header = document.getElementById('header');
-        this.userInput = document.getElementById('userInput');
+        this.chatBox = document.getElementById('chat-messages');
+        this.chatContainer = document.querySelector('.chat-container');
+        this.header = document.querySelector('.header');
+        this.userInput = document.getElementById('user-input');
         this.charCounter = document.querySelector('.char-counter');
         this.inputSection = document.querySelector('.input-section');
         this.examplePrompts = document.querySelector('.example-prompts');
@@ -232,6 +232,35 @@ export class UI {
     handleEnterPress() {
         const event = new CustomEvent('send-message');
         document.dispatchEvent(event);
+    }
+
+    showWarning(message, onConfirm, onCancel) {
+        const warningDiv = createElement('div', {
+            className: 'message warning-message',
+            innerHTML: `
+                <div class="message-content">${message}</div>
+                <div class="warning-actions">
+                    <button class="confirm-button">Yes, proceed</button>
+                    <button class="cancel-button">No, cancel</button>
+                </div>
+            `
+        });
+
+        const confirmButton = warningDiv.querySelector('.confirm-button');
+        const cancelButton = warningDiv.querySelector('.cancel-button');
+
+        confirmButton.addEventListener('click', () => {
+            warningDiv.remove();
+            onConfirm();
+        });
+
+        cancelButton.addEventListener('click', () => {
+            warningDiv.remove();
+            onCancel();
+        });
+
+        this.chatBox.appendChild(warningDiv);
+        scrollToBottom(this.chatBox);
     }
 }
 
