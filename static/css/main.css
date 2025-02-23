@@ -1,6 +1,7 @@
 @import 'theme.css';
 @import 'animations.css';
 
+/* Base Layout */
 body {
     font-family: var(--font-family);
     margin: 0;
@@ -10,33 +11,28 @@ body {
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas: 
+        "header"
+        "chat"
+        "prompts"
+        "input";
     overflow-x: hidden;
 }
 
 /* Header */
 .header {
+    grid-area: header;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: var(--background-color);
+    z-index: 10;
     text-align: center;
     padding: var(--spacing-xl) 0;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -140px);
-    width: 100%;
-    z-index: 10;
-    background: var(--background-color);
-}
-
-body.with-chat .header {
-    position: fixed;
-    top: 0;
-    transform: translate(-50%, 0);
-    padding: var(--spacing-md) 0;
-    background: var(--background-color);
     border-bottom: 1px solid var(--border-color);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .header h1 {
@@ -57,6 +53,15 @@ body.with-chat .header {
     opacity: 1;
 }
 
+body.with-chat .header {
+    position: fixed;
+    top: 0;
+    transform: translate(-50%, 0);
+    padding: var(--spacing-md) 0;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
 body.with-chat .header h1 {
     font-size: 32px;
 }
@@ -66,17 +71,33 @@ body.with-chat .header .subtitle {
     margin-top: 4px;
 }
 
+/* Chat container */
+.chat-container {
+    grid-area: chat;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    display: none;
+}
+
+.chat-container.visible {
+    display: block;
+}
+
 /* Example prompts */
 .example-prompts {
+    grid-area: prompts;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: var(--spacing-sm);
-    width: 100%;
-    max-width: 800px;
-    padding: var(--spacing-md);
     transition: all 0.3s ease;
     opacity: 1;
-    margin: 0 auto;
     position: relative;
     z-index: 5;
 }
@@ -132,16 +153,15 @@ body.with-chat .example-prompts {
 
 /* Input Section */
 .input-section {
+    grid-area: input;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
     padding: var(--spacing-md);
+    background: var(--background-color);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 2;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, 40px);
+    position: relative;
 }
 
 .input-container {
@@ -168,31 +188,19 @@ input[type="text"]:focus {
     outline: none;
 }
 
-/* Mobile optimizations */
+/* Mobile Layout */
 @media (max-width: 768px) {
-    :root {
-        --spacing-xs: 4px;
-        --spacing-sm: 8px;
-        --spacing-md: 12px;
-        --spacing-lg: 16px;
-        --spacing-xl: 24px;
-        --font-size-small: 13px;
-        --font-size-base: 15px;
-        --header-height: 50px;
-        --input-height: 60px;
+    body {
+        grid-template-rows: var(--header-height) 1fr auto var(--input-height);
+        height: 100vh; /* Ensure full viewport height */
+        padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    /* Mobile layout */
     .header {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
-        background: var(--background-color);
-        border-bottom: 1px solid var(--border-color);
-        padding: var(--spacing-sm) 0;
+        width: 100%;
         height: var(--header-height);
+        padding: var(--spacing-sm) 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -200,91 +208,38 @@ input[type="text"]:focus {
 
     .chat-container {
         margin-top: var(--header-height);
-        margin-bottom: calc(var(--input-height) + 140px);
-        min-height: calc(100vh - var(--header-height) - var(--input-height) - 140px);
         padding: var(--spacing-md);
-        display: block;
+        height: calc(100vh - var(--header-height) - var(--input-height));
+        overflow-y: auto;
     }
 
     .example-prompts {
-        position: fixed;
-        bottom: calc(var(--input-height) + env(safe-area-inset-bottom, 0px));
-        left: 0;
-        right: 0;
+        padding: var(--spacing-sm);
         grid-template-columns: repeat(2, 1fr);
-        padding: var(--spacing-md);
+        gap: var(--spacing-xs);
         background: var(--background-color);
-        border-top: 1px solid var(--border-color);
     }
 
-    .example-prompt {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        min-height: 48px;
-        font-size: 11px;
-        line-height: 1.2;
-    }
-
-    .prompt-icon {
-        width: 16px;
-        height: 16px;
-        margin-bottom: 2px;
-    }
-
-    /* Input section pinned to bottom with safe area support */
     .input-section {
         position: fixed;
-        bottom: env(safe-area-inset-bottom, 0px);
+        bottom: 0;
         left: 0;
         right: 0;
-        padding: var(--spacing-sm) var(--spacing-md);
-        background: var(--background-color);
+        padding: var(--spacing-sm);
         border-top: 1px solid var(--border-color);
+        background: var(--background-color);
+        z-index: 10;
     }
 
-    .input-container {
-        padding: 6px;
-        gap: 6px;
-    }
-
-    input[type="text"] {
-        padding: 8px var(--spacing-md);
-        font-size: 16px; /* Prevent iOS zoom */
-        height: 40px;
-        border-radius: var(--border-radius-lg);
-    }
-
-    /* Improved touch targets */
-    button {
-        min-height: 40px;
-        min-width: 40px;
-        padding: 8px 16px;
-        border-radius: var(--border-radius-lg);
-        touch-action: manipulation;
-    }
-
-    .clear-chat {
-        padding: 8px;
-        min-width: auto;
-        font-size: 12px;
-    }
-
-    /* Comprehensive safe area support */
+    /* Adjust for iOS safe areas */
     @supports(padding: max(0px)) {
         body {
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
         }
 
-        .header {
-            padding-left: max(var(--spacing-md), env(safe-area-inset-left));
-            padding-right: max(var(--spacing-md), env(safe-area-inset-right));
-            width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
-        }
-
         .input-section {
-            padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
-            padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
-            width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+            padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
         }
     }
 }
@@ -328,13 +283,4 @@ button:hover {
     margin: 0 var(--spacing-md);
     font-size: var(--font-size-small);
     color: var(--text-secondary);
-}
-
-/* Chat container (hidden initially) */
-.chat-container {
-    display: none;
-}
-
-.chat-container.visible {
-    display: block;
 }
