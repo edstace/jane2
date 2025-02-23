@@ -105,11 +105,7 @@ body:not(.with-chat) .main-content {
 }
 
 body:not(.with-chat) .input-section {
-    margin-top: 0;
-}
-
-body:not(.with-chat) .header {
-    margin-bottom: var(--spacing-md);
+    margin-top: auto;
 }
 
 /* Example Prompts */

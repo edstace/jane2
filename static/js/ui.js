@@ -11,6 +11,7 @@ export class UI {
         this.charCounter = document.querySelector('.char-counter');
         this.inputSection = document.querySelector('.input-section');
         this.examplePrompts = document.querySelector('.example-prompts');
+        this.mainContent = document.querySelector('.main-content');
         
         this.setupEventListeners();
     }
@@ -225,11 +226,32 @@ export class UI {
             // Add visible class to trigger transition after a short delay
             setTimeout(() => {
                 this.chatContainer.classList.add('visible');
+                this.mainContent.classList.add('visible');
                 this.examplePrompts.classList.add('hidden');
             }, 300);
             
             console.log('Chat container shown');
         }
+    }
+
+    clearChat() {
+        this.chatBox.innerHTML = '';
+        this.userInput.value = '';
+        this.updateCharCount();
+        
+        // Remove chat state classes
+        document.body.classList.remove('with-chat');
+        this.chatContainer.classList.remove('visible');
+        this.mainContent.classList.remove('visible');
+        
+        // Show example prompts with a slight delay to allow for transitions
+        setTimeout(() => {
+            this.examplePrompts.classList.remove('hidden');
+            // Force a reflow to ensure the transition works
+            void this.examplePrompts.offsetHeight;
+            this.examplePrompts.style.opacity = '1';
+            this.examplePrompts.style.visibility = 'visible';
+        }, 300);
     }
 
     getInputValue() {
