@@ -88,7 +88,7 @@ if os.getenv('FLASK_ENV') == 'production':
     Talisman(app, content_security_policy={
         'default-src': "'self'",
         'script-src': ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
-        'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+        'style-src': ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdn.jsdelivr.net"],
         'font-src': ["'self'", "fonts.gstatic.com"],
         'img-src': ["'self'", "data:", "https:"],
     })
