@@ -32,8 +32,9 @@ export class UI {
         });
 
         // Input handlers
-        this.userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+        this.userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
                 this.handleEnterPress();
             }
         });
