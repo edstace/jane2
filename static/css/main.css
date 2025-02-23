@@ -9,6 +9,7 @@
     --text-primary: #1a1a1a;
     --text-secondary: #666666;
     --border-color: #e5e7eb;
+    --surface-hover: #f1f5f9;
     
     /* Typography */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -23,8 +24,12 @@
     --spacing-xl: 2rem;
     
     /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-normal: 250ms ease;
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 /* Base Layout */
@@ -48,6 +53,8 @@ body {
     max-width: 1000px;
     margin: 0 auto;
     width: 100%;
+    padding: 0 var(--spacing-md);
+    box-sizing: border-box;
 }
 
 /* Header */
@@ -65,6 +72,7 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    letter-spacing: -0.03em;
 }
 
 .header .subtitle {
@@ -78,7 +86,6 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 0 var(--spacing-md);
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
@@ -87,7 +94,7 @@ body {
 /* Example Prompts */
 .example-prompts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
 }
@@ -95,26 +102,38 @@ body {
 .prompt-button {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
     background-color: #f8fafc;
     border: 1px solid var(--border-color);
     border-radius: 0.75rem;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-normal);
     text-align: left;
     color: var(--text-primary);
+    font-size: 0.9375rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .prompt-button:hover {
-    background-color: #f1f5f9;
+    background-color: var(--surface-hover);
     border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.prompt-button:active {
     transform: translateY(-1px);
 }
 
 .prompt-icon {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     opacity: 0.9;
+    transition: transform var(--transition-fast);
+}
+
+.prompt-button:hover .prompt-icon {
+    transform: scale(1.1);
 }
 
 /* Chat Messages */
@@ -122,15 +141,17 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: var(--spacing-md) 0;
+    margin: var(--spacing-xl) 0;
 }
 
 /* Input Section */
 .input-section {
     position: sticky;
     bottom: 0;
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     background-color: var(--background-color);
     border-top: 1px solid var(--border-color);
+    margin-top: auto;
 }
 
 .chat-form {
@@ -145,6 +166,12 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 1rem;
     padding: var(--spacing-sm);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 textarea {
@@ -164,19 +191,33 @@ textarea:focus {
     outline: none;
 }
 
+textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
 .send-button {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 0.5rem;
-    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 0.75rem;
+    padding: var(--spacing-sm) var(--spacing-lg);
     font-weight: 500;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
 }
 
 .send-button:hover {
     background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.send-button:active {
+    transform: translateY(0);
 }
 
 .char-counter {
@@ -184,10 +225,15 @@ textarea:focus {
     color: var(--text-secondary);
     text-align: right;
     margin-top: var(--spacing-xs);
+    opacity: 0.8;
 }
 
 /* Mobile Layout */
 @media (max-width: 768px) {
+    .chat-container {
+        padding: 0 var(--spacing-sm);
+    }
+
     .header {
         padding: var(--spacing-lg) var(--spacing-md);
         margin-bottom: var(--spacing-lg);
@@ -200,11 +246,19 @@ textarea:focus {
     .example-prompts {
         grid-template-columns: 1fr;
         gap: var(--spacing-sm);
-        padding: 0 var(--spacing-sm);
+    }
+
+    .prompt-button {
+        padding: var(--spacing-md);
     }
 
     .input-section {
         padding: var(--spacing-sm);
+    }
+
+    .send-button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        min-width: 70px;
     }
 }
 
@@ -215,18 +269,25 @@ textarea:focus {
         --text-primary: #f1f5f9;
         --text-secondary: #94a3b8;
         --border-color: #1e293b;
+        --surface-hover: #1e293b;
     }
 
     .prompt-button {
         background-color: #1e293b;
+        box-shadow: var(--shadow-sm);
     }
 
     .prompt-button:hover {
         background-color: #334155;
         border-color: #475569;
+        box-shadow: var(--shadow-md);
     }
 
     .input-wrapper {
         background-color: #1e293b;
+    }
+
+    .input-wrapper:focus-within {
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
     }
 }
