@@ -560,7 +560,7 @@ textarea::placeholder {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-xl);
+    margin: var(--spacing-xl) 0;
     padding-bottom: var(--spacing-xl);
     opacity: 1;
     transition: opacity var(--transition-normal), visibility var(--transition-normal);
@@ -590,8 +590,7 @@ textarea::placeholder {
 @media (min-width: 769px) {
     .example-prompts {
         order: 4;
-        margin-top: var(--spacing-md);
-        margin-bottom: var(--spacing-xl);
+        margin: var(--spacing-xl) 0;
         padding-bottom: var(--spacing-xl);
     }
 
