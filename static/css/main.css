@@ -11,29 +11,19 @@ body {
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
     min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto auto auto auto;
-    grid-template-areas: 
-        "header"
-        "chat"
-        "input"
-        "prompts";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow-x: hidden;
-    gap: var(--spacing-md);
 }
 
-/* Header */
+/* Layout Components */
 .header {
-    grid-area: header;
-    position: sticky;
-    top: 0;
     width: 100%;
-    background: var(--background-color);
-    z-index: 10;
     text-align: center;
     padding: var(--spacing-xl) 0;
-    border-bottom: 1px solid var(--border-color);
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    margin-bottom: var(--spacing-xl);
+    background: var(--background-color);
 }
 
 .header h1 {
@@ -51,35 +41,27 @@ body {
     color: var(--text-secondary);
     margin-top: 12px;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    opacity: 1;
 }
 
-body.with-chat .header {
-    position: fixed;
-    top: 0;
-    transform: translate(-50%, 0);
-    padding: var(--spacing-md) 0;
-    background: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
-}
-
-body.with-chat .header h1 {
-    font-size: 32px;
-}
-
-body.with-chat .header .subtitle {
-    font-size: 16px;
-    margin-top: 4px;
+/* Main content container */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    flex: 1;
+    padding: 0 var(--spacing-md);
+    margin: 0 auto;
 }
 
 /* Chat container */
 .chat-container {
-    grid-area: chat;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
     padding: var(--spacing-md);
-    overflow-y: auto;
     display: none;
     min-height: 200px;
 }
@@ -94,18 +76,13 @@ body:not(.with-chat) .chat-container {
 
 /* Example prompts */
 .example-prompts {
-    grid-area: prompts;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    margin: var(--spacing-xl) auto;
     padding: var(--spacing-md);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: var(--spacing-sm);
-    transition: all 0.3s ease;
-    opacity: 1;
-    position: relative;
-    z-index: 5;
 }
 
 body.with-chat .example-prompts {
@@ -159,15 +136,12 @@ body.with-chat .example-prompts {
 
 /* Input Section */
 .input-section {
-    grid-area: input;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto var(--spacing-xl) auto;
     padding: var(--spacing-md);
     background: var(--background-color);
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 2;
-    position: relative;
 }
 
 .input-container {
@@ -197,6 +171,7 @@ input[type="text"]:focus {
 /* Mobile Layout */
 @media (max-width: 768px) {
     body {
+        display: grid;
         grid-template-rows: var(--header-height) 1fr auto var(--input-height);
         grid-template-areas: 
             "header"
@@ -209,16 +184,24 @@ input[type="text"]:focus {
     }
 
     .header {
+        grid-area: header;
         position: fixed;
         width: 100%;
         height: var(--header-height);
         padding: var(--spacing-sm) 0;
+        margin: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .main-content {
+        padding: 0;
     }
 
     .chat-container {
+        grid-area: chat;
         margin-top: var(--header-height);
         padding: var(--spacing-md);
         height: calc(100vh - var(--header-height) - var(--input-height));
@@ -226,17 +209,21 @@ input[type="text"]:focus {
     }
 
     .example-prompts {
+        grid-area: prompts;
         padding: var(--spacing-sm);
+        margin: 0;
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-xs);
         background: var(--background-color);
     }
 
     .input-section {
+        grid-area: input;
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
+        margin: 0;
         padding: var(--spacing-sm);
         border-top: 1px solid var(--border-color);
         background: var(--background-color);
