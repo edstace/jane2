@@ -86,7 +86,7 @@ body.with-chat {
 }
 
 .new-chat-button {
-    display: flex;
+    display: none;  /* Hide by default */
     align-items: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-md);
@@ -97,6 +97,10 @@ body.with-chat {
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
+}
+
+body.with-chat .new-chat-button {
+    display: flex;  /* Show only when chat is active */
 }
 
 .new-chat-button:hover {
@@ -202,11 +206,13 @@ body:not(.with-chat) .example-prompts {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    padding-top: calc(var(--spacing-xl) * 1.5);
-    margin-bottom: calc(var(--spacing-xl) * 2.5);
+    padding-top: calc(var(--spacing-xl) * 2);
+    margin-bottom: calc(var(--spacing-xl) * 3);
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
+                padding var(--transition-normal),
+                margin var(--transition-normal);
     justify-content: center;
 }
 
@@ -586,9 +592,13 @@ textarea::placeholder {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: var(--spacing-sm);
         margin: var(--spacing-xl) 0;
+        padding-top: calc(var(--spacing-xl) * 1.5);
         padding-bottom: var(--spacing-xl);
+        margin-bottom: calc(var(--spacing-xl) * 2);
         opacity: 1;
-        transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        transition: opacity var(--transition-normal), visibility var(--transition-normal),
+                    padding var(--transition-normal),
+                    margin var(--transition-normal);
         order: 1;
     }
 
