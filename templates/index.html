@@ -33,7 +33,7 @@
         </main>
 
         <footer class="input-section">
-            <form id="chat-form" class="chat-form" onsubmit="event.preventDefault(); window.sendMessage();">
+            <form id="chat-form" class="chat-form">
                 <div class="input-wrapper">
                     <textarea 
                         id="user-input" 
@@ -78,6 +78,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // Make marked available as a module
+        window.marked = marked;
+    </script>
     <script type="module" src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/ui.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/chat.js') }}"></script>

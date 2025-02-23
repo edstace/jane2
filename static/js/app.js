@@ -1,6 +1,13 @@
 import { ui } from './ui.js';
 import { chat } from './chat.js';
 
+// Initialize global functions first
+window.sendMessage = () => {
+    console.log('Send button clicked');
+    const event = new CustomEvent('send-message');
+    document.dispatchEvent(event);
+};
+
 class App {
     constructor() {
         this.ui = ui;
@@ -9,12 +16,6 @@ class App {
     }
 
     init() {
-        // Add global handlers for buttons
-        window.sendMessage = () => {
-            console.log('Send button clicked');
-            const event = new CustomEvent('send-message');
-            document.dispatchEvent(event);
-        };
         
         window.clearChat = () => chat.clearChat();
 

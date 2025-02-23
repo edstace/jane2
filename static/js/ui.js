@@ -1,5 +1,6 @@
 import { createElement, formatMessage, scrollToBottom } from './utils.js';
-import { marked } from 'marked';
+// Use global marked instance
+const { marked } = window;
 
 export class UI {
     constructor() {
