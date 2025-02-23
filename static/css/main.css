@@ -97,15 +97,15 @@ body:not(.with-chat) .header {
     margin: 0 auto;
     order: 2;
     min-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .main-content.visible {
     display: flex;
-}
-
-/* Before chat starts */
-body:not(.with-chat) .main-content {
-    display: none;
+    opacity: 1;
+    visibility: visible;
 }
 
 body:not(.with-chat) .input-section {
