@@ -46,8 +46,16 @@ body {
     flex-direction: column;
 }
 
+body {
+    transition: padding-top var(--transition-normal);
+}
+
 body.with-chat {
     padding-top: calc(var(--spacing-xl) * 3);
+}
+
+.header {
+    transition: all var(--transition-normal);
 }
 
 .chat-container {
@@ -68,6 +76,11 @@ body.with-chat .header {
     right: 0;
     background: var(--background-color);
     border-bottom: 1px solid var(--border-color);
+    transform: translateY(0);
+}
+
+body:not(.with-chat) .header {
+    transform: translateY(0);
 }
 
 body.with-chat .main-content {

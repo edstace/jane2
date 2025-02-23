@@ -211,25 +211,20 @@ export class UI {
         if (!this.chatContainer.classList.contains('visible')) {
             console.log('Showing chat container');
             
-            // Reset any inline styles
-            this.chatContainer.style.cssText = '';
-            
-            // Add with-chat class to body first to trigger layout changes
+            // Add with-chat class to body immediately
             document.body.classList.add('with-chat');
             
-            // Force a reflow before adding the visible class
-            void this.chatContainer.offsetHeight;
-            
-            // Hide example prompts first with transition
+            // Hide example prompts immediately
+            this.examplePrompts.classList.add('hidden');
             this.examplePrompts.style.opacity = '0';
             this.examplePrompts.style.visibility = 'hidden';
             
-            // Add visible class to trigger transition after a short delay
-            setTimeout(() => {
-                this.chatContainer.classList.add('visible');
-                this.mainContent.classList.add('visible');
-                this.examplePrompts.classList.add('hidden');
-            }, 300);
+            // Force a reflow
+            void this.chatContainer.offsetHeight;
+            
+            // Show chat container and main content
+            this.chatContainer.classList.add('visible');
+            this.mainContent.classList.add('visible');
             
             console.log('Chat container shown');
         }
