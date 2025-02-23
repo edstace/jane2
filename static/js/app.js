@@ -6,7 +6,6 @@ class App {
         this.ui = ui;
         this.chat = chat;
         this.init();
-        this.showToast();
     }
 
     init() {
@@ -34,28 +33,6 @@ class App {
             }
         });
     }
-
-    showToast() {
-        // Show toast notification if not shown before and not on mobile
-        if (!localStorage.getItem('smsToastShown') && window.innerWidth > 768) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `
-                <p>Text JANE at <strong>850-498-1386</strong></p>
-                <button onclick="this.parentElement.remove(); localStorage.setItem('smsToastShown', 'true')">&times;</button>
-            `;
-            document.body.appendChild(toast);
-            
-            // Auto-hide after 10 seconds
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.remove();
-                    localStorage.setItem('smsToastShown', 'true');
-                }
-            }, 10000);
-        }
-    }
-
 }
 
 // Initialize app when DOM is ready

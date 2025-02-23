@@ -2,39 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JANE - Job Assistance and Navigation Expert</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        @media (min-width: 768px) {
+            .header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1;
+            }
+            .main-content {
+                margin-top: 60px; /* adjust the value to match the height of the header */
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="header" id="header">
-        <h1>JANE</h1>
-        <div class="subtitle">Job Assistance and Navigation Expert</div>
-    </div>
+    <div class="chat-container">
+        <header class="header">
+            <h1>JANE</h1>
+            <p class="subtitle">Job Assistance and Navigation Expert</p>
+        </header>
 
-    <div class="main-content">
-        <main class="chat-container" id="chatContainer">
-            <div class="chat-box" id="chatBox"></div>
+        <main class="main-content">
+            <div class="example-prompts">
+                <button class="prompt-button">
+                    <div class="prompt-icon">📝</div>
+                    <span>Help me write a resume</span>
+                </button>
+                <button class="prompt-button">
+                    <div class="prompt-icon">💼</div>
+                    <span>How to prepare for an interview</span>
+                </button>
+                <button class="prompt-button">
+                    <div class="prompt-icon">🔍</div>
+                    <span>Find jobs in my area</span>
+                </button>
+                <button class="prompt-button">
+                    <div class="prompt-icon">📈</div>
+                    <span>Career advice for my field</span>
+                </button>
+                <button class="prompt-button">
+                    <div class="prompt-icon">💰</div>
+                    <span>Negotiate my salary</span>
+                </button>
+                <button class="prompt-button">
+                    <div class="prompt-icon">👥</div>
+                    <span>Improve my LinkedIn profile</span>
+                </button>
+            </div>
+
+            <div id="chat-messages" class="chat-messages"></div>
         </main>
 
-        <div class="input-section">
-            <div class="input-container">
-                <input type="text" 
-                    id="userInput" 
-                    placeholder="Ask anything" 
-                    maxlength="500">
-                <span class="char-counter">0/500</span>
-                <button onclick="window.sendMessage()">Send</button>
-                <button class="clear-chat" onclick="window.clearChat()" title="Clear chat history (Cmd/Ctrl + K)">Clear Chat</button>
-            </div>
-        </div>
-
-        <div class="example-prompts">
-            <button class="example-prompt" onclick="window.setPrompt('Help me write a resume')"><svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" stroke="#4CAF50"/><path d="M13 2v7h7" stroke="#4CAF50"/></svg>Help me write a resume</button><button class="example-prompt" onclick="window.setPrompt('How to prepare for an interview')"><svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="#2196F3"/><path d="M19 6.3a9 9 0 0 1 0 11.4M16 8.7a5 5 0 0 1 0 6.6M5 6.3a9 9 0 0 0 0 11.4M8 8.7a5 5 0 0 0 0 6.6" stroke="#2196F3"/></svg>How to prepare for an interview</button><button class="example-prompt" onclick="window.setPrompt('Find jobs in my area')"><svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="#FF5722"/><circle cx="12" cy="10" r="3" stroke="#FF5722"/></svg>Find jobs in my area</button><button class="example-prompt" onclick="window.setPrompt('Career advice for my field')"><svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#9C27B0"/></svg>Career advice for my field</button><button class="example-prompt" onclick="window.setPrompt('Negotiate my salary')"><svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H7" stroke="#009688"/></svg>Negotiate my salary</button><button class="example-prompt" onclick="window.setPrompt('Improve my LinkedIn profile')"><svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" stroke="#0288D1"/><circle cx="4" cy="4" r="2" stroke="#0288D1"/></svg>Improve my LinkedIn profile</button>
-        </div>
+        <footer class="input-section">
+            <form id="chat-form" class="chat-form">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="Ask anything" 
+                        rows="1"
+                        maxlength="2000"
+                    ></textarea>
+                    <button type="submit" class="send-button">
+                        <span>Send</span>
+                    </button>
+                </div>
+                <div class="char-counter">0/2000</div>
+            </form>
+        </footer>
     </div>
-    <script type="module" src="/static/js/app.js"></script>
+
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 </body>
 </html>

@@ -1,6 +1,32 @@
 @import 'theme.css';
 @import 'animations.css';
 
+:root {
+    /* Colors */
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --background-color: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --border-color: #e5e7eb;
+    
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --line-height: 1.5;
+    --letter-spacing: -0.01em;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+}
+
 /* Base Layout */
 body {
     font-family: var(--font-family);
@@ -11,305 +37,196 @@ body {
     line-height: var(--line-height);
     letter-spacing: var(--letter-spacing);
     min-height: 100vh;
-    display: grid;
-    grid-template-areas:
-        "header"
-        "main"
-        "footer";
-    grid-template-rows: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 /* Header */
 .header {
-    grid-area: header;
-    width: 100%;
     text-align: center;
     padding: var(--spacing-xl) 0;
-    background: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
-    z-index: 10;
+    margin-bottom: var(--spacing-xl);
 }
 
 .header h1 {
-    font-size: 48px;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: 700;
     margin: 0;
-    line-height: 1;
-    color: var(--primary-color);
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .header .subtitle {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 1.125rem;
     color: var(--text-secondary);
-    margin-top: 12px;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    margin-top: var(--spacing-sm);
 }
 
 /* Main Content */
 .main-content {
-    grid-area: main;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
-    padding: 0 var(--spacing-md);
-    margin: 0 auto;
     flex: 1;
-}
-
-/* Chat container */
-.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing-md);
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: var(--spacing-md);
-    display: none;
-    min-height: 200px;
 }
 
-.chat-container.visible {
-    display: block;
-}
-
-body:not(.with-chat) .chat-container {
-    display: none;
-}
-
-/* Example prompts */
+/* Example Prompts */
 .example-prompts {
-    width: 100%;
-    max-width: 800px;
-    margin: var(--spacing-md) auto var(--spacing-xl);
-    padding: var(--spacing-md);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: var(--spacing-sm);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
 }
 
-body.with-chat .example-prompts {
-    display: none;
-}
-
-.example-prompts.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(10px);
-}
-
-.example-prompt {
-    border: 1px solid var(--border-color);
-    padding: var(--spacing-sm);
-    background: white;
-    border-radius: var(--border-radius-lg);
-    color: var(--text-primary);
-    text-align: center;
-    font-size: var(--font-size-small);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: var(--shadow-sm);
+.prompt-button {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: var(--spacing-xs);
-    white-space: normal;
-    min-height: 80px;
-    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    color: var(--text-primary);
 }
 
-.example-prompt:hover {
-    background: rgba(0,0,0,0.02);
-    border-color: var(--primary-color);
+.prompt-button:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.example-prompt:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
 }
 
 .prompt-icon {
-    width: 24px;
-    height: 24px;
-    stroke-width: 2;
-    margin-bottom: 4px;
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+/* Chat Messages */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-md) 0;
 }
 
 /* Input Section */
 .input-section {
-    width: 100%;
-    max-width: 800px;
-    margin: var(--spacing-md) auto;
+    position: sticky;
+    bottom: 0;
     padding: var(--spacing-md);
-    background: var(--background-color);
-    z-index: 2;
+    background-color: var(--background-color);
+    border-top: 1px solid var(--border-color);
 }
 
-.input-container {
+.chat-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.input-wrapper {
     display: flex;
-    align-items: center;
     gap: var(--spacing-sm);
-    background: white;
+    background-color: #f8fafc;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-xxl);
-    padding: var(--spacing-xs);
-    position: relative;
+    border-radius: 1rem;
+    padding: var(--spacing-sm);
 }
 
-input[type="text"] {
-    flex-grow: 1;
-    padding: var(--spacing-sm) var(--spacing-lg);
+textarea {
+    flex: 1;
     border: none;
-    border-radius: var(--border-radius-lg);
-    font-size: var(--font-size-base);
-    background-color: transparent;
+    background: transparent;
+    resize: none;
+    padding: var(--spacing-sm);
+    font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.5;
+    min-height: 24px;
+    max-height: 200px;
 }
 
-input[type="text"]:focus {
+textarea:focus {
     outline: none;
+}
+
+.send-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.send-button:hover {
+    background-color: var(--primary-hover);
+}
+
+.char-counter {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-align: right;
+    margin-top: var(--spacing-xs);
 }
 
 /* Mobile Layout */
 @media (max-width: 768px) {
-    body {
-        grid-template-rows: auto 1fr auto;
-    }
-
     .header {
-        position: sticky;
-        top: 0;
-        padding: var(--spacing-sm) 0;
+        padding: var(--spacing-lg) var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
     }
 
     .header h1 {
-        font-size: 32px;
-    }
-
-    .header .subtitle {
-        font-size: 16px;
-        margin-top: 4px;
-    }
-
-    .main-content {
-        padding: var(--spacing-md);
-    }
-
-    .chat-container {
-        grid-area: main;
-        padding: var(--spacing-md);
-        height: calc(100vh - var(--header-height) - var(--input-height));
-        overflow-y: auto;
+        font-size: 2rem;
     }
 
     .example-prompts {
-        grid-area: main;
-        padding: var(--spacing-sm);
-        margin: 0;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-xs);
-        background: var(--background-color);
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+        padding: 0 var(--spacing-sm);
     }
 
     .input-section {
-        grid-area: footer;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: 0;
         padding: var(--spacing-sm);
-        border-top: 1px solid var(--border-color);
-        background: var(--background-color);
-        z-index: 10;
-    }
-
-    /* Adjust for iOS safe areas */
-    @supports(padding: max(0px)) {
-        body {
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-        }
-
-        .input-section {
-            padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
-        }
     }
 }
 
-/* Desktop Layout */
-@media (min-width: 769px) {
-    body {
-        display: grid;
-        grid-template-areas:
-            "header"
-            "main"
-            "footer";
-        grid-template-rows: auto 1fr auto;
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #0f172a;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #1e293b;
     }
 
-    .header {
-        position: static;
-        margin: 0;
-        padding: var(--spacing-xl) 0;
+    .prompt-button {
+        background-color: #1e293b;
     }
 
-    .main-content {
-        grid-area: main;
-        flex: 1;
-        padding: var(--spacing-xl) var(--spacing-md);
-        margin: 0 auto;
+    .prompt-button:hover {
+        background-color: #334155;
+        border-color: #475569;
     }
 
-    .input-section {
-        grid-area: footer;
-        margin: var(--spacing-xl) auto;
+    .input-wrapper {
+        background-color: #1e293b;
     }
-
-    .example-prompts {
-        margin: var(--spacing-xl) auto;
-    }
-}
-
-/* Basic button styles */
-button {
-    padding: var(--spacing-sm) var(--spacing-xl);
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-lg);
-    cursor: pointer;
-    font-size: var(--font-size-base);
-    font-weight: 500;
-    min-width: 70px;
-    position: relative;
-    overflow: hidden;
-}
-
-button:hover {
-    background-color: var(--primary-hover);
-}
-
-.clear-chat {
-    background: rgba(0,0,0,0.02);
-    color: var(--text-secondary);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-small);
-    border-radius: var(--border-radius-sm);
-    font-weight: 400;
-    min-width: auto;
-    margin: 0 0 0 var(--spacing-xs);
-}
-
-.clear-chat:hover {
-    background: rgba(0,0,0,0.04);
-}
-
-/* Utilities */
-.char-counter {
-    margin: 0 var(--spacing-md);
-    font-size: var(--font-size-small);
-    color: var(--text-secondary);
 }
