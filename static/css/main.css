@@ -206,8 +206,8 @@ body:not(.with-chat) .example-prompts {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    padding-top: calc(var(--spacing-xl) * 2);
-    margin-bottom: calc(var(--spacing-xl) * 3);
+    padding-top: calc(var(--spacing-xl) * 8);
+    margin-bottom: calc(var(--spacing-xl) * 12);
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
@@ -592,9 +592,9 @@ textarea::placeholder {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: var(--spacing-sm);
         margin: var(--spacing-xl) 0;
-        padding-top: calc(var(--spacing-xl) * 1.5);
+        padding-top: calc(var(--spacing-xl) * 6);
         padding-bottom: var(--spacing-xl);
-        margin-bottom: calc(var(--spacing-xl) * 2);
+        margin-bottom: calc(var(--spacing-xl) * 8);
         opacity: 1;
         transition: opacity var(--transition-normal), visibility var(--transition-normal),
                     padding var(--transition-normal),
