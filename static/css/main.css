@@ -46,6 +46,10 @@ body {
     flex-direction: column;
 }
 
+body.with-chat {
+    padding-top: calc(var(--spacing-xl) * 3);
+}
+
 .chat-container {
     display: flex;
     flex-direction: column;
@@ -54,6 +58,20 @@ body {
     width: 100%;
     padding: 0 var(--spacing-md);
     box-sizing: border-box;
+    min-height: 100vh;
+}
+
+body.with-chat .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+body.with-chat .main-content {
+    margin-top: var(--spacing-md);
 }
 
 /* Header */
