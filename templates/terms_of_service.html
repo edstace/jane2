@@ -8,85 +8,113 @@
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <style>
-        .terms-content {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f8fafc;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.75rem;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
         }
 
-        .terms-content h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
             text-align: center;
         }
 
-        .terms-content h2 {
-            font-size: 1.5rem;
+        h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #34495e;
             margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: 1.1rem;
             margin-bottom: 10px;
         }
 
-        .terms-content p {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #777;
         }
     </style>
 </head>
 <body>
-    <header class="top-header">
-        <div class="header-content">
-            <button id="new-chat-btn" class="new-chat-button">
-                <i class="fa-solid fa-plus"></i>
-                New Chat
-            </button>
-        </div>
-    </header>
+    <div class="container">
+        <h1>Terms of Service</h1>
 
-    <div class="chat-container">
-        <div class="logo-section">
-            <h1>Terms of Service</h1>
-        </div>
+        <p>Welcome to JANE, your Job Assistance and Navigation Expert. By using our services, you agree to comply with the following terms:</p>
 
-        <main class="main-content">
-            <div class="terms-content">
-                <h1>Terms of Service</h1>
-                <p>Welcome to JANE, your Job Assistance and Navigation Expert. By using our services, you agree to comply with the following terms:</p>
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using JANE, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any part of these terms, you must not use our services.</p>
 
-                <h2>1. Acceptance of Terms</h2>
-                <p>By accessing or using JANE, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any part of these terms, you must not use our services.</p>
+        <h2>2. Description of Service</h2>
+        <p>JANE is an AI-powered chatbot designed to provide guidance and support to individuals with disabilities in their journey to secure and maintain meaningful employment. Our services include, but are not limited to, career advice, resume and cover letter development, interview preparation, and information on workplace accommodations.</p>
 
-                <h2>2. Description of Service</h2>
-                <p>JANE is an AI-powered chatbot designed to provide guidance and support to individuals with disabilities in their journey to secure and maintain meaningful employment. Our services include, but are not limited to, career advice, resume and cover letter development, interview preparation, and information on workplace accommodations.</p>
+        <h2>3. Use of Service</h2>
+        <p>You agree to use JANE for lawful purposes only and in a manner that does not infringe upon the rights of others or restrict their use and enjoyment of our services. You are responsible for ensuring that your use of JANE complies with all applicable laws, regulations, and guidelines.</p>
 
-                <h2>3. Use of Service</h2>
-                <p>You agree to use JANE for lawful purposes only and in a manner that does not infringe upon the rights of others or restrict their use and enjoyment of our services. You are responsible for ensuring that your use of JANE complies with all applicable laws, regulations, and guidelines.</p>
+        <h2>4. Disclaimer of Warranty</h2>
+        <p>JANE is provided on an "as is" and "as available" basis, without any warranties of any kind, either express or implied. We do not warrant that our services will be uninterrupted, error-free, or free of harmful components. We make no representations or warranties regarding the accuracy, completeness, or reliability of any information provided by JANE.</p>
 
-                <h2>4. Disclaimer of Warranty</h2>
-                <p>JANE is provided on an "as is" and "as available" basis, without any warranties of any kind, either express or implied. We do not warrant that our services will be uninterrupted, error-free, or free of harmful components. We make no representations or warranties regarding the accuracy, completeness, or reliability of any information provided by JANE.</p>
+        <h2>5. Limitation of Liability</h2>
+        <p>To the fullest extent permitted by law, JANE and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of our services. We shall not be responsible for any loss of data, profits, or opportunities, or for any damages resulting from the use or inability to use JANE.</p>
 
-                <h2>5. Limitation of Liability</h2>
-                <p>To the fullest extent permitted by law, JANE and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of our services. We shall not be responsible for any loss of data, profits, or opportunities, or for any damages resulting from the use or inability to use JANE.</p>
+        <h2>6. Intellectual Property</h2>
+        <p>All content and materials available through JANE, including but not limited to text, graphics, logos, and software, are the property of JANE or its licensors and are protected by copyright, trademark, and other intellectual property laws. You may not use, reproduce, or distribute any content from JANE without our prior written permission.</p>
 
-                <h2>6. Intellectual Property</h2>
-                <p>All content and materials available through JANE, including but not limited to text, graphics, logos, and software, are the property of JANE or its licensors and are protected by copyright, trademark, and other intellectual property laws. You may not use, reproduce, or distribute any content from JANE without our prior written permission.</p>
+        <h2>7. Changes to Terms</h2>
+        <p>We reserve the right to modify or replace these Terms of Service at any time without prior notice. Your continued use of JANE after any such changes constitutes your acceptance of the new Terms. It is your responsibility to review these Terms periodically for updates.</p>
 
-                <h2>7. Changes to Terms</h2>
-                <p>We reserve the right to modify or replace these Terms of Service at any time without prior notice. Your continued use of JANE after any such changes constitutes your acceptance of the new Terms. It is your responsibility to review these Terms periodically for updates.</p>
+        <h2>8. Governing Law</h2>
+        <p>These Terms of Service shall be governed by and construed in accordance with the laws of the State of [Your State], without regard to its conflict of law provisions. Any disputes arising under or in connection with these Terms shall be resolved in the courts of [Your State].</p>
 
-                <h2>8. Governing Law</h2>
-                <p>These Terms of Service shall be governed by and construed in accordance with the laws of the State of [Your State], without regard to its conflict of law provisions. Any disputes arising under or in connection with these Terms shall be resolved in the courts of [Your State].</p>
-
-                <h2>9. Contact Us</h2>
-                <p>If you have any questions or concerns about these Terms of Service, please contact us at [Your Contact Information].</p>
-            </div>
-        </main>
+        <h2>9. Contact Us</h2>
+        <p>If you have any questions or concerns about these Terms of Service, please contact us at [Your Contact Information].</p>
     </div>
-
     <footer class="page-footer">
         <p>&copy; 2024 JANE - Job Assistance and Navigation Expert
             <a href="{{ url_for('terms_of_service') }}">Terms of Service</a> |

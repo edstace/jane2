@@ -8,79 +8,107 @@
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <style>
-        .privacy-content {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f8fafc;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.75rem;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
         }
 
-        .privacy-content h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
             text-align: center;
         }
 
-        .privacy-content h2 {
-            font-size: 1.5rem;
+        h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #34495e;
             margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: 1.1rem;
             margin-bottom: 10px;
         }
 
-        .privacy-content p {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #777;
         }
     </style>
 </head>
 <body>
-    <header class="top-header">
-        <div class="header-content">
-            <button id="new-chat-btn" class="new-chat-button">
-                <i class="fa-solid fa-plus"></i>
-                New Chat
-            </button>
-        </div>
-    </header>
+    <div class="container">
+        <h1>Privacy Policy</h1>
 
-    <div class="chat-container">
-        <div class="logo-section">
-            <h1>Privacy Policy</h1>
-        </div>
+        <p>Your privacy is important to us. This Privacy Policy explains how JANE (Job Assistance and Navigation Expert) collects, uses, and protects your information.</p>
 
-        <main class="main-content">
-            <div class="privacy-content">
-                <h1>Privacy Policy</h1>
-                <p>Your privacy is important to us. This Privacy Policy explains how JANE (Job Assistance and Navigation Expert) collects, uses, and protects your information.</p>
+        <h2>1. Information We Collect</h2>
+        <p>We collect the messages you send to JANE to provide you with personalized job assistance and navigation expertise. We do not collect any personally identifiable information (PII) unless you explicitly provide it.</p>
 
-                <h2>1. Information We Collect</h2>
-                <p>We collect the messages you send to JANE to provide you with personalized job assistance and navigation expertise. We do not collect any personally identifiable information (PII) unless you explicitly provide it.</p>
+        <h2>2. How We Use Your Information</h2>
+        <p>We use the collected messages to understand your needs, improve our services, and provide you with relevant and helpful information. We may also use aggregated and anonymized data for research and development purposes.</p>
 
-                <h2>2. How We Use Your Information</h2>
-                <p>We use the collected messages to understand your needs, improve our services, and provide you with relevant and helpful information. We may also use aggregated and anonymized data for research and development purposes.</p>
+        <h2>3. Information Sharing</h2>
+        <p>We do not share your messages with third parties, except as required by law or to protect our rights and interests. We may share aggregated and anonymized data with partners or researchers for statistical analysis and service improvement.</p>
 
-                <h2>3. Information Sharing</h2>
-                <p>We do not share your messages with third parties, except as required by law or to protect our rights and interests. We may share aggregated and anonymized data with partners or researchers for statistical analysis and service improvement.</p>
+        <h2>4. Data Security</h2>
+        <p>We take reasonable measures to protect your information from unauthorized access, use, or disclosure. We use industry-standard security technologies and procedures to safeguard your data. However, please be aware that no method of transmission over the internet or method of electronic storage is completely secure, and we cannot guarantee absolute security.</p>
 
-                <h2>4. Data Security</h2>
-                <p>We take reasonable measures to protect your information from unauthorized access, use, or disclosure. We use industry-standard security technologies and procedures to safeguard your data. However, please be aware that no method of transmission over the internet or method of electronic storage is completely secure, and we cannot guarantee absolute security.</p>
+        <h2>5. Data Retention</h2>
+        <p>We retain your messages for as long as necessary to provide you with our services and as required by applicable laws and regulations. You may request the deletion of your messages by contacting us at [Your Contact Information], and we will comply with your request to the extent permitted by law.</p>
 
-                <h2>5. Data Retention</h2>
-                <p>We retain your messages for as long as necessary to provide you with our services and as required by applicable laws and regulations. You may request the deletion of your messages by contacting us at [Your Contact Information], and we will comply with your request to the extent permitted by law.</p>
+        <h2>6. Changes to Privacy Policy</h2>
+        <p>We reserve the right to modify or replace this Privacy Policy at any time without prior notice. Your continued use of JANE after any such changes constitutes your acceptance of the new Privacy Policy. It is your responsibility to review this Privacy Policy periodically for updates.</p>
 
-                <h2>6. Changes to Privacy Policy</h2>
-                <p>We reserve the right to modify or replace this Privacy Policy at any time without prior notice. Your continued use of JANE after any such changes constitutes your acceptance of the new Privacy Policy. It is your responsibility to review this Privacy Policy periodically for updates.</p>
-
-                <h2>7. Contact Us</h2>
-                <p>If you have any questions or concerns about this Privacy Policy, please contact us at [Your Contact Information].</p>
-            </div>
-        </main>
+        <h2>7. Contact Us</h2>
+        <p>If you have any questions or concerns about this Privacy Policy, please contact us at [Your Contact Information].</p>
     </div>
-
     <footer class="page-footer">
         <p>&copy; 2024 JANE - Job Assistance and Navigation Expert
             <a href="{{ url_for('terms_of_service') }}">Terms of Service</a> |
