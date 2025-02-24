@@ -55,10 +55,10 @@ body.with-chat {
     flex-direction: column;
     max-width: 1000px;
     width: 100%;
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-md);
     box-sizing: border-box;
     min-height: calc(100vh - var(--spacing-xl) * 3);
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     margin: auto;
     position: relative;
@@ -160,15 +160,13 @@ body.with-chat:not(.content-page) .chat-container {
     margin: auto;
     padding: var(--spacing-md);
     width: 100%;
-    height: 100%;
-    max-height: calc(100vh - 120px); /* Adjust for header and input section */
-    min-height: calc(100vh - 120px);
+    height: auto;
     margin-top: 60px; /* Space for header */
     margin-bottom: 60px; /* Space for input section */
 }
 
 body.with-chat:not(.content-page) .logo-section {
-    margin-top: 20px;
+    margin-top: 5px;
     margin-bottom: 5px; /* Minimal space */
 }
 
@@ -283,10 +281,10 @@ body:not(.with-chat) .example-prompts {
     display: flex;
     flex: 1;
     padding: 0;
-    margin: 10px auto;
+    margin: 0 auto;
     opacity: 1;
-    min-height: 200px;
-    max-height: calc(100vh - 250px); /* Ensure it doesn't overflow */
+    min-height: 100px; /* Reduced minimum height */
+    max-height: calc(100vh - 180px); /* Adjusted for smaller space */
     overflow-y: auto;
     width: 100%;
 }
