@@ -48,6 +48,7 @@ body {
 
 body.with-chat {
     padding-top: 60px; /* Match header height */
+    padding-bottom: 120px; /* Space for toast notification and footer */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -60,7 +61,7 @@ body.with-chat {
     width: 100%;
     padding: var(--spacing-md) var(--spacing-md);
     box-sizing: border-box;
-    height: 100vh;
+    height: calc(100vh - 140px); /* Subtract space for header, toast and footer */
     justify-content: center; /* Center vertically */
     align-items: center; /* Center horizontally */
     margin: 0 auto;
@@ -163,7 +164,7 @@ body.with-chat:not(.content-page) .chat-container {
     margin: auto;
     padding: var(--spacing-md);
     width: 100%;
-    height: calc(100vh - 120px); /* Account for header and footer space */
+    height: calc(100vh - 180px); /* Account for header, toast and footer space */
     margin-top: 60px; /* Space for header */
 }
 
@@ -807,7 +808,7 @@ textarea::placeholder {
     background-color: var(--background-color);
     border-top: 1px solid var(--border-color);
     z-index: 9; /* Just below the input section */
-    display: none; /* Hide by default in chat mode */
+    display: block; /* Always visible */
 }
 
 .page-footer p {
@@ -826,8 +827,11 @@ textarea::placeholder {
     transform: translateY(0);
     transition: transform 0.3s ease-out;
     overflow: hidden;
-    position: relative;
-    z-index: 5;
+    position: fixed;
+    bottom: 60px; /* Position above footer */
+    left: 0;
+    right: 0;
+    z-index: 10;
 }
 
 .toast-content {
