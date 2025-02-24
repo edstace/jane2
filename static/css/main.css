@@ -699,6 +699,37 @@ textarea::placeholder {
     }
 }
 
+/* Policy and Terms Content */
+.policy-content,
+.tos-content {
+    padding: var(--spacing-md);
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.policy-content h1,
+.tos-content h1 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+}
+
+.policy-content h2,
+.tos-content h2 {
+    font-size: 1.5rem;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.policy-content p,
+.tos-content p {
+    margin: var(--spacing-md) 0;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
 /* Footer */
 .page-footer {
     text-align: center;
