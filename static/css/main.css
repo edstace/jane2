@@ -699,6 +699,32 @@ textarea::placeholder {
     }
 }
 
+/* Content Pages */
+.content-page {
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 var(--spacing-md);
+    box-sizing: border-box;
+}
+
+.content-page .logo-section {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+}
+
+.content-page .main-content {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+    margin: 0 auto var(--spacing-xl);
+    display: block;
+    overflow: visible;
+}
+
 /* Policy and Terms Content */
 .policy-content,
 .tos-content {
