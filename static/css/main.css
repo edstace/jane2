@@ -48,7 +48,7 @@ body {
 
 body.with-chat {
     padding-top: 60px; /* Match header height */
-    padding-bottom: 120px; /* Space for toast notification and footer */
+    padding-bottom: 140px; /* Space for toast notification and footer */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -291,9 +291,10 @@ body:not(.with-chat) .example-prompts {
     margin: 0 auto;
     opacity: 1;
     min-height: 100px; /* Reduced minimum height */
-    max-height: calc(100vh - 180px); /* Adjusted for smaller space */
+    max-height: calc(100vh - 250px); /* Adjusted for footer and toast */
     overflow-y: auto;
     width: 100%;
+    padding-bottom: 80px; /* Space for toast and footer */
 }
 
 .message {
@@ -586,6 +587,7 @@ body:not(.with-chat) .example-prompts {
     width: 100%;
     max-width: 800px;
     margin: 10px auto;
+    margin-bottom: 40px; /* Add space to avoid footer overlap */
 }
 
 body:not(.with-chat) .input-section {
@@ -798,7 +800,7 @@ textarea::placeholder {
 /* Footer */
 .page-footer {
     text-align: center;
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm); /* Smaller padding */
     color: var(--text-secondary);
     font-size: 0.875rem;
     position: fixed;
@@ -807,8 +809,9 @@ textarea::placeholder {
     right: 0;
     background-color: var(--background-color);
     border-top: 1px solid var(--border-color);
-    z-index: 9; /* Just below the input section */
+    z-index: 99; /* High z-index but below toast */
     display: block; /* Always visible */
+    height: 40px; /* Fixed height */
 }
 
 .page-footer p {
@@ -828,10 +831,10 @@ textarea::placeholder {
     transition: transform 0.3s ease-out;
     overflow: hidden;
     position: fixed;
-    bottom: 60px; /* Position above footer */
+    bottom: 50px; /* Position above footer */
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 100; /* Ensure it's above everything else */
 }
 
 .toast-content {
