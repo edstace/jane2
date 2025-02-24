@@ -53,6 +53,25 @@ class App {
             const event = new CustomEvent('send-message');
             document.dispatchEvent(event);
         });
+        
+        // Toast notification handler
+        const toastEl = document.getElementById('sms-toast');
+        const closeToastBtn = document.getElementById('close-toast');
+        
+        if (closeToastBtn && toastEl) {
+            // Check if toast was previously dismissed
+            const toastDismissed = localStorage.getItem('sms-toast-dismissed');
+            
+            if (toastDismissed === 'true') {
+                toastEl.classList.add('toast-hidden');
+            }
+            
+            closeToastBtn.addEventListener('click', () => {
+                toastEl.classList.add('toast-hidden');
+                // Remember that user dismissed the toast
+                localStorage.setItem('sms-toast-dismissed', 'true');
+            });
+        }
     }
 }
 

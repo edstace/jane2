@@ -805,6 +805,58 @@ textarea::placeholder {
     margin: 0;
 }
 
+/* Toast Notification */
+.toast-notification {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    margin: 20px auto;
+    box-shadow: var(--shadow-md);
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+    overflow: hidden;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+}
+
+.toast-icon {
+    font-size: 1.25rem;
+    margin-right: 12px;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.toast-close {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 2px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+.toast-hidden {
+    transform: translateY(150px);
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     :root {
