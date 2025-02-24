@@ -85,7 +85,7 @@ export class UI {
         }
 
         const messageDiv = createElement('div', {
-            className: `message ${type}`,
+            className: `message ${type} ${type === 'warning-message' ? 'warning-highlight' : ''}`,
             id: messageId ? `message-${messageId}` : null
         });
 
@@ -136,7 +136,16 @@ export class UI {
         this.chatBox.appendChild(messageDiv);
 
         if (scroll) {
-            scrollToBottom(this.chatBox);
+            if (type === 'warning-message') {
+                // Ensure warning is visible in viewport
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Add fade-in animation
+                setTimeout(() => {
+                    messageDiv.classList.add('warning-fade-in');
+                }, 0);
+            } else {
+                scrollToBottom(this.chatBox);
+            }
         }
 
         return messageDiv;
@@ -266,7 +275,7 @@ export class UI {
 
     showWarning(message, onConfirm, onCancel) {
         const warningDiv = createElement('div', {
-            className: 'message warning-message',
+            className: 'message warning-message warning-highlight',
             innerHTML: `
                 <div class="message-content">${message}</div>
                 <div class="warning-actions">
@@ -290,7 +299,14 @@ export class UI {
         });
 
         this.chatBox.appendChild(warningDiv);
-        scrollToBottom(this.chatBox);
+        
+        // Ensure warning is visible
+        warningDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Add attention-grabbing animation
+        setTimeout(() => {
+            warningDiv.classList.add('warning-fade-in');
+        }, 0);
     }
 }
 
