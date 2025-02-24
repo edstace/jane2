@@ -57,7 +57,7 @@ body.with-chat {
     width: 100%;
     padding: var(--spacing-md) var(--spacing-md);
     box-sizing: border-box;
-    min-height: calc(100vh - var(--spacing-xl) * 3);
+    min-height: auto;
     justify-content: flex-start;
     align-items: center;
     margin: auto;
@@ -115,8 +115,8 @@ body.with-chat .new-chat-button {
 /* Logo Section */
 .logo-section {
     text-align: center;
-    padding: var(--spacing-sm) 0;
-    margin: 0 0 var(--spacing-sm);
+    padding: var(--spacing-sm) 0 0 0;
+    margin: 0;
     background-color: var(--background-color);
     z-index: 10;
     transition: all var(--transition-normal);
@@ -155,19 +155,18 @@ body.with-chat:not(.content-page) .chat-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Changed to align content from top */
-    gap: 0; /* Remove gap between elements */
+    justify-content: flex-start; 
+    gap: 0;
     margin: auto;
     padding: var(--spacing-md);
     width: 100%;
     height: auto;
     margin-top: 60px; /* Space for header */
-    margin-bottom: 60px; /* Space for input section */
 }
 
 body.with-chat:not(.content-page) .logo-section {
-    margin-top: 5px;
-    margin-bottom: 5px; /* Minimal space */
+    margin-top: 20px;
+    margin-bottom: 0; /* No bottom margin */
 }
 
 /* Main Content */
@@ -184,15 +183,13 @@ body.with-chat:not(.content-page) .logo-section {
     width: 100%;
     height: auto;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto 0;
     display: flex;
     flex-direction: column;
     flex: 1;
     overflow: visible;
-    justify-content: flex-start; /* Changed from center to prevent overlap */
+    justify-content: flex-start;
     align-items: center;
-    padding-top: 0; /* No additional padding */
-    padding-bottom: 80px; /* Add space for the input section */
 }
 
 body:not(.with-chat) .input-section {
@@ -574,15 +571,11 @@ body:not(.with-chat) .example-prompts {
 
 /* Input Section */
 .input-section {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
     background-color: var(--background-color);
-    border-top: 1px solid var(--border-color);
-    order: 3;
-    z-index: 10; /* Higher than other elements */
+    width: 100%;
+    max-width: 800px;
+    margin: 10px auto;
 }
 
 body:not(.with-chat) .input-section {
