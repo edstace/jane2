@@ -702,20 +702,26 @@ textarea::placeholder {
 /* Content Pages */
 .content-page {
     padding-top: calc(var(--spacing-xl) * 2);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .page-container {
     display: flex;
     flex-direction: column;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: auto;
     width: 100%;
     padding: 0 var(--spacing-md);
     box-sizing: border-box;
+    min-height: calc(100vh - var(--spacing-xl) * 4);
+    justify-content: center;
 }
 
 .content-page .logo-section {
-    margin-top: var(--spacing-xl);
+    margin-top: 0;
     margin-bottom: var(--spacing-lg);
 }
 
