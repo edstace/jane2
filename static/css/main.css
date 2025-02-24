@@ -141,7 +141,7 @@ body.with-chat .new-chat-button {
     line-height: 1;
 }
 
-body:not(.with-chat) {
+body.with-chat:not(.content-page) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,7 +150,7 @@ body:not(.with-chat) {
     box-sizing: border-box;
 }
 
-body:not(.with-chat) .chat-container {
+body.with-chat:not(.content-page) .chat-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -163,7 +163,7 @@ body:not(.with-chat) .chat-container {
     min-height: 100vh;
 }
 
-body:not(.with-chat) .logo-section {
+body.with-chat:not(.content-page) .logo-section {
     margin-top: 0;
     margin-bottom: 0;
 }
@@ -701,6 +701,10 @@ textarea::placeholder {
 
 /* Content Pages */
 .content-page {
+    padding-top: calc(var(--spacing-xl) * 2);
+}
+
+.page-container {
     display: flex;
     flex-direction: column;
     max-width: 1000px;
@@ -716,9 +720,10 @@ textarea::placeholder {
 }
 
 .content-page .main-content {
-    position: static;
-    width: 100%;
-    height: auto;
+    position: static !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
     max-width: 800px;
     margin: 0 auto var(--spacing-xl);
     display: block;
