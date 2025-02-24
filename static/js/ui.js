@@ -86,7 +86,8 @@ export class UI {
 
         const messageDiv = createElement('div', {
             className: `message ${type} ${type === 'warning-message' ? 'warning-highlight' : ''}`,
-            id: messageId ? `message-${messageId}` : null
+            id: messageId ? `message-${messageId}` : null,
+            tabIndex: -1 // Make message focusable
         });
 
         // Create message content with markdown rendering and icon for warnings
@@ -167,6 +168,9 @@ export class UI {
             } else {
                 scrollToBottom(this.chatBox);
             }
+            
+            // Set focus on the new message
+            messageDiv.focus();
         }
 
         return messageDiv;
