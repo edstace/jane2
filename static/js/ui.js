@@ -89,11 +89,32 @@ export class UI {
             id: messageId ? `message-${messageId}` : null
         });
 
-        // Create message content with markdown rendering
+        // Create message content with markdown rendering and icon for warnings
         const messageContent = createElement('div', {
-            className: 'message-content',
+            className: 'message-content'
+        });
+
+        if (type === 'warning-message') {
+            // Choose appropriate icon based on message content
+            let iconClass = 'fa-circle-info';
+            if (message.toLowerCase().includes('confirm') || message.includes('?')) {
+                iconClass = 'fa-circle-question';
+            } else if (message.toLowerCase().includes('warning') || message.toLowerCase().includes('caution')) {
+                iconClass = 'fa-triangle-exclamation';
+            } else if (message.toLowerCase().includes('error') || message.toLowerCase().includes('failed')) {
+                iconClass = 'fa-circle-exclamation';
+            }
+
+            const icon = createElement('i', {
+                className: `warning-icon fa-solid ${iconClass}`
+            });
+            messageContent.appendChild(icon);
+        }
+
+        const textContent = createElement('div', {
             innerHTML: window.marked.parse(message)
         });
+        messageContent.appendChild(textContent);
 
         // Add copy button for non-loading messages
         const copyButton = createElement('button', {
@@ -275,15 +296,34 @@ export class UI {
 
     showWarning(message, onConfirm, onCancel) {
         const warningDiv = createElement('div', {
-            className: 'message warning-message warning-highlight',
+            className: 'message warning-message warning-highlight'
+        });
+
+        const messageContent = createElement('div', {
+            className: 'message-content'
+        });
+
+        const icon = createElement('i', {
+            className: 'warning-icon fa-solid fa-circle-question'
+        });
+
+        const textContent = createElement('div', {
+            innerHTML: message
+        });
+
+        messageContent.appendChild(icon);
+        messageContent.appendChild(textContent);
+
+        const actionsDiv = createElement('div', {
+            className: 'warning-actions',
             innerHTML: `
-                <div class="message-content">${message}</div>
-                <div class="warning-actions">
-                    <button class="confirm-button">Yes, proceed</button>
-                    <button class="cancel-button">No, cancel</button>
-                </div>
+                <button class="confirm-button">Yes, proceed</button>
+                <button class="cancel-button">No, cancel</button>
             `
         });
+
+        warningDiv.appendChild(messageContent);
+        warningDiv.appendChild(actionsDiv);
 
         const confirmButton = warningDiv.querySelector('.confirm-button');
         const cancelButton = warningDiv.querySelector('.cancel-button');

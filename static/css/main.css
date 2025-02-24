@@ -299,18 +299,30 @@ body:not(.with-chat) .example-prompts {
 
 .message.warning-message {
     align-self: center;
-    background-color: #fff3e0;
-    color: #e65100;
+    background-color: #f1f5f9;
+    color: var(--text-primary);
     max-width: 90%;
-    text-align: center;
+    text-align: left;
     border-radius: 0.75rem;
     position: relative;
     z-index: 10;
 }
 
+.message.warning-message .message-content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.message.warning-message .warning-icon {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    margin-top: 0.125rem;
+}
+
 .message.warning-highlight {
     animation: warning-pulse 2s ease-in-out;
-    box-shadow: 0 0 0 rgba(230, 81, 0, 0.4);
+    box-shadow: 0 0 0 rgba(37, 99, 235, 0.2);
 }
 
 .message.warning-fade-in {
@@ -319,13 +331,13 @@ body:not(.with-chat) .example-prompts {
 
 @keyframes warning-pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(230, 81, 0, 0.4);
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.2);
     }
     70% {
-        box-shadow: 0 0 0 10px rgba(230, 81, 0, 0);
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(230, 81, 0, 0);
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
     }
 }
 
@@ -343,23 +355,22 @@ body:not(.with-chat) .example-prompts {
 /* Dark mode adjustments for warnings */
 @media (prefers-color-scheme: dark) {
     .message.warning-message {
-        background-color: #4a2500;
-        color: #ffb74d;
+        background-color: #1e293b;
     }
     
     .message.warning-highlight {
-        box-shadow: 0 0 0 rgba(255, 183, 77, 0.4);
+        box-shadow: 0 0 0 rgba(37, 99, 235, 0.4);
     }
     
     @keyframes warning-pulse {
         0% {
-            box-shadow: 0 0 0 0 rgba(255, 183, 77, 0.4);
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
         }
         70% {
-            box-shadow: 0 0 0 10px rgba(255, 183, 77, 0);
+            box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
         }
         100% {
-            box-shadow: 0 0 0 0 rgba(255, 183, 77, 0);
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
         }
     }
 }
