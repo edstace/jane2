@@ -57,7 +57,7 @@ body.with-chat {
     width: 100%;
     padding: var(--spacing-md) var(--spacing-md);
     box-sizing: border-box;
-    min-height: auto;
+    min-height: calc(100vh - 80px);
     justify-content: flex-start;
     align-items: center;
     margin: auto;
@@ -813,10 +813,13 @@ textarea::placeholder {
     max-width: 400px;
     width: 90%;
     margin: 20px auto;
+    margin-top: auto; /* Push to bottom of container */
     box-shadow: var(--shadow-md);
     transform: translateY(0);
     transition: transform 0.3s ease-out;
     overflow: hidden;
+    position: relative;
+    z-index: 5;
 }
 
 .toast-content {
