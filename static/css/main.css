@@ -48,10 +48,11 @@ body {
 
 body.with-chat {
     padding-top: 60px; /* Match header height */
-    padding-bottom: 140px; /* Space for toast notification and footer */
+    padding-bottom: 100px; /* Reduced padding */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .chat-container {
@@ -61,12 +62,14 @@ body.with-chat {
     width: 100%;
     padding: var(--spacing-md) var(--spacing-md);
     box-sizing: border-box;
-    height: calc(100vh - 140px); /* Subtract space for header, toast and footer */
-    justify-content: center; /* Center vertically */
+    max-height: calc(100vh - 200px); /* Limit max height to prevent overflow */
+    height: auto;
+    justify-content: flex-start; /* Align from top */
     align-items: center; /* Center horizontally */
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    overflow-y: auto; /* Allow scrolling container */
 }
 
 /* Top Header */
@@ -159,13 +162,15 @@ body.with-chat:not(.content-page) .chat-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Center content vertically */
+    justify-content: flex-start; /* Start from top */
     gap: var(--spacing-sm); /* Small gap between elements */
     margin: auto;
     padding: var(--spacing-md);
     width: 100%;
-    height: calc(100vh - 180px); /* Account for header, toast and footer space */
+    height: auto;
+    max-height: calc(100vh - 200px); /* Account for header, toast and footer space */
     margin-top: 60px; /* Space for header */
+    margin-bottom: 120px; /* Space for footer and toast */
 }
 
 body.with-chat:not(.content-page) .logo-section {
@@ -291,10 +296,10 @@ body:not(.with-chat) .example-prompts {
     margin: 0 auto;
     opacity: 1;
     min-height: 100px; /* Reduced minimum height */
-    max-height: calc(100vh - 250px); /* Adjusted for footer and toast */
+    max-height: calc(100vh - 350px); /* Reduced max height */
     overflow-y: auto;
     width: 100%;
-    padding-bottom: 80px; /* Space for toast and footer */
+    padding-bottom: 20px; /* Reduced padding */
 }
 
 .message {
@@ -586,8 +591,9 @@ body:not(.with-chat) .example-prompts {
     background-color: var(--background-color);
     width: 100%;
     max-width: 800px;
-    margin: 10px auto;
-    margin-bottom: 40px; /* Add space to avoid footer overlap */
+    margin: 10px auto 110px auto; /* Increased bottom margin for footer and toast */
+    position: relative;
+    z-index: 5;
 }
 
 body:not(.with-chat) .input-section {
@@ -809,7 +815,7 @@ textarea::placeholder {
     right: 0;
     background-color: var(--background-color);
     border-top: 1px solid var(--border-color);
-    z-index: 99; /* High z-index but below toast */
+    z-index: 90; /* Below toast */
     display: block; /* Always visible */
     height: 40px; /* Fixed height */
 }
