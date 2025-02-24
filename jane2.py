@@ -245,7 +245,7 @@ def get_job_coaching_advice(user_message, context=None):
                 model="gpt-4o-mini",
                 messages=messages,
                 temperature=0.7,
-                max_tokens=500
+                max_tokens=1000
             )
             
             return response.choices[0].message.content
