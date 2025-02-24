@@ -423,6 +423,16 @@ def home():
     """Serve home page"""
     return render_template('index.html')
 
+@app.route('/terms_of_service')
+def terms_of_service():
+    """Serve terms of service page"""
+    return render_template('terms_of_service.html')
+
+@app.route('/privacy_policy')
+def privacy_policy():
+    """Serve privacy policy page"""
+    return render_template('privacy_policy.html')
+
 def cache_message(message_data):
     """Add message to database"""
     message = Message(
