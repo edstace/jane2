@@ -68,6 +68,15 @@ body.with-chat {
     z-index: 1;
 }
 
+/* Initial centered state before chat begins */
+body:not(.with-chat) .chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
 /* Top Header */
 .top-header {
     position: fixed;
@@ -118,7 +127,7 @@ body.with-chat .new-chat-button {
 /* Logo Section */
 .logo-section {
     text-align: center;
-    padding: var(--spacing-sm) 0 0 0;
+    padding: var(--spacing-sm) 0 var(--spacing-md) 0;
     margin: 0;
     background-color: var(--background-color);
     z-index: 10;
@@ -147,7 +156,7 @@ body.with-chat .new-chat-button {
 
 body.with-chat:not(.content-page) {
     display: flex;
-    align-items: flex-start; /* Changed from center to align at top */
+    align-items: center; /* Center vertically before chat starts */
     justify-content: center;
     min-height: 100vh;
     padding: var(--spacing-md) 0;
@@ -192,13 +201,14 @@ body.with-chat:not(.content-page) .logo-section {
     max-height: 60vh; /* Limit height to ensure all elements are visible */
     justify-content: flex-start;
     align-items: center;
+    padding-bottom: 80px; /* Add padding to prevent overlap with toast and footer */
 }
 
 body:not(.with-chat) .input-section {
     position: static;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    margin: var(--spacing-md) auto;
 }
 
 body.with-chat .input-section {
@@ -227,7 +237,7 @@ body:not(.with-chat) .example-prompts {
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     justify-content: center;
-    margin-top: calc(var(--spacing-xl) * 4);  /* Add large gap between input and prompts */
+    margin-top: var(--spacing-xl);  /* Reduced gap between input and prompts */
 }
 
 .example-prompts.hidden {
@@ -285,7 +295,7 @@ body:not(.with-chat) .example-prompts {
 .chat-messages:not(:empty) {
     display: flex;
     flex-direction: column;
-    padding: 0;
+    padding: 0 0 80px 0; /* Add bottom padding to prevent overlap with toast */
     margin: 0 auto;
     opacity: 1;
     min-height: 100px;
@@ -583,7 +593,7 @@ body:not(.with-chat) .example-prompts {
     background-color: var(--background-color);
     width: 100%;
     max-width: 800px;
-    margin: 10px auto 60px auto; /* Space for footer and toast */
+    margin: 10px auto 100px auto; /* Increased space for footer and toast */
     position: relative;
     z-index: 5;
 }
@@ -592,6 +602,7 @@ body:not(.with-chat) .input-section {
     position: static;
     width: 100%;
     margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
 }
 
 .chat-form {
@@ -833,6 +844,7 @@ textarea::placeholder {
     left: 0;
     right: 0;
     z-index: 100;
+    pointer-events: auto; /* Ensure clickable */
 }
 
 .toast-content {
