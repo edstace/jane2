@@ -595,7 +595,7 @@ body:not(.with-chat) .example-prompts {
     max-width: 800px;
     margin: 10px auto 100px auto; /* Increased space for footer and toast */
     position: relative;
-    z-index: 5;
+    z-index: 15; /* Increased z-index to appear above footer */
 }
 
 body:not(.with-chat) .input-section {
@@ -611,6 +611,7 @@ body:not(.with-chat) .input-section {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md); /* Minimal space between input and prompts */
+    background-color: var(--background-color); /* Ensure input has background */
 }
 
 .input-wrapper {
@@ -621,6 +622,8 @@ body:not(.with-chat) .input-section {
     border-radius: 1rem;
     padding: var(--spacing-sm);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    position: relative; /* Ensure positioning context */
+    z-index: 2; /* Make sure input is above other elements */
 }
 
 .input-wrapper:focus-within {
@@ -818,7 +821,7 @@ textarea::placeholder {
     right: 0;
     background-color: var(--background-color);
     border-top: 1px solid var(--border-color);
-    z-index: 90;
+    z-index: 10; /* Reduced z-index to appear below input section */
     display: block;
     height: 30px;
 }

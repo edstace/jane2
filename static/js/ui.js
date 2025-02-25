@@ -255,6 +255,12 @@ export class UI {
             this.examplePrompts.style.opacity = '0';
             this.examplePrompts.style.visibility = 'hidden';
             
+            // Hide SMS toast notification when chat starts
+            const smsToast = document.getElementById('sms-toast');
+            if (smsToast) {
+                smsToast.classList.add('toast-hidden');
+            }
+            
             // Force a reflow
             void this.chatContainer.offsetHeight;
             
