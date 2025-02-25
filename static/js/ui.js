@@ -171,6 +171,9 @@ export class UI {
             
             // Set focus on the new message
             messageDiv.focus();
+            
+            // Ensure input is visible after scrolling
+            this.userInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         return messageDiv;

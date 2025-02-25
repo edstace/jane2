@@ -66,6 +66,7 @@ body.with-chat {
     flex: 1;
     position: relative;
     z-index: 1;
+    padding-bottom: 120px; /* Ensure enough padding at bottom for input and footer */
 }
 
 /* Initial centered state before chat begins */
@@ -215,6 +216,8 @@ body.with-chat .input-section {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    position: sticky;
+    bottom: 40px;
 }
 
 body:not(.with-chat) .page-footer {
@@ -296,7 +299,7 @@ body:not(.with-chat) .example-prompts {
     display: flex;
     flex-direction: column;
     padding: 0 0 80px 0; /* Add bottom padding to prevent overlap with toast */
-    margin: 0 auto;
+    margin: 0 auto 40px auto; /* Add bottom margin to ensure space for input */
     opacity: 1;
     min-height: 100px;
     max-height: 60vh; /* Match main-content max-height */
@@ -594,7 +597,8 @@ body:not(.with-chat) .example-prompts {
     width: 100%;
     max-width: 800px;
     margin: 10px auto 100px auto; /* Increased space for footer and toast */
-    position: relative;
+    position: sticky; /* Make input section stick to bottom */
+    bottom: 40px; /* Position above footer */
     z-index: 15; /* Increased z-index to appear above footer */
 }
 
