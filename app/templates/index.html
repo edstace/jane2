@@ -15,10 +15,10 @@
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
             </div>
+            <button id="new-chat-btn" class="new-chat-button">
+                <i class="fa-solid fa-message"></i>
+            </button>
             <div class="header-controls">
-                <button id="new-chat-btn" class="new-chat-button">
-                    <i class="fa-solid fa-message"></i>
-                </button>
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('auth.profile') }}" class="nav-link">
                         <i class="fa-solid fa-user"></i>
