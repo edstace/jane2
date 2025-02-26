@@ -8,6 +8,8 @@ from flask_migrate import Migrate
 import os
 import logging
 from logging.handlers import RotatingFileHandler
+from app.middleware import RequestIDMiddleware
+from app.handlers import register_error_handlers
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -79,27 +81,10 @@ def create_app(config=None):
     from app.routes.sms import sms_bp as sms_blueprint
     app.register_blueprint(sms_blueprint, url_prefix='/sms')
     
+    # Add request ID middleware
+    app.wsgi_app = RequestIDMiddleware(app.wsgi_app)
+    
     # Register error handlers
     register_error_handlers(app)
     
     return app
-
-def register_error_handlers(app):
-    """Register error handlers"""
-    @app.errorhandler(404)
-    def not_found_error(error):
-        app.logger.error(f"404 error: {error}")
-        from flask import jsonify
-        return jsonify({'error': 'Not found'}), 404
-
-    @app.errorhandler(429)
-    def ratelimit_handler(error):
-        app.logger.warning(f"Rate limit exceeded: {error}")
-        from flask import jsonify, request
-        return jsonify({'error': 'Rate limit exceeded. Please try again later.'}), 429
-
-    @app.errorhandler(500)
-    def internal_error(error):
-        app.logger.error(f"500 error: {error}")
-        from flask import jsonify
-        return jsonify({'error': 'Internal server error'}), 500
