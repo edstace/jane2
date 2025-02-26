@@ -16,6 +16,11 @@ class App {
     }
 
     init() {
+        // Set current year for footer copyright
+        const currentYearEl = document.getElementById('current-year');
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
         
         window.clearChat = () => chat.clearChat();
 

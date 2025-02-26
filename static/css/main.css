@@ -831,8 +831,10 @@ textarea::placeholder {
     height: 40px;
 }
 
-.page-footer p {
+.copyright {
     margin: 0;
+    text-align: center;
+    width: 100%;
 }
 
 /* Footer Menu */
