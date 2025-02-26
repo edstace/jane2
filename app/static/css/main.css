@@ -203,7 +203,7 @@ body:not(.with-chat) .chat-container {
 .header-logo {
     display: flex; /* Always visible */
     align-items: center;
-    margin-right: var(--spacing-md);
+    margin-right: auto; /* Push everything else to the right */
 }
 
 .header-logo h1 {
@@ -244,6 +244,7 @@ body:not(.with-chat) .chat-container {
     transition: all var(--transition-fast);
     width: 40px;
     height: 40px;
+    margin-right: var(--spacing-md);
 }
 
 body.with-chat .new-chat-button {
