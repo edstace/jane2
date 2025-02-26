@@ -17,7 +17,13 @@ limiter = Limiter(key_func=get_remote_address)
 
 def create_app(config=None):
     """Application factory function"""
-    app = Flask(__name__, static_url_path='/static')
+    # Setting template_folder and static_folder for compatibility with different environments
+    # This allows templates and static files to be found whether they're in the app/ directory
+    # or in the root directory (for backward compatibility)
+    app = Flask(__name__, 
+               static_url_path='/static',
+               static_folder='static',
+               template_folder='templates')
     
     # Load configuration
     if config is None:
