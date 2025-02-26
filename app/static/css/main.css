@@ -235,15 +235,12 @@ body:not(.with-chat) .chat-container {
     justify-content: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-sm);
-    background-color: var(--primary-color);
-    color: white;
+    background-color: transparent; /* Remove background */
+    color: var(--primary-color); /* Make icon blue */
     border: none;
-    border-radius: 0.75rem;
-    font-weight: 500;
+    font-size: 1.25rem; /* Larger icon */
     cursor: pointer;
     transition: all var(--transition-fast);
-    width: 40px;
-    height: 40px;
     margin-right: var(--spacing-md);
 }
 
@@ -252,7 +249,7 @@ body.with-chat .new-chat-button {
 }
 
 .new-chat-button:hover {
-    background-color: var(--primary-hover);
+    color: var(--primary-hover);
     transform: translateY(-1px);
 }
 
