@@ -8,7 +8,11 @@ services:
     deploy_on_push: true
     repo: edstace/jane2
   run_command: |
-    python -m flask db upgrade
+    pip install flask-migrate
+    export FLASK_APP=run.py
+    flask db init
+    flask db migrate
+    flask db upgrade
     gunicorn wsgi:app
   envs:
   - key: FLASK_APP
@@ -17,3 +21,6 @@ services:
   - key: FLASK_ENV
     scope: RUN_TIME
     value: production
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${db.DATABASE_URL}
