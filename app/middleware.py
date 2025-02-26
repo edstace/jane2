@@ -2,6 +2,8 @@ import uuid
 from flask import request, g
 from werkzeug.local import LocalProxy
 
+from flask import _request_ctx_stack
+
 def request_id():
     """Get the current request ID or generate a new one"""
     if not hasattr(g, 'request_id'):
@@ -15,10 +17,17 @@ class RequestIDMiddleware:
     """Middleware to handle request ID generation and propagation"""
     def __init__(self, app):
         self.app = app
+        self.app.before_request(self._before_request)
+
+    def _before_request(self):
+        """Ensure request ID is set before request processing"""
+        request_id()
 
     def __call__(self, environ, start_response):
         def new_start_response(status, headers, exc_info=None):
-            # Add request ID to response headers
-            headers.append(('X-Request-ID', request_id()))
+            # Add request ID to response headers if we have a request context
+            ctx = _request_ctx_stack.top
+            if ctx is not None and hasattr(g, 'request_id'):
+                headers.append(('X-Request-ID', g.request_id))
             return start_response(status, headers, exc_info)
         return self.app(environ, new_start_response)
