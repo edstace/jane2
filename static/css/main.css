@@ -94,17 +94,40 @@ body:not(.with-chat) .chat-container {
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; /* Space between button and logo */
+    justify-content: space-between; /* Space between logo and controls */
     align-items: center;
     padding: 0 var(--spacing-md);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: 0.5rem;
+    background-color: var(--surface-hover);
+    transition: all var(--transition-fast);
+}
+
+.home-link:hover {
+    background-color: var(--border-color);
+    transform: translateY(-1px);
 }
 
 /* Header Logo */
 .header-logo {
     display: none; /* Hidden by default */
     flex: 1;
-    margin-left: var(--spacing-xl); /* Space after the new chat button */
     align-items: center;
+    margin-right: var(--spacing-xl); /* Space before the controls */
 }
 
 .header-logo h1 {
@@ -144,7 +167,6 @@ body.with-chat .header-logo {
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
-    margin-left: var(--spacing-sm); /* Add left margin */
 }
 
 body.with-chat .new-chat-button {
