@@ -12,6 +12,7 @@ class SMSContext(db.Model):
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     awaiting_confirmation = db.Column(db.Boolean, default=False)
     original_message = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     
     def __repr__(self):
         return f'<SMSContext {self.id}: {self.role}>'
@@ -20,5 +21,6 @@ class SMSContext(db.Model):
         """Convert SMS context to dictionary"""
         return {
             'role': self.role,
-            'content': self.content
+            'content': self.content,
+            'user_id': self.user_id
         }

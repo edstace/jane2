@@ -2,6 +2,7 @@ flask==3.0.2
 flask-talisman==1.1.0
 flask-wtf==1.2.1
 flask-limiter==3.5.0
+flask-login==0.6.3
 sentry-sdk[flask]==1.40.0
 flask-sqlalchemy==3.1.1
 sqlalchemy==2.0.27

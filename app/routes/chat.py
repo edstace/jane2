@@ -1,9 +1,11 @@
-from flask import Blueprint, request, jsonify, current_app, g
+from flask import Blueprint, request, jsonify, current_app, g, session
 from datetime import datetime
 from app import limiter
+from flask_login import current_user
 from app.utils.validators import ValidationUtils
 from app.services.ai_service import AIService
 from app.services.message_service import MessageService
+from app.services.user_service import UserService
 from app.exceptions import ValidationError, APIError
 
 chat_bp = Blueprint('chat', __name__)
@@ -18,6 +20,16 @@ def chat():
     
     user_message = request_data.get('message', '')
     confirmed = request_data.get('confirmed', False)
+    conversation_id = request_data.get('conversation_id')
+    
+    # Get or create conversation ID
+    if not conversation_id and current_user.is_authenticated:
+        conversation_id = MessageService.start_new_conversation(current_user.id)
+    elif not conversation_id:
+        # For anonymous users, use session ID as a temporary conversation ID
+        if 'session_id' not in session:
+            session['session_id'] = UserService.generate_conversation_id()
+        conversation_id = session['session_id']
     
     if not user_message:
         raise ValidationError("Message cannot be empty")
@@ -59,8 +71,10 @@ def chat():
         'type': 'bot-message',
         'timestamp': datetime.utcnow().isoformat()
     }
-    MessageService.cache_message(user_msg)
-    MessageService.cache_message(bot_msg)
+    
+    user_id = current_user.id if current_user.is_authenticated else None
+    MessageService.cache_message(user_msg, user_id, conversation_id)
+    MessageService.cache_message(bot_msg, user_id, conversation_id)
     
     response = {'response': response_text}
     ValidationUtils.log_response(response)

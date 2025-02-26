@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>My Conversations - JANE</title>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <h1>JANE</h1>
+                <p class="header-subtitle">Job Assistance and Navigation Expert</p>
+            </div>
+            <div class="header-controls">
+                <a href="{{ url_for('main.home') }}" class="nav-link">
+                    <i class="fa-solid fa-message"></i>
+                    Chat
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="nav-link">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-menu">
+                <a href="{{ url_for('auth.profile') }}" class="menu-item">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </a>
+                <a href="{{ url_for('auth.edit_profile') }}" class="menu-item">
+                    <i class="fa-solid fa-user-edit"></i>
+                    Edit Profile
+                </a>
+                <a href="{{ url_for('auth.change_password') }}" class="menu-item">
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </a>
+                <a href="{{ url_for('auth.conversations') }}" class="menu-item active">
+                    <i class="fa-solid fa-comments"></i>
+                    Conversations
+                </a>
+            </div>
+        </div>
+        
+        <div class="profile-content">
+            <h2 class="profile-title">My Conversations</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="conversation-list">
+                {% if conversations %}
+                    {% for conversation in conversations %}
+                        <div class="conversation-item">
+                            <a href="{{ url_for('main.home', conversation_id=conversation.id) }}" class="conversation-link">
+                                <div class="conversation-details">
+                                    <div class="conversation-date">
+                                        {{ conversation.last_updated|string|replace('T', ' ')|replace('Z', '')|truncate(16, True, '') }}
+                                    </div>
+                                    <div class="conversation-preview">
+                                        {{ conversation.last_message }}
+                                    </div>
+                                    <div class="conversation-meta">
+                                        <span class="message-count">
+                                            <i class="fa-solid fa-message"></i> {{ conversation.message_count }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-conversations">
+                        <p>You don't have any conversations yet.</p>
+                        <a href="{{ url_for('main.home') }}" class="btn btn-primary">
+                            <i class="fa-solid fa-message"></i>
+                            Start a New Chat
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{{ url_for('main.home') }}" class="btn btn-primary">
+                    <i class="fa-solid fa-message"></i>
+                    Start a New Chat
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="page-footer">
+        <p class="copyright">&copy; <span id="current-year"></span> JANE - Job Assistance and Navigation Expert</p>
+        <div class="footer-menu">
+            <a href="{{ url_for('main.terms_of_service') }}">Terms of Service</a>
+            <a href="{{ url_for('main.privacy_policy') }}">Privacy Policy</a>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

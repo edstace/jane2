@@ -5,6 +5,7 @@ export class MessageHistory {
     constructor(maxMessages = 10) {
         this.messages = [];
         this.maxMessages = maxMessages;
+        this.conversationId = null;
     }
 
     addMessage(content, type, timestamp = new Date().toISOString()) {
@@ -12,7 +13,8 @@ export class MessageHistory {
             content,
             type,
             timestamp,
-            id: this.generateMessageId()
+            id: this.generateMessageId(),
+            conversation_id: this.conversationId
         };
 
         this.messages.push(message);
@@ -63,12 +65,22 @@ export class MessageHistory {
     toJSON() {
         return {
             messages: this.messages,
-            maxMessages: this.maxMessages
+            maxMessages: this.maxMessages,
+            conversationId: this.conversationId
         };
     }
 
     fromJSON(data) {
         this.messages = data.messages || [];
         this.maxMessages = data.maxMessages || 10;
+        this.conversationId = data.conversationId || null;
+    }
+    
+    setConversationId(id) {
+        this.conversationId = id;
+    }
+    
+    getConversationId() {
+        return this.conversationId;
     }
 }

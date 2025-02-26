@@ -8,6 +8,7 @@ export class Chat {
         this.loading = false;
         this.history = new MessageHistory(20); // Keep last 20 messages for context
         this.setupEventListeners();
+        this.loadHistory();
     }
 
     saveHistory() {
@@ -15,6 +16,18 @@ export class Chat {
             localStorage.setItem('chat_history', JSON.stringify(this.history.toJSON()));
         } catch (error) {
             console.error('Error saving chat history:', error);
+        }
+    }
+    
+    loadHistory() {
+        try {
+            const saved = localStorage.getItem('chat_history');
+            if (saved) {
+                this.history.fromJSON(JSON.parse(saved));
+                this.renderMessages();
+            }
+        } catch (error) {
+            console.error('Error loading chat history:', error);
         }
     }
 
@@ -122,7 +135,8 @@ export class Chat {
                 message, 
                 confirmed,
                 context,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                conversation_id: this.history.getConversationId()
             }),
             credentials: 'same-origin' // Required for CSRF
         });

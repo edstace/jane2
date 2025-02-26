@@ -5,6 +5,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 import os
 import logging
 from logging.handlers import RotatingFileHandler
@@ -18,6 +19,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 limiter = Limiter(key_func=get_remote_address)
+login_manager = LoginManager()
 
 def configure_sentry(app):
     """Configure Sentry error tracking"""
@@ -63,6 +65,13 @@ def create_app(config=None):
     migrate.init_app(app, db)
     csrf.init_app(app)
     limiter.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        from app.models import User
+        return User.query.get(int(user_id))
     
     # Initialize security features in production
     if app.config['ENV'] == 'production':
@@ -106,6 +115,9 @@ def create_app(config=None):
     
     from app.routes.sms import sms_bp as sms_blueprint
     app.register_blueprint(sms_blueprint, url_prefix='/sms')
+    
+    from app.routes.auth import auth_bp as auth_blueprint
+    app.register_blueprint(auth_blueprint)
     
     # Initialize request ID handling
     init_request_id(app)
