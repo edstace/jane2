@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, current_app, g, session
 from datetime import datetime
-from app import limiter
+from app import limiter, csrf
 from flask_login import current_user
 from app.utils.validators import ValidationUtils
 from app.services.ai_service import AIService
@@ -12,6 +12,7 @@ chat_bp = Blueprint('chat', __name__)
 
 @chat_bp.route('/chat', methods=['POST'])
 @limiter.limit("30 per minute")  # More lenient rate limit
+@csrf.exempt  # Exempt this route from CSRF protection since we handle it in JS
 def chat():
     """Handle chat requests with validation and error handling"""
     current_app.logger.info(f"Processing chat request {g.request_id}")
