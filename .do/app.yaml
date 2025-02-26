@@ -1,0 +1,19 @@
+name: jane2
+services:
+- name: web
+  environment_slug: python
+  instance_size_slug: basic-xxs
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: edstace/jane2
+  run_command: |
+    python -m flask db upgrade
+    gunicorn wsgi:app
+  envs:
+  - key: FLASK_APP
+    scope: RUN_TIME
+    value: run.py
+  - key: FLASK_ENV
+    scope: RUN_TIME
+    value: production
