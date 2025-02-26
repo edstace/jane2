@@ -72,6 +72,33 @@ class App {
                 localStorage.setItem('sms-toast-dismissed', 'true');
             });
         }
+        
+        // Footer menu handler
+        const menuButton = document.getElementById('show-menu');
+        const floatingMenu = document.getElementById('floating-menu');
+        
+        if (menuButton && floatingMenu) {
+            // Toggle menu on button click
+            menuButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                floatingMenu.classList.toggle('visible');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!floatingMenu.contains(e.target) && !menuButton.contains(e.target)) {
+                    floatingMenu.classList.remove('visible');
+                }
+            });
+            
+            // Add keyboard shortcut for menu (? key)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '?' && (e.metaKey || e.ctrlKey)) {
+                    e.preventDefault();
+                    floatingMenu.classList.toggle('visible');
+                }
+            });
+        }
     }
 }
 
