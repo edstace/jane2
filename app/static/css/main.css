@@ -105,6 +105,8 @@ body:not(.with-chat) .chat-container {
     align-items: center;
     justify-content: flex-end;
     gap: var(--spacing-sm);
+    margin-left: auto; /* Push everything to the right */
+    width: 100%; /* Take up available space */
 }
 
 .nav-link {
@@ -130,7 +132,7 @@ body:not(.with-chat) .chat-container {
 .auth-buttons {
     display: flex;
     gap: var(--spacing-sm);
-    margin-left: auto;
+    margin-left: auto; /* Push auth buttons to the far right */
 }
 
 .btn-login {
@@ -196,9 +198,7 @@ body:not(.with-chat) .chat-container {
 /* Header Logo */
 .header-logo {
     display: none; /* Hidden by default */
-    flex: 1;
     align-items: center;
-    margin-right: var(--spacing-xl); /* Space before the controls */
 }
 
 .header-logo h1 {
