@@ -816,7 +816,7 @@ textarea::placeholder {
 /* Footer */
 .page-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center footer content */
     align-items: center;
     padding: var(--spacing-sm) var(--spacing-lg);
     color: var(--text-secondary);
@@ -837,7 +837,8 @@ textarea::placeholder {
 
 /* Footer Menu */
 .footer-menu {
-    position: relative;
+    position: absolute;
+    right: var(--spacing-lg);
 }
 
 .menu-button {
@@ -951,9 +952,8 @@ kbd {
     color: white;
     border-radius: 12px;
     max-width: 400px;
-    width: calc(90% - 60px); /* Leave space for menu button */
+    width: 90%;
     margin: 10px auto;
-    margin-right: 70px; /* Offset to leave space for menu icon */
     box-shadow: var(--shadow-md);
     transform: translateY(0);
     transition: transform 0.3s ease-out;
