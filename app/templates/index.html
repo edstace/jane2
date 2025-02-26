@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>JANE - Job Assistance and Navigation Expert</title>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <h1>JANE</h1>
+                <p class="header-subtitle">Job Assistance and Navigation Expert</p>
+            </div>
+            <div class="header-controls">
+                <button id="new-chat-btn" class="new-chat-button">
+                    <i class="fa-solid fa-message"></i>
+                    New Chat
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="chat-container">
+        <div class="logo-section">
+            <h1>JANE</h1>
+            <p class="subtitle">Job Assistance and Navigation Expert</p>
+        </div>
+        
+        <div class="input-section">
+            <form id="chat-form" class="chat-form">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="What can I help with?" 
+                        rows="1"
+                        maxlength="2000"
+                    ></textarea>
+                    <button type="submit" class="send-button">
+                        <span>Send</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="example-prompts">
+                    <button class="prompt-button">
+                        <span><i class="fa-solid fa-file-lines"></i> Resume Help</span>
+                    </button>
+                    <button class="prompt-button">
+                        <span><i class="fa-solid fa-briefcase"></i> Interview Prep</span>
+                    </button>
+                    <button class="prompt-button">
+                        <span><i class="fa-solid fa-chart-line"></i> Career Advice</span>
+                    </button>
+                    <button class="prompt-button">
+                        <span><i class="fa-solid fa-money-bill-trend-up"></i> Salary Talk</span>
+                    </button>
+                    <button class="prompt-button">
+                        <span><i class="fa-brands fa-linkedin"></i> LinkedIn</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <main class="main-content">
+            <div id="chat-messages" class="chat-messages"></div>
+        </main>
+    </div>
+    
+    <div id="sms-toast" class="toast-notification">
+        <div class="toast-content">
+            <i class="fa-solid fa-mobile-screen-button toast-icon"></i>
+            <div class="toast-message">
+                Text JANE on-the-go at <strong>850-498-1386</strong>
+            </div>
+            <button id="close-toast" class="toast-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <p class="copyright">&copy; <span id="current-year"></span> JANE - Job Assistance and Navigation Expert</p>
+        <div class="footer-menu">
+            <button id="show-menu" class="menu-button" aria-label="Show menu">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+            <div id="floating-menu" class="floating-menu">
+                <div class="menu-content">
+                    <div class="menu-section">
+                        <h4>Links</h4>
+                        <a href="{{ url_for('terms_of_service') }}">Terms of Service</a>
+                        <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+                    </div>
+                    <div class="menu-section">
+                        <h4>Keyboard Shortcuts</h4>
+                        <div class="shortcut-item">
+                            <span class="key-combo"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+                            <span class="action">New Chat</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="key-combo"><kbd>Enter</kbd></span>
+                            <span class="action">Send Message</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="key-combo"><kbd>Shift</kbd> + <kbd>Enter</kbd></span>
+                            <span class="action">New Line</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js"></script>
+    <script>
+        // Initialize marked with default options
+        window.marked = new marked.Marked();
+    </script>
+    <script type="module" src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/ui.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/message_history.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

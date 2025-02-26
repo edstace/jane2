@@ -12,7 +12,7 @@ load_dotenv()
 
 def start_flask():
     """Start Flask server in a subprocess"""
-    return subprocess.Popen([sys.executable, 'jane2.py'])
+    return subprocess.Popen([sys.executable, 'wsgi.py'])
 
 def setup_ngrok():
     """Setup and start ngrok tunnel"""
