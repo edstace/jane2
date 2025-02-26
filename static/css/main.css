@@ -94,8 +94,40 @@ body:not(.with-chat) .chat-container {
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
-    justify-content: flex-start; /* Align to the left */
+    justify-content: space-between; /* Space between button and logo */
+    align-items: center;
     padding: 0 var(--spacing-md);
+}
+
+/* Header Logo */
+.header-logo {
+    display: none; /* Hidden by default */
+    text-align: center;
+    flex: 1;
+    margin-right: var(--spacing-xl); /* Offset for the new chat button */
+}
+
+.header-logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.header-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1;
+}
+
+body.with-chat .header-logo {
+    display: block; /* Show when chat is active */
 }
 
 .new-chat-button {
@@ -177,8 +209,7 @@ body.with-chat:not(.content-page) .chat-container {
 }
 
 body.with-chat:not(.content-page) .logo-section {
-    margin-top: 20px;
-    margin-bottom: 0; /* No bottom margin */
+    display: none; /* Hide logo section when chat is active */
 }
 
 /* Main Content */
@@ -763,8 +794,11 @@ textarea::placeholder {
 }
 
 .content-page .logo-section {
-    margin-top: 0;
-    margin-bottom: var(--spacing-lg);
+    display: none; /* Hide logo section on content pages */
+}
+
+.content-page .header-logo {
+    display: block; /* Show logo in header on content pages */
 }
 
 .content-page .main-content {

@@ -15,6 +15,10 @@
                 <i class="fa-solid fa-house"></i>
                 Home
             </a>
+            <div class="header-logo">
+                <h1>JANE</h1>
+                <p class="header-subtitle">Job Assistance and Navigation Expert</p>
+            </div>
         </div>
     </header>
 
@@ -55,15 +59,67 @@
     </div>
 
     <footer class="page-footer">
-        <p>&copy; 2024 JANE - Job Assistance and Navigation Expert
-            <a href="{{ url_for('terms_of_service') }}">Terms of Service</a> |
-            <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
-        </p>
+        <p class="copyright">&copy; <span id="current-year"></span> JANE - Job Assistance and Navigation Expert</p>
+        <div class="footer-menu">
+            <button id="show-menu" class="menu-button" aria-label="Show menu">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+            <div id="floating-menu" class="floating-menu">
+                <div class="menu-content">
+                    <div class="menu-section">
+                        <h4>Links</h4>
+                        <a href="{{ url_for('terms_of_service') }}">Terms of Service</a>
+                        <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+                    </div>
+                    <div class="menu-section">
+                        <h4>Keyboard Shortcuts</h4>
+                        <div class="shortcut-item">
+                            <span class="key-combo"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+                            <span class="action">New Chat</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="key-combo"><kbd>Enter</kbd></span>
+                            <span class="action">Send Message</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="key-combo"><kbd>Shift</kbd> + <kbd>Enter</kbd></span>
+                            <span class="action">New Line</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.min.js"></script>
     <script>
         window.marked = new marked.Marked();
+        // Set current year
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearEl = document.getElementById('current-year');
+            if (currentYearEl) {
+                currentYearEl.textContent = new Date().getFullYear();
+            }
+            
+            // Footer menu handler
+            const menuButton = document.getElementById('show-menu');
+            const floatingMenu = document.getElementById('floating-menu');
+            
+            if (menuButton && floatingMenu) {
+                // Toggle menu on button click
+                menuButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    floatingMenu.classList.toggle('visible');
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!floatingMenu.contains(e.target) && !menuButton.contains(e.target)) {
+                        floatingMenu.classList.remove('visible');
+                    }
+                });
+            }
+        });
     </script>
     <script type="module" src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/ui.js') }}"></script>
