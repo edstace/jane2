@@ -55,11 +55,18 @@ class Config:
     
     # Cache configuration
     CACHE_TTL = int(os.getenv('CACHE_TTL', 3600))  # 1 hour
+    
+    # Sentry configuration
+    SENTRY_DSN = os.getenv('SENTRY_DSN')
+    SENTRY_TRACES_SAMPLE_RATE = float(os.getenv('SENTRY_TRACES_SAMPLE_RATE', '1.0'))
+    SENTRY_PROFILES_SAMPLE_RATE = float(os.getenv('SENTRY_PROFILES_SAMPLE_RATE', '1.0'))
 
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
     TESTING = False
+    # Disable Sentry in development
+    SENTRY_DSN = None
 
 class TestingConfig(Config):
     """Testing configuration"""
@@ -68,8 +75,14 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     WTF_CSRF_ENABLED = False
     RATELIMIT_ENABLED = False
+    # Disable Sentry in testing
+    SENTRY_DSN = None
 
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
     TESTING = False
+    # Enable Sentry in production
+    SENTRY_DSN = "https://bb1d10ecc4a69065a1a961b9c850f586@o4508058786004992.ingest.us.sentry.io/4508058936999936"
+    SENTRY_TRACES_SAMPLE_RATE = float(os.getenv('SENTRY_TRACES_SAMPLE_RATE', '0.1'))
+    SENTRY_PROFILES_SAMPLE_RATE = float(os.getenv('SENTRY_PROFILES_SAMPLE_RATE', '0.1'))

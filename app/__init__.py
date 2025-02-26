@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
@@ -8,7 +8,9 @@ from flask_migrate import Migrate
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from app.middleware import RequestIDMiddleware, init_request_id
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+from app.middleware import RequestIDMiddleware, init_request_id, get_request_id
 from app.handlers import register_error_handlers
 
 # Initialize extensions
@@ -16,6 +18,26 @@ db = SQLAlchemy()
 migrate = Migrate()
 csrf = CSRFProtect()
 limiter = Limiter(key_func=get_remote_address)
+
+def configure_sentry(app):
+    """Configure Sentry error tracking"""
+    if app.config['ENV'] == 'production':
+        sentry_sdk.init(
+            dsn=app.config['SENTRY_DSN'],
+            integrations=[FlaskIntegration()],
+            environment=app.config['ENV'],
+            traces_sample_rate=1.0,
+            profiles_sample_rate=1.0,
+            
+            # Include request ID in all events
+            before_send=lambda event, hint: {
+                **event,
+                'tags': {
+                    **(event.get('tags', {})),
+                    'request_id': get_request_id() if request else 'NO_REQUEST_ID'
+                }
+            }
+        )
 
 def create_app(config=None):
     """Application factory function"""
@@ -42,8 +64,12 @@ def create_app(config=None):
     csrf.init_app(app)
     limiter.init_app(app)
     
-    # Initialize Talisman in production
+    # Initialize security features in production
     if app.config['ENV'] == 'production':
+        # Initialize Sentry
+        configure_sentry(app)
+        
+        # Initialize Talisman
         Talisman(app, content_security_policy={
             'default-src': "'self'",
             'script-src': ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
