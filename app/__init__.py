@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from app.middleware import RequestIDMiddleware
+from app.middleware import RequestIDMiddleware, init_request_id
 from app.handlers import register_error_handlers
 
 # Initialize extensions
@@ -81,7 +81,10 @@ def create_app(config=None):
     from app.routes.sms import sms_bp as sms_blueprint
     app.register_blueprint(sms_blueprint, url_prefix='/sms')
     
-    # Add request ID middleware
+    # Initialize request ID handling
+    init_request_id(app)
+    
+    # Add request ID middleware for response headers
     app.wsgi_app = RequestIDMiddleware(app.wsgi_app)
     
     # Register error handlers

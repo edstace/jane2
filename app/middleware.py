@@ -11,15 +11,14 @@ def request_id():
 # Create a proxy for easier access to request_id
 request_id_proxy = LocalProxy(request_id)
 
-class RequestIDMiddleware:
-    """Middleware to handle request ID generation and propagation"""
-    def __init__(self, app):
-        self.app = app
-        self.app.before_request(self._before_request)
+def init_request_id(app):
+    """Initialize request ID handling for the Flask app"""
+    app.before_request(request_id)
 
-    def _before_request(self):
-        """Ensure request ID is set before request processing"""
-        request_id()
+class RequestIDMiddleware:
+    """Middleware to handle request ID propagation in response headers"""
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
 
     def __call__(self, environ, start_response):
         def new_start_response(status, headers, exc_info=None):
@@ -27,4 +26,4 @@ class RequestIDMiddleware:
             if has_request_context() and hasattr(g, 'request_id'):
                 headers.append(('X-Request-ID', g.request_id))
             return start_response(status, headers, exc_info)
-        return self.app(environ, new_start_response)
+        return self.wsgi_app(environ, new_start_response)
