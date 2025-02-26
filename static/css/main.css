@@ -217,7 +217,7 @@ body.with-chat .input-section {
     max-width: 800px;
     margin: 0 auto;
     position: sticky;
-    bottom: 40px;
+    bottom: 50px;
 }
 
 body:not(.with-chat) .page-footer {
@@ -598,7 +598,7 @@ body:not(.with-chat) .example-prompts {
     max-width: 800px;
     margin: 10px auto 100px auto; /* Increased space for footer and toast */
     position: sticky; /* Make input section stick to bottom */
-    bottom: 40px; /* Position above footer */
+    bottom: 50px; /* Position above footer and adjusted for toast */
     z-index: 15; /* Increased z-index to appear above footer */
 }
 
@@ -847,7 +847,7 @@ textarea::placeholder {
     transition: transform 0.3s ease-out;
     overflow: hidden;
     position: fixed;
-    bottom: 40px; /* Position above footer */
+    bottom: 60px; /* Increased position above footer */
     left: 0;
     right: 0;
     z-index: 100;
