@@ -1,5 +1,4 @@
-# Import app from jane2.py for backward compatibility
-# This way, both the old monolithic and new modular structures work
+# Direct import from jane2.py - original monolithic structure
 from jane2 import app
 
 if __name__ == "__main__":
