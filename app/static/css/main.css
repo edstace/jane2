@@ -951,7 +951,7 @@ textarea::placeholder {
 /* Footer */
 .page-footer {
     display: flex;
-    justify-content: space-between; /* Space between copyright and menu */
+    justify-content: center; /* Center copyright text */
     align-items: center;
     padding: var(--spacing-sm) var(--spacing-lg);
     color: var(--text-secondary);
@@ -968,12 +968,15 @@ textarea::placeholder {
 
 .copyright {
     margin: 0;
+    text-align: center;
 }
 
 /* Footer Menu */
 .footer-menu {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: var(--spacing-lg);
 }
 
 .menu-button {
