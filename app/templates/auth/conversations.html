@@ -11,13 +11,10 @@
 <body>
     <header class="top-header">
         <div class="header-content">
-            <div class="header-logo">
+            <a href="{{ url_for('main.home') }}" class="header-logo" style="text-decoration: none;">
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
-            </div>
-            <button id="new-chat-btn" class="new-chat-button">
-                <i class="fa-solid fa-message"></i>
-            </button>
+            </a>
             <div class="header-controls">
                 <div class="auth-buttons">
                     <a href="{{ url_for('main.home') }}" class="btn-login">
@@ -90,7 +87,7 @@
                 {% else %}
                     <div class="no-conversations">
                         <p>You don't have any conversations yet.</p>
-                        <a href="{{ url_for('main.home') }}" class="btn btn-primary">
+                        <a href="{{ url_for('main.home') }}" class="btn-login">
                             <i class="fa-solid fa-message"></i>
                             Start a New Chat
                         </a>
@@ -99,7 +96,7 @@
             </div>
             
             <div class="profile-actions">
-                <a href="{{ url_for('main.home') }}" class="btn btn-primary">
+                <a href="{{ url_for('main.home') }}" class="btn-login">
                     <i class="fa-solid fa-message"></i>
                     Start a New Chat
                 </a>

@@ -14,10 +14,10 @@
             <button id="new-chat-btn" class="new-chat-button">
                 <i class="fa-solid fa-message"></i>
             </button>
-            <div class="header-logo">
+            <a href="{{ url_for('main.home') }}" class="header-logo" style="text-decoration: none;">
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
-            </div>
+            </a>
             <div class="header-controls">
                 {% if current_user.is_authenticated %}
                     <div class="auth-buttons">

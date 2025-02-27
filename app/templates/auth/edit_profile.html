@@ -11,13 +11,10 @@
 <body>
     <header class="top-header">
         <div class="header-content">
-            <div class="header-logo">
+            <a href="{{ url_for('main.home') }}" class="header-logo" style="text-decoration: none;">
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
-            </div>
-            <button id="new-chat-btn" class="new-chat-button">
-                <i class="fa-solid fa-message"></i>
-            </button>
+            </a>
             <div class="header-controls">
                 <div class="auth-buttons">
                     <a href="{{ url_for('main.home') }}" class="btn-login">
@@ -91,8 +88,8 @@
                 </div>
                 
                 <div class="form-actions">
-                    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="{{ url_for('auth.profile') }}" class="btn-signup">Cancel</a>
+                    <button type="submit" class="btn-login">Save Changes</button>
                 </div>
             </form>
         </div>

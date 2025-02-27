@@ -11,14 +11,14 @@
 <body class="content-page">
     <header class="top-header">
         <div class="header-content">
-            <div class="header-logo">
+            <a href="{{ url_for('main.home') }}" class="header-logo" style="text-decoration: none;">
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
-            </div>
+            </a>
             <div class="header-controls">
-                <a href="{{ url_for('main.home') }}" class="home-link">
-                    <i class="fa-solid fa-house"></i>
-                    Home
+                <a href="{{ url_for('main.home') }}" class="btn-login">
+                    <i class="fa-solid fa-message"></i>
+                    Chat
                 </a>
             </div>
         </div>

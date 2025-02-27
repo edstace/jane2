@@ -146,9 +146,9 @@
 /* Profile styles */
 .profile-container {
     display: flex;
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    padding: 80px 1rem 60px 1rem; /* Add top padding to account for header, bottom padding for footer */
+    padding: 80px 2rem 60px 2rem; /* Add top padding to account for header, bottom padding for footer */
     flex: 1;
     gap: 2rem;
     min-height: 100vh; /* Ensure container takes full height */
@@ -194,8 +194,10 @@
     background-color: var(--background-color);
     border-radius: 0.75rem;
     box-shadow: var(--shadow-sm);
-    padding: 1.5rem;
+    padding: 2rem;
     border: 1px solid var(--border-color);
+    width: 100%; /* Use full width */
+    margin: 0 auto;
 }
 
 .profile-title {

@@ -11,10 +11,10 @@
 <body>
     <header class="top-header">
         <div class="header-content">
-            <div class="header-logo">
+            <a href="{{ url_for('main.home') }}" class="header-logo" style="text-decoration: none;">
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
-            </div>
+            </a>
         </div>
     </header>
 
@@ -49,7 +49,7 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn-login">Login</button>
                 </div>
             </form>
             
