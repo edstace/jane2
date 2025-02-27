@@ -147,10 +147,11 @@
 .profile-container {
     display: flex;
     max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    margin: 0 auto;
+    padding: 80px 1rem 60px 1rem; /* Add top padding to account for header, bottom padding for footer */
     flex: 1;
     gap: 2rem;
+    min-height: 100vh; /* Ensure container takes full height */
 }
 
 .profile-sidebar {

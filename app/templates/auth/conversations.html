@@ -15,15 +15,20 @@
                 <h1>JANE</h1>
                 <p class="header-subtitle">Job Assistance and Navigation Expert</p>
             </div>
+            <button id="new-chat-btn" class="new-chat-button">
+                <i class="fa-solid fa-message"></i>
+            </button>
             <div class="header-controls">
-                <a href="{{ url_for('main.home') }}" class="nav-link">
-                    <i class="fa-solid fa-message"></i>
-                    Chat
-                </a>
-                <a href="{{ url_for('auth.logout') }}" class="nav-link">
-                    <i class="fa-solid fa-sign-out-alt"></i>
-                    Logout
-                </a>
+                <div class="auth-buttons">
+                    <a href="{{ url_for('main.home') }}" class="btn-login">
+                        <i class="fa-solid fa-message"></i>
+                        Chat
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="btn-signup">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
             </div>
         </div>
     </header>
@@ -105,8 +110,18 @@
     <footer class="page-footer">
         <p class="copyright">&copy; <span id="current-year"></span> JANE - Job Assistance and Navigation Expert</p>
         <div class="footer-menu">
-            <a href="{{ url_for('main.terms_of_service') }}">Terms of Service</a>
-            <a href="{{ url_for('main.privacy_policy') }}">Privacy Policy</a>
+            <button id="show-menu" class="menu-button" aria-label="Show menu">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+            <div id="floating-menu" class="floating-menu">
+                <div class="menu-content">
+                    <div class="menu-section">
+                        <h4>Links</h4>
+                        <a href="{{ url_for('main.terms_of_service') }}">Terms of Service</a>
+                        <a href="{{ url_for('main.privacy_policy') }}">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
     
