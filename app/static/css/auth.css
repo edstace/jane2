@@ -146,6 +146,7 @@
 /* Profile styles */
 .profile-container {
     display: flex;
+    max-width: 1000px; /* Match header/footer max-width */
     width: 100%;
     margin: 0 auto;
     padding: 80px 2rem 60px 2rem; /* Add top padding to account for header, bottom padding for footer */
