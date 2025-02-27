@@ -920,17 +920,24 @@ textarea::placeholder {
 /* Policy and Terms Content */
 .policy-content,
 .tos-content {
-    padding: var(--spacing-md);
+    padding: var(--spacing-xl);
     max-width: 800px;
     margin: 0 auto;
     width: 100%;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
 .policy-content h1,
 .tos-content h1 {
-    font-size: 2rem;
-    margin-bottom: var(--spacing-lg);
+    font-size: 2.25rem;
+    margin-bottom: var(--spacing-xl);
     color: var(--text-primary);
+    text-align: center;
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .policy-content h2,
@@ -938,7 +945,21 @@ textarea::placeholder {
     font-size: 1.5rem;
     margin-top: var(--spacing-xl);
     margin-bottom: var(--spacing-md);
-    color: var(--text-primary);
+    color: var(--primary-color);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.policy-content h2::before,
+.tos-content h2::before {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 24px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
 }
 
 .policy-content p,
@@ -946,6 +967,32 @@ textarea::placeholder {
     margin: var(--spacing-md) 0;
     line-height: 1.6;
     color: var(--text-primary);
+    font-size: 1.05rem;
+}
+
+.policy-content ul,
+.tos-content ul {
+    margin: var(--spacing-md) 0;
+    padding-left: 1.5rem;
+}
+
+.policy-content li,
+.tos-content li {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.6;
+}
+
+.policy-content a,
+.tos-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast);
+}
+
+.policy-content a:hover,
+.tos-content a:hover {
+    border-color: var(--primary-color);
 }
 
 /* Footer */
