@@ -99,7 +99,7 @@ pip install -r requirements.txt
 
 3. Run the development server:
 ```bash
-python jane2.py
+python run.py
 ```
 
 ## Security Notes
