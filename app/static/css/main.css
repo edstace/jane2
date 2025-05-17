@@ -1018,7 +1018,8 @@ textarea::placeholder {
 }
 
 .page-footer.with-menu {
-    justify-content: space-between; /* Space between copyright and menu */
+    justify-content: center; /* Center text even with footer menu */
+    position: relative; /* Allow absolutely positioned menu */
 }
 
 .copyright {
@@ -1029,6 +1030,8 @@ textarea::placeholder {
 .footer-menu {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: var(--spacing-lg);
 }
 
 .menu-button {
