@@ -101,6 +101,13 @@ pip install -r requirements.txt
 ```bash
 python run.py
 ```
+## Running Tests
+
+Run the unit tests with:
+```bash
+pytest
+```
+
 
 ## Security Notes
 
