@@ -73,7 +73,7 @@ FLASK_ENV=production
 
 # Rate Limiting
 RATELIMIT_DEFAULT=100 per day
-RATELIMIT_STORAGE_URL=redis://localhost:6379/0
+RATELIMIT_STORAGE_URI=redis://localhost:6379/0
 
 # MongoDB Configuration
 MONGODB_URI=your_mongodb_connection_string
