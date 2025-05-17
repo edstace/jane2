@@ -1,4 +1,5 @@
 from flask import Blueprint, request, current_app, g
+from app import db
 from twilio.twiml.messaging_response import MessagingResponse
 from app import csrf
 from app.utils.validators import ValidationUtils
@@ -42,12 +43,14 @@ def handle_sms():
                 
                 # Clear pending confirmation
                 pending.awaiting_confirmation = False
+                db.session.commit()
                 current_app.logger.info(f"Request {g.request_id}: Cleared confirmation")
                 
                 resp.message(response_text)
             elif message_body in ['n', 'no']:
                 current_app.logger.info(f"Request {g.request_id}: User declined")
                 pending.awaiting_confirmation = False
+                db.session.commit()
                 resp.message("Message cancelled.")
             else:
                 resp.message("Please reply with 'y' for yes or 'n' for no to confirm sending your message.")
