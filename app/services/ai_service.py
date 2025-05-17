@@ -1,5 +1,6 @@
 import openai
 import os
+import hashlib
 from functools import wraps
 from datetime import datetime, timedelta
 from flask import current_app
@@ -16,7 +17,8 @@ class AIService:
         def wrapper(cls, user_message, context=None):
             # Only cache responses without context
             if not context:
-                cache_key = f"response:{hash(user_message)}"
+                hash_digest = hashlib.sha256(user_message.encode()).hexdigest()
+                cache_key = f"response:{hash_digest}"
                 cached = Cache.query.get(cache_key)
                 
                 if cached and cached.expires > datetime.utcnow():
