@@ -1005,15 +1005,15 @@ textarea::placeholder {
     font-size: 0.875rem;
     position: fixed;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: var(--background-color);
     border-top: 1px solid var(--border-color);
     z-index: 10; /* Reduced z-index to appear below input section */
     height: 40px;
+    width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    width: 100%;
     box-sizing: border-box;
 }
 
